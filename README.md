@@ -6,11 +6,13 @@
 [![License](https://img.shields.io/npm/l/@hackmd/codimd-cli.svg)](https://github.com/hackmdio/codimd-cli/blob/master/package.json)
 
 <!-- toc -->
+* [codimd-cli - The CodiMD Command Line Tool](#codimd-cli---the-codimd-command-line-tool)
+<!-- tocstop -->
 * [Usage](#usage)
 * [Commands](#commands)
 * [Configuration](#configuration)
 * [License](#license)
-<!-- tocstop -->
+
 ## Usage
 <!-- usage -->
 ```sh-session
@@ -18,7 +20,7 @@ $ npm install -g @hackmd/codimd-cli
 $ codimd-cli COMMAND
 running command...
 $ codimd-cli (-v|--version|version)
-@hackmd/codimd-cli/1.0.0 linux-x64 node-v8.17.0
+@hackmd/codimd-cli/1.0.1 linux-x64 node-v8.17.0
 $ codimd-cli --help [COMMAND]
 USAGE
   $ codimd-cli COMMAND
@@ -82,7 +84,7 @@ EXAMPLE
   $ codimd-cli export [--pdf|--md|--html] <note_id> <output_file>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/export.ts)_
 
 ### `codimd-cli help [COMMAND]`
 
@@ -128,7 +130,7 @@ EXAMPLE
   EeNHDGocSTi70ytMMGQaaQ Note2
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/history.ts)_
 
 ### `codimd-cli import [FILE]`
 
@@ -147,7 +149,7 @@ EXAMPLE
   Your note is available at https://codimd.domain/note-url
 ```
 
-_See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/import.ts)_
 
 ### `codimd-cli login`
 
@@ -170,7 +172,7 @@ EXAMPLE
   Login as HMD successfully!
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/login.ts)_
 
 ### `codimd-cli logout`
 
@@ -189,7 +191,7 @@ EXAMPLE
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/logout.ts)_
 
 ### `codimd-cli whoami`
 
@@ -208,10 +210,10 @@ EXAMPLE
   You are logged in codimd.domain as {YOUR NAME} [user-id]
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.1/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
-### `codimd-cli` piping mode
+#### `codimd-cli` piping mode
 
 You can create a note by piping text stream to codimd-cli
 
