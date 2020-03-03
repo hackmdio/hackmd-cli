@@ -1,6 +1,6 @@
 {
   "name": "@hackmd/codimd-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "HackMD Team",
   "bin": {
     "codimd-cli": "./bin/run"

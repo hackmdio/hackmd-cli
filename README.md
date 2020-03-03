@@ -1,4 +1,5 @@
-# codimd-cli - The CodiMD Command Line Tool
+codimd-cli - The CodiMD Command Line Tool
+===
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@hackmd/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
@@ -18,7 +19,7 @@ $ npm install -g @hackmd/codimd-cli
 $ codimd-cli COMMAND
 running command...
 $ codimd-cli (-v|--version|version)
-@hackmd/codimd-cli/1.0.2 linux-x64 node-v8.17.0
+@hackmd/codimd-cli/1.0.3 linux-x64 node-v8.17.0
 $ codimd-cli --help [COMMAND]
 USAGE
   $ codimd-cli COMMAND
@@ -82,7 +83,7 @@ EXAMPLE
   $ codimd-cli export [--pdf|--md|--html] <note_id> <output_file>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/export.ts)_
 
 ### `codimd-cli help [COMMAND]`
 
@@ -128,7 +129,7 @@ EXAMPLE
   EeNHDGocSTi70ytMMGQaaQ Note2
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/history.ts)_
 
 ### `codimd-cli import [FILE]`
 
@@ -147,7 +148,7 @@ EXAMPLE
   Your note is available at https://codimd.domain/note-url
 ```
 
-_See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/import.ts)_
 
 ### `codimd-cli login`
 
@@ -170,7 +171,7 @@ EXAMPLE
   Login as HMD successfully!
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/login.ts)_
 
 ### `codimd-cli logout`
 
@@ -189,7 +190,7 @@ EXAMPLE
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/logout.ts)_
 
 ### `codimd-cli whoami`
 
@@ -208,7 +209,7 @@ EXAMPLE
   You are logged in codimd.domain as {YOUR NAME} [user-id]
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.2/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ### `codimd-cli` piping mode
