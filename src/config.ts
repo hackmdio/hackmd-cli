@@ -22,6 +22,24 @@ const envConfig = {
   serverUrl: process.env.CMD_CLI_SERVER_URL
 }
 
-const readConfig = fs.existsSync(configFilePath) ? JSON.parse(fs.readFileSync(configFilePath, 'utf-8')) : {}
+const hasExistingConfig = fs.existsSync(configFilePath)
+const readConfig = hasExistingConfig ? JSON.parse(fs.readFileSync(configFilePath, 'utf-8')) : {}
 
-export default defaults(readConfig, envConfig, defaultConfig)
+const defaultServerUrl = 'PLEASE FILL THE SERVER URL'
+if (!hasExistingConfig) {
+  fs.writeFileSync(configFilePath, JSON.stringify({serverUrl: defaultServerUrl}, null, 2), 'utf-8')
+}
+
+const config = defaults(readConfig, envConfig, defaultConfig)
+
+if (!config.serverUrl || config.serverUrl === defaultServerUrl) {
+  throw new Error(`
+
+Please specify CodiMD server url either in ${configFilePath} or by environment varaible.
+
+You can learn how to config codimd-cli on https://github.com/hackmdio/codimd-cli
+
+`)
+}
+
+export default config
