@@ -1,16 +1,17 @@
-codimd-cli
-==========
+# codimd-cli - The CodiMD Command Line Tool
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
-[![License](https://img.shields.io/npm/l/codimd-cli.svg)](https://github.com/hackmdio/codimd-cli/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@hackmd/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/@hackmd/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
+[![License](https://img.shields.io/npm/l/@hackmd/codimd-cli.svg)](https://github.com/hackmdio/codimd-cli/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
+* [Configuration](#configuration)
+* [License](#license)
 <!-- tocstop -->
-# Usage
+## Usage
 <!-- usage -->
 ```sh-session
 $ npm install -g @hackmd/codimd-cli
@@ -24,7 +25,36 @@ USAGE
 ...
 ```
 <!-- usagestop -->
-# Commands
+
+## Configuration
+
+`codimd-cli` support both JSON file config and environment variable config.
+
+The config file is located at `~/.codimd/config.json`, it should be like this:
+
+```json
+{
+  "serverUrl": "https://my.codimd-domain.dev"
+}
+```
+
+Change the serverUrl value to your hosted CodiMD instance URL.
+
+You can also speicify config as environment variable. For example, append this line to your `.bashrc`:
+
+```bash
+export CMD_CLI_SERVER_URL=my.codimd-domain.dev
+```
+
+All available configurations are listed in the table below.
+
+| Config key   | Environment Variable  | Data Type  | Example Value            | Description                          |
+| ------------ |:--------------------- | ---------- | ------------------------ | ------------------------------------ |
+| `serverUrl`  | `CMD_CLI_SERVER_URL`  | *`string`* | `https://my.codimd-domain.dev`   | The CodiMD instance URL              |
+| `cookiePath` | `CMD_CLI_COOKIE_PATH` | *`string`* | `~/.codimd/cookies.json` | File for storing login cookie states |
+
+## Commands
+
 <!-- commands -->
 * [`codimd-cli export [NOTEID] [OUTPUT]`](#codimd-cli-export-noteid-output)
 * [`codimd-cli help [COMMAND]`](#codimd-cli-help-command)
@@ -34,7 +64,7 @@ USAGE
 * [`codimd-cli logout`](#codimd-cli-logout)
 * [`codimd-cli whoami`](#codimd-cli-whoami)
 
-## `codimd-cli export [NOTEID] [OUTPUT]`
+### `codimd-cli export [NOTEID] [OUTPUT]`
 
 Export note to local file
 
@@ -54,7 +84,7 @@ EXAMPLE
 
 _See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/export.ts)_
 
-## `codimd-cli help [COMMAND]`
+### `codimd-cli help [COMMAND]`
 
 display help for codimd-cli
 
@@ -71,7 +101,7 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
 
-## `codimd-cli history`
+### `codimd-cli history`
 
 List history
 
@@ -100,7 +130,7 @@ EXAMPLE
 
 _See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/history.ts)_
 
-## `codimd-cli import [FILE]`
+### `codimd-cli import [FILE]`
 
 Create a note from markdown file
 
@@ -119,7 +149,7 @@ EXAMPLE
 
 _See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/import.ts)_
 
-## `codimd-cli login`
+### `codimd-cli login`
 
 Login HackMD instance from CLI
 
@@ -142,7 +172,7 @@ EXAMPLE
 
 _See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/login.ts)_
 
-## `codimd-cli logout`
+### `codimd-cli logout`
 
 Logout from CLI
 
@@ -161,7 +191,7 @@ EXAMPLE
 
 _See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/logout.ts)_
 
-## `codimd-cli whoami`
+### `codimd-cli whoami`
 
 Show logged in account info
 
@@ -181,7 +211,7 @@ EXAMPLE
 _See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
-## `codimd-cli` piping mode
+### `codimd-cli` piping mode
 
 You can create a note by piping text stream to codimd-cli
 
@@ -194,3 +224,7 @@ EXAMPLE
 
   Your note is available at https://codimd.domain/note-url
 ```
+
+## License
+
+MIT
