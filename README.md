@@ -53,6 +53,10 @@ All available configurations are listed in the table below.
 | ------------ |:--------------------- | ---------- | ------------------------------ | ------------------------------------ |
 | `serverUrl`  | `CMD_CLI_SERVER_URL`  | *`string`* | `https://my.codimd-domain.dev` | The CodiMD instance URL              |
 | `cookiePath` | `CMD_CLI_COOKIE_PATH` | *`string`* | `~/.codimd/cookies.json`       | File for storing login cookie states |
+| _n/a_        | `CMD_CLI_ID`          | *`string`* | `me@codimd-domain.dev`         | CodiMD username/email                |
+| _n/a_        | `CMD_CLI_PASSWORD`    | *`string`* | `dragon`                       | CodiMD password                      |
+
+_Don't commit your login credentials!_
 
 ## Commands
 
@@ -170,6 +174,8 @@ EXAMPLE
 
   Login as HMD successfully!
 ```
+
+Alternatively, you may supply an email and password via the `CMD_EMAIL` and `CMD_PASSWORD` environment variables, respectively.
 
 _See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/login.ts)_
 
