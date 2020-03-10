@@ -1,7 +1,8 @@
 import * as fs from 'fs-extra'
+import * as path from 'path'
+
 import defaults from 'lodash/defaults'
 import {homedir} from 'os'
-import * as path from 'path'
 
 let configDir
 if (process.env.HMD_CLI_CONFIG_DIR) {
@@ -11,10 +12,11 @@ if (process.env.HMD_CLI_CONFIG_DIR) {
 }
 
 const configFilePath = path.join(configDir, 'config.json')
-const defaultCookiePath = path.join(homedir(), '.codimd/cookies.json')
+const defaultCookiePath = path.join(homedir(), '.codimd', 'cookies.json')
 
 const defaultConfig = {
-  cookiePath: defaultCookiePath
+  cookiePath: defaultCookiePath,
+  serverUrl: ''
 }
 
 const envConfig = {
@@ -22,24 +24,102 @@ const envConfig = {
   serverUrl: process.env.CMD_CLI_SERVER_URL
 }
 
-const hasExistingConfig = fs.existsSync(configFilePath)
-const readConfig = hasExistingConfig ? JSON.parse(fs.readFileSync(configFilePath, 'utf-8')) : {}
+// look for a readable config file; we can merge it with the env.
+let hasExistingConfigFile = false
+try {
+  fs.accessSync(configFilePath, fs.constants.R_OK)
+  hasExistingConfigFile = true
+} catch (err) {
+  // if we don't have a serverUrl from the environment, we don't have one at all
+  // and have to abort
+  if (!envConfig.serverUrl) {
+    throw new Error(`
 
-const defaultServerUrl = 'PLEASE FILL THE SERVER URL'
-if (!hasExistingConfig) {
-  fs.writeFileSync(configFilePath, JSON.stringify({serverUrl: defaultServerUrl}, null, 2), 'utf-8')
+  Configuration file at ${configFilePath} not readable. Encountered exception:
+
+  ${err}
+
+  `)
+  }
 }
 
-const config = defaults(readConfig, envConfig, defaultConfig)
+let readConfig = {}
+if (hasExistingConfigFile) {
+  try {
+    readConfig = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))
+  } catch (err) {
+    throw new Error(`
 
-if (!config.serverUrl || config.serverUrl === defaultServerUrl) {
+Could not read JSON config file at ${configFilePath}. Encountered exception:
+
+${err}
+
+`)
+  }
+}
+
+// prefer environment config over file config
+const config = defaults(envConfig, readConfig, defaultConfig)
+
+if (!config.serverUrl) {
   throw new Error(`
 
-Please specify CodiMD server url either in ${configFilePath} or by environment varaible.
+Please specify CodiMD server URL either in ${configFilePath} or by environment variable CMD_CLI_SERVER_URL.
 
-You can learn how to config codimd-cli on https://github.com/hackmdio/codimd-cli
+You can learn how to configure codimd-cli at https://github.com/hackmdio/codimd-cli
 
 `)
 }
+
+const cookieDirPath = path.dirname(config.cookiePath)
+try {
+  fs.mkdirSync(cookieDirPath)
+} catch (err) {
+  if (err.code !== 'EEXIST') {
+    throw new Error(`
+
+Could not create dir for cookie file at ${cookieDirPath}. Encountered exception:
+
+${err}
+
+`)
+  }
+  // at this point, the directory exists.  if the cookie file does not exist,
+  // ensure the dir is writable (because we will create the file); otherwise
+  // ensure the file itself is writable.
+  let hasExistingCookieFile = false
+  try {
+    fs.existsSync(config.cookiePath)
+    hasExistingConfigFile = true
+  } catch (ignored) {}
+
+  if (hasExistingCookieFile) {
+    try {
+      fs.accessSync(config.cookiePath, fs.constants.W_OK)
+    } catch (err) {
+      throw new Error(`
+
+Cookie file ${config.cookiePath} is not writable. Encountered exception:
+
+${err}
+
+`)
+    }
+  } else {
+    try {
+      fs.accessSync(cookieDirPath, fs.constants.W_OK)
+    } catch (err) {
+      throw new Error(`
+
+Dir for cookie file at ${cookieDirPath} is not writable. Encountered exception:
+
+${err}
+
+`)
+    }
+  }
+}
+
+
 
 export default config
