@@ -1,8 +1,7 @@
 import * as fs from 'fs-extra'
-import * as path from 'path'
-
 import defaults from 'lodash/defaults'
 import {homedir} from 'os'
+import * as path from 'path'
 
 let configDir
 if (process.env.HMD_CLI_CONFIG_DIR) {
@@ -16,12 +15,14 @@ const defaultCookiePath = path.join(homedir(), '.codimd', 'cookies.json')
 
 const defaultConfig = {
   cookiePath: defaultCookiePath,
-  serverUrl: ''
+  serverUrl: 'https://hackmd.io',
+  enterprise: true
 }
 
 const envConfig = {
-  cookiePath: process.env.CMD_CLI_COOKIE_PATH,
-  serverUrl: process.env.CMD_CLI_SERVER_URL
+  cookiePath: process.env.HMD_CLI_COOKIE_PATH || process.env.CMD_CLI_COOKIE_PATH,
+  serverUrl: process.env.HMD_CLI_SERVER_URL || process.env.CMD_CLI_SERVER_URL,
+  enterprise: (process.env.HMD_CLI_COOKIE_PATH || process.env.HMD_CLI_SERVER_URL)
 }
 
 // look for a readable config file; we can merge it with the env.
@@ -119,7 +120,5 @@ ${err}
     }
   }
 }
-
-
 
 export default config
