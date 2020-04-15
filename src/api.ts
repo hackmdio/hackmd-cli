@@ -103,14 +103,26 @@ class API {
   }
 
   async newNote(body: string) {
-    const contentType = 'text/markdown;charset=UTF-8'
-    const response = await this.fetch(`${this.serverUrl}/new`, {
-      method: 'POST',
-      body,
-      headers: {
-        'Content-Type': contentType
-      }
-    })
+    let response
+    if (this.enterprise) {
+      response = await this.fetch(`${this.serverUrl}/new`, {
+        method: 'POST',
+        body: encodeFormComponent({content: body}),
+        headers: await this.wrapHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        })
+      })
+    } else {
+      const contentType = 'text/markdown;charset=UTF-8'
+      response = await this.fetch(`${this.serverUrl}/new`, {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': contentType
+        }
+      })
+    }
+
     if (response.status === 200) {
       return response.url
     } else {
