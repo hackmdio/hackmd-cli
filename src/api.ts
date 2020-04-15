@@ -1,3 +1,4 @@
+import cheerio from 'cheerio'
 import * as fs from 'fs-extra'
 import nodeFetch from 'node-fetch'
 import tough = require('tough-cookie')
@@ -8,7 +9,8 @@ import config from './config'
 
 interface APIOptions {
   serverUrl: string
-  cookiePath: string
+  cookiePath: string,
+  enterprise: boolean
 }
 
 type nodeFetchType = (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>
@@ -36,10 +38,11 @@ export type HistoryItem = {
  */
 class API {
   public readonly serverUrl: string
+  private readonly enterprise: boolean
   private readonly _fetch: nodeFetchType
 
   constructor() {
-    const {serverUrl, cookiePath}: APIOptions = config
+    const {serverUrl, cookiePath, enterprise}: APIOptions = config
 
     fs.ensureFileSync(cookiePath)
 
@@ -48,16 +51,18 @@ class API {
 
     this._fetch = fetch
     this.serverUrl = serverUrl
+    this.enterprise = enterprise
   }
 
   async login(email: string, password: string) {
     const response = await this.fetch(`${this.serverUrl}/login`, {
       method: 'post',
       body: encodeFormComponent({email, password}),
-      headers: {
+      headers: await this.wrapHeaders({
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      }
+      })
     })
+
     return response.status === 200
   }
 
@@ -73,7 +78,12 @@ class API {
   }
 
   async logout() {
-    const response = await this.fetch(`${this.serverUrl}/logout`)
+    const response = await this.fetch(`${this.serverUrl}/logout`, {
+      method: this.enterprise ? 'POST' : 'GET',
+      headers: await this.wrapHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      })
+    })
     return response.status === 200
   }
 
@@ -148,6 +158,25 @@ class API {
 
   get domain() {
     return url.parse(this.serverUrl).host
+  }
+
+  private async wrapHeaders(headers: any) {
+    if (this.enterprise) {
+      const csrf = await this.loadCSRFToken()
+      return {
+        ...headers,
+        'X-XSRF-Token': csrf
+      }
+    } else {
+      return headers
+    }
+  }
+
+  private async loadCSRFToken() {
+    const html = await this.fetch(`${this.serverUrl}`).then(r => r.text())
+    const $ = cheerio.load(html)
+
+    return $('meta[name="csrf-token"]').attr('content') || ''
   }
 }
 
