@@ -45,21 +45,19 @@ describe('Config test', function () {
       .to.throw(/Please specify CodiMD server URL either/)
   })
 
-  it('should set enterprise to true if HMD_CLI_COOKIE_PATH is supplied', function () {
-    process.env.HMD_CLI_COOKIE_PATH = tempDir()
+  it('should set enterprise to true if HMD_CLI_COOKIE_PATH or HMD_CLI_SERVER_URL are supplied', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 
-    const config = requireConfig()
+    process.env.HMD_CLI_COOKIE_PATH = tempDir()
+    let config = requireConfig()
 
     expect(config.cookiePath).to.eq(process.env.HMD_CLI_COOKIE_PATH)
     expect(config.enterprise).to.eq(true)
-  })
 
-  it('should set enterprise to true if HMD_CLI_SERVER_URL is supplied', function () {
+    cleanup()
+
     process.env.HMD_CLI_SERVER_URL = tempDir()
-    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
-
-    const config = requireConfig()
+    config = requireConfig()
 
     expect(config.serverUrl).to.eq(process.env.HMD_CLI_SERVER_URL)
     expect(config.enterprise).to.eq(true)
