@@ -1,3 +1,4 @@
+import cheerio from 'cheerio'
 import * as fs from 'fs-extra'
 import nodeFetch from 'node-fetch'
 import tough = require('tough-cookie')
@@ -8,7 +9,8 @@ import config from './config'
 
 interface APIOptions {
   serverUrl: string
-  cookiePath: string
+  cookiePath: string,
+  enterprise: boolean
 }
 
 type nodeFetchType = (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>
@@ -36,10 +38,11 @@ export type HistoryItem = {
  */
 class API {
   public readonly serverUrl: string
+  private readonly enterprise: boolean
   private readonly _fetch: nodeFetchType
 
-  constructor() {
-    const {serverUrl, cookiePath}: APIOptions = config
+  constructor(config: APIOptions) {
+    const {serverUrl, cookiePath, enterprise} = config
 
     fs.ensureFileSync(cookiePath)
 
@@ -48,16 +51,18 @@ class API {
 
     this._fetch = fetch
     this.serverUrl = serverUrl
+    this.enterprise = enterprise
   }
 
   async login(email: string, password: string) {
     const response = await this.fetch(`${this.serverUrl}/login`, {
       method: 'post',
       body: encodeFormComponent({email, password}),
-      headers: {
+      headers: await this.wrapHeaders({
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      }
+      })
     })
+
     return response.status === 200
   }
 
@@ -65,15 +70,20 @@ class API {
     const response = await this.fetch(`${this.serverUrl}/auth/ldap`, {
       method: 'post',
       body: encodeFormComponent({username, password}),
-      headers: {
+      headers: await this.wrapHeaders({
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      }
+      })
     })
     return response.status === 200
   }
 
   async logout() {
-    const response = await this.fetch(`${this.serverUrl}/logout`)
+    const response = await this.fetch(`${this.serverUrl}/logout`, {
+      method: this.enterprise ? 'POST' : 'GET',
+      headers: await this.wrapHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      })
+    })
     return response.status === 200
   }
 
@@ -93,14 +103,26 @@ class API {
   }
 
   async newNote(body: string) {
-    const contentType = 'text/markdown;charset=UTF-8'
-    const response = await this.fetch(`${this.serverUrl}/new`, {
-      method: 'POST',
-      body,
-      headers: {
-        'Content-Type': contentType
-      }
-    })
+    let response
+    if (this.enterprise) {
+      response = await this.fetch(`${this.serverUrl}/new`, {
+        method: 'POST',
+        body: encodeFormComponent({content: body}),
+        headers: await this.wrapHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        })
+      })
+    } else {
+      const contentType = 'text/markdown;charset=UTF-8'
+      response = await this.fetch(`${this.serverUrl}/new`, {
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': contentType
+        }
+      })
+    }
+
     if (response.status === 200) {
       return response.url
     } else {
@@ -149,8 +171,27 @@ class API {
   get domain() {
     return url.parse(this.serverUrl).host
   }
+
+  private async wrapHeaders(headers: any) {
+    if (this.enterprise) {
+      const csrf = await this.loadCSRFToken()
+      return {
+        ...headers,
+        'X-XSRF-Token': csrf
+      }
+    } else {
+      return headers
+    }
+  }
+
+  private async loadCSRFToken() {
+    const html = await this.fetch(`${this.serverUrl}`).then(r => r.text())
+    const $ = cheerio.load(html)
+
+    return $('meta[name="csrf-token"]').attr('content') || ''
+  }
 }
 
 export default API
 
-export const APIClient = new API()
+export const APIClient = new API(config)
