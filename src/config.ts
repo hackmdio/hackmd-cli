@@ -104,6 +104,7 @@ ${err}
   try {
     fs.existsSync(config.cookiePath)
     hasExistingConfigFile = true
+  // tslint:disable-next-line: no-unused
   } catch (ignored) {}
 
   if (hasExistingCookieFile) {
