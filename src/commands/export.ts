@@ -1,7 +1,8 @@
+import {ExportType} from '@hackmd/api'
 import {Command, flags} from '@oclif/command'
 import * as path from 'path'
 
-import {APIClient, ExportType} from '../api'
+import {APIClient} from '../api'
 
 export default class Export extends Command {
   static description = 'Export note to local file'
