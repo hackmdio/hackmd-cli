@@ -61,6 +61,17 @@ class API {
     return response.status === 200
   }
 
+  async loginLdap(username: string, password: string) {
+    const response = await this.fetch(`${this.serverUrl}/auth/ldap`, {
+      method: 'post',
+      body: encodeFormComponent({username, password}),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      }
+    })
+    return response.status === 200
+  }
+
   async logout() {
     const response = await this.fetch(`${this.serverUrl}/logout`)
     return response.status === 200

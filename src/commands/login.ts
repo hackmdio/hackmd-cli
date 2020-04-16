@@ -18,24 +18,37 @@ Login as HMD successfully!
 
   static flags = {
     help: flags.help({char: 'h'}),
-    email: flags.string({char: 'u', description: 'Login email'})
+    id: flags.string({char: 'u', description: 'Login email/username'}),
+    ldap: flags.boolean()
   }
 
   async run() {
     const {flags} = this.parse(Login)
 
-    let email = flags.email
+    let id = flags.id
 
-    if (!email) {
-      const out = await inquirer.prompt({
-        type: 'input',
-        name: 'email',
-        message: 'Enter your email'
-      })
-      email = out.email
-      if (!email) {
-        // TODO: do more email validation
-        return this.log('No email is given')
+    if (!id) {
+      if(flags.ldap) {
+        const out = await inquirer.prompt({
+          type: 'input',
+          name: 'username',
+          message: 'Enter your username'
+        })
+        id = out.username
+        if (!id) {
+          return this.log('No username is given')
+        }
+      } else {
+        const out = await inquirer.prompt({
+          type: 'input',
+          name: 'email',
+          message: 'Enter your email'
+        })
+        id = out.email
+        if (!id) {
+          // TODO: do more email validation
+          return this.log('No email is given')
+        }
       }
     }
 
@@ -46,10 +59,16 @@ Login as HMD successfully!
     })
 
     try {
-      if (await APIClient.login(email, password)) {
+      let success = false
+      if(flags.ldap) {
+        success = await APIClient.loginLdap(id, password)
+      } else {
+        success = await APIClient.login(id, password)
+      }
+      if (success) {
         return this.log('Login successfully')
       } else {
-        this.log('Login failed, please ensure your email/password is set')
+        this.log('Login failed, please ensure your credentials are set')
       }
     } catch (err) {
       this.error(err)
