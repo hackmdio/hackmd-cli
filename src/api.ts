@@ -70,9 +70,9 @@ class API {
     const response = await this.fetch(`${this.serverUrl}/auth/ldap`, {
       method: 'post',
       body: encodeFormComponent({username, password}),
-      headers: {
+      headers: await this.wrapHeaders({
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      }
+      })
     })
     return response.status === 200
   }
