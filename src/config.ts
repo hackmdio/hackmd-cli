@@ -29,7 +29,11 @@ function toBooleanConfig(configValue?: string | boolean) {
 const envConfig = {
   cookiePath: process.env.HMD_CLI_COOKIE_PATH || process.env.CMD_CLI_COOKIE_PATH,
   serverUrl: process.env.HMD_CLI_SERVER_URL || process.env.CMD_CLI_SERVER_URL,
-  enterprise: (process.env.HMD_CLI_COOKIE_PATH || process.env.HMD_CLI_SERVER_URL) ? true : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE)
+  enterprise: (process.env.HMD_CLI_COOKIE_PATH || process.env.HMD_CLI_SERVER_URL)
+    ? true
+    : (process.env.CMD_CLI_COOKIE_PATH || process.env.CMD_CLI_SERVER_URL)
+      ? false
+      : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE)
 }
 
 // look for a readable config file; we can merge it with the env.

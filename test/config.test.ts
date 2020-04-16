@@ -65,6 +65,24 @@ describe('Config test', function () {
     expect(config.enterprise).to.eq(true)
   })
 
+  it('should set enterprise to false if either CMD_CLI_COOKIE_PATH or CMD_CLI_SERVER_URL are supplied', function () {
+    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
+
+    process.env.CMD_CLI_SERVER_URL = tempDir()
+    let config = requireConfig()
+
+    expect(config.serverUrl).to.eq(process.env.CMD_CLI_SERVER_URL)
+    expect(config.enterprise).to.eq(false)
+
+    cleanup()
+
+    process.env.CMD_CLI_COOKIE_PATH = tempDir()
+    config = requireConfig()
+
+    expect(config.cookiePath).to.eq(process.env.CMD_CLI_COOKIE_PATH)
+    expect(config.enterprise).to.eq(false)
+  })
+
   it('should set enterprise with HMD_CLI_ENTERPRISE', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 
