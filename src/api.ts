@@ -41,8 +41,8 @@ class API {
   private readonly enterprise: boolean
   private readonly _fetch: nodeFetchType
 
-  constructor() {
-    const {serverUrl, cookiePath, enterprise}: APIOptions = config
+  constructor(config: APIOptions) {
+    const {serverUrl, cookiePath, enterprise} = config
 
     fs.ensureFileSync(cookiePath)
 
@@ -194,4 +194,4 @@ class API {
 
 export default API
 
-export const APIClient = new API()
+export const APIClient = new API(config)
