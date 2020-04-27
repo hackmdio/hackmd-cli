@@ -175,7 +175,7 @@ EXAMPLE
   Login as HMD successfully!
 ```
 
-Alternatively, you may supply an email and password via the `CMD_EMAIL` and `CMD_PASSWORD` environment variables, respectively.
+Alternatively, you may supply an email and password via the `CMD_CLI_ID` and `CMD_CLI_PASSWORD` environment variables, respectively.
 
 _See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/login.ts)_
 

@@ -1,10 +1,12 @@
+import {ExportType} from '@hackmd/api'
 import {Command, flags} from '@oclif/command'
 import * as path from 'path'
 
-import {APIClient, ExportType} from '../api'
+import {APIClient} from '../api'
+import {pipeToFile as pipeStream} from '../utils'
 
 export default class Export extends Command {
-  static description = 'Export note to local file'
+  static description = 'Export note to local file or stdout(if the output_file param is omitted)'
 
   static examples = [
     '$ codimd-cli export [--pdf|--md|--html] <note_id> <output_file>',
@@ -38,9 +40,18 @@ export default class Export extends Command {
       exportType = ExportType.MD
     }
 
-    let outputPath = path.resolve(process.cwd(), args.output)
     try {
-      await APIClient.export(args.noteId, exportType, outputPath)
+      const stream = await APIClient.exportStream(args.noteId, exportType)
+
+      if (args.output) {
+        const outputPath = path.resolve(process.cwd(), args.output)
+        await pipeStream(stream, outputPath)
+      } else {
+        await APIClient.exportStream(args.noteId, exportType)
+
+        // tslint:disable-next-line: align
+        ; (stream as any).pipe(process.stdout)
+      }
     } catch (e) {
       this.log('Note export failed')
       this.error(e)

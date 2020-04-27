@@ -2,6 +2,7 @@ import {Command, flags} from '@oclif/command'
 import * as inquirer from 'inquirer'
 
 import {APIClient} from '../api'
+import config from '../config'
 
 export default class Login extends Command {
   static description = 'Login HackMD instance from CLI'
@@ -25,8 +26,8 @@ Login as HMD successfully!
   async run() {
     const {flags} = this.parse(Login)
 
-    let id = flags.id || process.env.CMD_CLI_ID
-    let password = process.env.CMD_CLI_PASSWORD || ''
+    let id = flags.id || config.loginID
+    let password = config.loginPassword || ''
 
     if (!id) {
       if (flags.ldap) {

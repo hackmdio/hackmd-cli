@@ -4,8 +4,8 @@ import {homedir} from 'os'
 import * as path from 'path'
 
 let configDir
-if (process.env.HMD_CLI_CONFIG_DIR) {
-  configDir = process.env.HMD_CLI_CONFIG_DIR
+if (process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR) {
+  configDir = process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR || ''
 } else {
   configDir = path.join(homedir(), '.codimd')
 }
@@ -33,7 +33,9 @@ const envConfig = {
     ? true
     : (process.env.CMD_CLI_COOKIE_PATH || process.env.CMD_CLI_SERVER_URL)
       ? false
-      : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE)
+      : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE),
+  loginID: process.env.HMD_CLI_ID || process.env.CMD_CLI_ID,
+  loginPassword: process.env.HMD_CLI_PASSWORD || process.env.CMD_CLI_PASSWORD
 }
 
 // look for a readable config file; we can merge it with the env.
