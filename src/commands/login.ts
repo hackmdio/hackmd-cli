@@ -25,7 +25,8 @@ Login as HMD successfully!
   async run() {
     const {flags} = this.parse(Login)
 
-    let id = flags.id
+    let id = flags.id || process.env.CMD_CLI_ID
+    let password = process.env.CMD_CLI_PASSWORD || ''
 
     if (!id) {
       if (flags.ldap) {
@@ -52,11 +53,13 @@ Login as HMD successfully!
       }
     }
 
-    const {password} = await inquirer.prompt({
+    if (!password) {
+      password = (await inquirer.prompt({
       type: 'password',
       name: 'password',
       message: 'Enter your password'
-    })
+      })).password
+    }
 
     try {
       let success = false
