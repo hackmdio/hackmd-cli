@@ -33,7 +33,9 @@ const envConfig = {
     ? true
     : (process.env.CMD_CLI_COOKIE_PATH || process.env.CMD_CLI_SERVER_URL)
       ? false
-      : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE)
+      : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE),
+  loginID: process.env.HMD_CLI_ID || process.env.CMD_CLI_ID,
+  loginPassword: process.env.HMD_CLI_PASSWORD || process.env.CMD_CLI_PASSWORD
 }
 
 // look for a readable config file; we can merge it with the env.
