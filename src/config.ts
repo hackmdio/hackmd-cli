@@ -4,8 +4,8 @@ import {homedir} from 'os'
 import * as path from 'path'
 
 let configDir
-if (process.env.HMD_CLI_CONFIG_DIR) {
-  configDir = process.env.HMD_CLI_CONFIG_DIR
+if (process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR) {
+  configDir = process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR || ''
 } else {
   configDir = path.join(homedir(), '.codimd')
 }
