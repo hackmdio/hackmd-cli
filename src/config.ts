@@ -7,11 +7,11 @@ let configDir
 if (process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR) {
   configDir = process.env.HMD_CLI_CONFIG_DIR || process.env.CMD_CLI_CONFIG_DIR || ''
 } else {
-  configDir = path.join(homedir(), '.codimd')
+  configDir = path.join(homedir(), '.hackmd')
 }
 
 const configFilePath = path.join(configDir, 'config.json')
-const defaultCookiePath = path.join(homedir(), '.codimd', 'cookies.json')
+const defaultCookiePath = path.join(homedir(), '.hackmd', 'cookies.json')
 
 const defaultConfig = {
   cookiePath: defaultCookiePath,
@@ -43,18 +43,9 @@ let hasExistingConfigFile = false
 try {
   fs.accessSync(configFilePath, fs.constants.R_OK)
   hasExistingConfigFile = true
+  // tslint:disable-next-line: no-unused
 } catch (err) {
-  // if we don't have a serverUrl from the environment, we don't have one at all
-  // and have to abort
-  if (!envConfig.serverUrl) {
-    throw new Error(`
-
-  Configuration file at ${configFilePath} not readable. Encountered exception:
-
-  ${err}
-
-  `)
-  }
+  // noop
 }
 
 let readConfig = {}
@@ -74,17 +65,6 @@ ${err}
 
 // prefer environment config over file config
 const config = defaults(envConfig, readConfig, defaultConfig)
-
-// !FIXME This branching never meets because we have defaultConfig
-if (!config.serverUrl) {
-  throw new Error(`
-
-Please specify CodiMD server URL either in ${configFilePath} or by environment variable CMD_CLI_SERVER_URL.
-
-You can learn how to configure codimd-cli at https://github.com/hackmdio/codimd-cli
-
-`)
-}
 
 const cookieDirPath = path.dirname(config.cookiePath)
 try {

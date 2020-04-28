@@ -7,7 +7,7 @@ export default class History extends Command {
   static description = 'List history'
 
   static examples = [
-    `$ codimd-cli history
+    `$ hackmd-cli history
 
 ID                     Name
 A58r8ehYTlySO94oiC_MUA Note1

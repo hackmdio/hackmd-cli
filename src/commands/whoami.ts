@@ -6,9 +6,9 @@ export default class Whoami extends Command {
   static description = 'Show logged in account info'
 
   static examples = [
-    `$ codimd-cli whoami
+    `$ hackmd-cli whoami
 
-You are logged in codimd.domain as {YOUR NAME} [user-id]
+You are logged in hackmd.io as {YOUR NAME} [user-id]
 `,
   ]
 

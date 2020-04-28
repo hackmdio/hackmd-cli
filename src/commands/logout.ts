@@ -6,7 +6,7 @@ export default class Logout extends Command {
   static description = 'Logout from CLI'
 
   static examples = [
-    `$ codimd-cli logout
+    `$ hackmd-cli logout
 
 You've logged out successfully
 `,

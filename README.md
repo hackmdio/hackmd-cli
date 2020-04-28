@@ -1,12 +1,11 @@
-codimd-cli - The CodiMD Command Line Tool
+hackmd-cli - The HackMD/CodiMD Command Line Tool
 ===
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/@hackmd/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/@hackmd/codimd-cli.svg)](https://npmjs.org/package/@hackmd/codimd-cli)
-[![License](https://img.shields.io/npm/l/@hackmd/codimd-cli.svg)](https://github.com/hackmdio/codimd-cli/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@hackmd/hackmd-cli.svg)](https://npmjs.org/package/@hackmd/hackmd-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/@hackmd/hackmd-cli.svg)](https://npmjs.org/package/@hackmd/hackmd-cli)
+[![License](https://img.shields.io/npm/l/@hackmd/hackmd-cli.svg)](https://github.com/hackmdio/hackmd-cli/blob/master/package.json)
 
-* [codimd-cli - The CodiMD Command Line Tool](#codimd-cli---the-codimd-command-line-tool)
 * [Usage](#usage)
 * [Commands](#commands)
 * [Configuration](#configuration)
@@ -15,67 +14,87 @@ codimd-cli - The CodiMD Command Line Tool
 ## Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g @hackmd/codimd-cli
-$ codimd-cli COMMAND
+$ npm install -g @hackmd/hackmd-cli
+$ hackmd-cli COMMAND
 running command...
-$ codimd-cli (-v|--version|version)
-@hackmd/codimd-cli/1.0.3 linux-x64 node-v8.17.0
-$ codimd-cli --help [COMMAND]
+$ hackmd-cli (-v|--version|version)
+@hackmd/hackmd-cli/1.1.0 linux-x64 node-v12.16.2
+$ hackmd-cli --help [COMMAND]
 USAGE
-  $ codimd-cli COMMAND
+  $ hackmd-cli COMMAND
 ...
 ```
 <!-- usagestop -->
 
 ## Configuration
 
-`codimd-cli` support both JSON file config and environment variable config.
+`hackmd-cli` operates on official HackMD instance(`hackmd.io`) by default. If you want to use cli with a self-hosted [CodiMD](https://github.com/hackmdio/codimd) or a [HackMD EE](https://hackmd.io/pricing) instance, you will need to configure `hackmd-cli` by either environment variable or JSON configuration.
 
-The config file is located at `~/.codimd/config.json`, it should be like this:
+### Example 1: Use with self-hosted CodiMD instance
 
-```json
-{
-  "serverUrl": "https://my.codimd-domain.dev"
-}
-```
-
-Change the serverUrl value to your hosted CodiMD instance URL.
-
-You can also speicify config as environment variable. For example, append this line to your `.bashrc`:
+Set environment variable in your shell profile:
 
 ```bash
 export CMD_CLI_SERVER_URL=https://my.codimd-domain.dev
 ```
 
+Or in JSON file (`~/.hackmd/config.json`):
+
+```json
+{
+  "serverUrl": "https://my.codimd-domain.dev",
+  "enterprise": false
+}
+```
+
+### Example 2: Use with HackMD EE
+
+Set environment variable in your shell profile:
+
+```bash
+export HMD_CLI_SERVER_URL=https://my.hackmd-ee.domain
+```
+
+Or in JSON file (`~/.hackmd/config.json`):
+
+```json
+{
+  "serverUrl": "https://https://my.hackmd-ee.domain"
+}
+```
+
+### Configuration Reference
+
 All available configurations are listed in the table below.
 
-| Config key   | Environment Variable  | Data Type  | Example Value                  | Description                          |
-| ------------ |:--------------------- | ---------- | ------------------------------ | ------------------------------------ |
-| `serverUrl`  | `CMD_CLI_SERVER_URL`  | *`string`* | `https://my.codimd-domain.dev` | The CodiMD instance URL              |
-| `cookiePath` | `CMD_CLI_COOKIE_PATH` | *`string`* | `~/.codimd/cookies.json`       | File for storing login cookie states |
-| _n/a_        | `CMD_CLI_ID`          | *`string`* | `me@codimd-domain.dev`         | CodiMD username/email                |
-| _n/a_        | `CMD_CLI_PASSWORD`    | *`string`* | `dragon`                       | CodiMD password                      |
+|  Config key  |              Environment Variable              |  Data Type  |         Example Value          |                                                                                                                   Description                                                                                                                    |
+| ------------ | :--------------------------------------------- | ----------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `serverUrl`  | `HMD_CLI_SERVER_URL` or `CMD_CLI_SERVER_URL`   | *`string`*  | `https://my.codimd-domain.dev` | The instance URL                                                                                                                                                                                                                                 |
+| `cookiePath` | `HMD_CLI_COOKIE_PATH` or `CMD_CLI_COOKIE_PATH` | *`string`*  | `~/.hackmd/cookies.json`       | File for storing login cookie states                                                                                                                                                                                                             |
+| `enterprise` | _n/a_                                          | *`boolean`* | `true`                         | Set whether the instance is enterise version expclitly. This config can only be set in JSON based config. When providing server url with environment variable, `enterprise` will be automatically set by checking the env prefix(`HMD` or `CMD`) |
+| _n/a_        | `HMD_CLI_ID` or `CMD_CLI_ID`                   | *`string`*  | `me@codimd-domain.dev`         | Login username/email                                                                                                                                                                                                                             |
+| _n/a_        | `HMD_CLI_PASSWORD` or `CMD_CLI_PASSWORD`       | *`string`*  | `dragon`                       | Login password                                                                                                                                                                                                                                   |
 
 _Don't commit your login credentials!_
 
 ## Commands
 
 <!-- commands -->
-* [`codimd-cli export [NOTEID] [OUTPUT]`](#codimd-cli-export-noteid-output)
-* [`codimd-cli help [COMMAND]`](#codimd-cli-help-command)
-* [`codimd-cli history`](#codimd-cli-history)
-* [`codimd-cli import [FILE]`](#codimd-cli-import-file)
-* [`codimd-cli login`](#codimd-cli-login)
-* [`codimd-cli logout`](#codimd-cli-logout)
-* [`codimd-cli whoami`](#codimd-cli-whoami)
+* [`hackmd-cli export [NOTEID] [OUTPUT]`](#hackmd-cli-export-noteid-output)
+* [`hackmd-cli help [COMMAND]`](#hackmd-cli-help-command)
+* [`hackmd-cli history`](#hackmd-cli-history)
+* [`hackmd-cli import [FILE]`](#hackmd-cli-import-file)
+* [`hackmd-cli login`](#hackmd-cli-login)
+* [`hackmd-cli logout`](#hackmd-cli-logout)
+* [`hackmd-cli whoami`](#hackmd-cli-whoami)
 
-### `codimd-cli export [NOTEID] [OUTPUT]`
+## `hackmd-cli export [NOTEID] [OUTPUT]`
 
-Export note to local file
+Export note to local file or stdout(if the output_file param is omitted)
 
 ```
 USAGE
-  $ codimd-cli export [NOTEID] [OUTPUT]
+  $ hackmd-cli export [NOTEID] [OUTPUT]
 
 OPTIONS
   -h, --help  show CLI help
@@ -84,18 +103,18 @@ OPTIONS
   --pdf
 
 EXAMPLE
-  $ codimd-cli export [--pdf|--md|--html] <note_id> <output_file>
+  $ hackmd-cli export [--pdf|--md|--html] <note_id> <output_file>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/export.ts)_
 
-### `codimd-cli help [COMMAND]`
+## `hackmd-cli help [COMMAND]`
 
-display help for codimd-cli
+display help for hackmd-cli
 
 ```
 USAGE
-  $ codimd-cli help [COMMAND]
+  $ hackmd-cli help [COMMAND]
 
 ARGUMENTS
   COMMAND  command to show help for
@@ -106,13 +125,13 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
 
-### `codimd-cli history`
+## `hackmd-cli history`
 
 List history
 
 ```
 USAGE
-  $ codimd-cli history
+  $ hackmd-cli history
 
 OPTIONS
   -h, --help              show CLI help
@@ -126,48 +145,49 @@ OPTIONS
   --sort=sort             property to sort by (prepend '-' for descending)
 
 EXAMPLE
-  $ codimd-cli history
+  $ hackmd-cli history
 
   ID                     Name
   A58r8ehYTlySO94oiC_MUA Note1
   EeNHDGocSTi70ytMMGQaaQ Note2
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/history.ts)_
 
-### `codimd-cli import [FILE]`
+## `hackmd-cli import [FILE]`
 
 Create a note from markdown file
 
 ```
 USAGE
-  $ codimd-cli import [FILE]
+  $ hackmd-cli import [FILE]
 
 OPTIONS
   -h, --help  show CLI help
 
 EXAMPLE
-  $ codimd-cli import /path/to/markdown/file.md
+  $ hackmd-cli import /path/to/markdown/file.md
 
   Your note is available at https://codimd.domain/note-url
 ```
 
-_See code: [src/commands/import.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/import.ts)_
 
-### `codimd-cli login`
+## `hackmd-cli login`
 
 Login HackMD instance from CLI
 
 ```
 USAGE
-  $ codimd-cli login
+  $ hackmd-cli login
 
 OPTIONS
-  -h, --help         show CLI help
-  -u, --email=email  Login email
+  -h, --help   show CLI help
+  -u, --id=id  Login email/username
+  --ldap
 
 EXAMPLE
-  $ codimd-cli login
+  $ hackmd-cli login
 
   Enter your email: hello@codimd.domain
   Enter your password: *******
@@ -175,59 +195,57 @@ EXAMPLE
   Login as HMD successfully!
 ```
 
-Alternatively, you may supply an email and password via the `CMD_CLI_ID` and `CMD_CLI_PASSWORD` environment variables, respectively.
+_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/login.ts)_
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/login.ts)_
-
-### `codimd-cli logout`
+## `hackmd-cli logout`
 
 Logout from CLI
 
 ```
 USAGE
-  $ codimd-cli logout
+  $ hackmd-cli logout
 
 OPTIONS
   -h, --help  show CLI help
 
 EXAMPLE
-  $ codimd-cli logout
+  $ hackmd-cli logout
 
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/logout.ts)_
 
-### `codimd-cli whoami`
+## `hackmd-cli whoami`
 
 Show logged in account info
 
 ```
 USAGE
-  $ codimd-cli whoami
+  $ hackmd-cli whoami
 
 OPTIONS
   -h, --help  show CLI help
 
 EXAMPLE
-  $ codimd-cli whoami
+  $ hackmd-cli whoami
 
   You are logged in codimd.domain as {YOUR NAME} [user-id]
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/codimd-cli/blob/v1.0.3/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
-### `codimd-cli` piping mode
+## `hackmd-cli` piping mode
 
-You can create a note by piping text stream to codimd-cli
+You can create a note by piping text stream to hackmd-cli
 
 ```
 USAGE
-  $ codimd-cli [COMMAND]
+  $ hackmd-cli [COMMAND]
 
 EXAMPLE
-  $ cat README.md | codimd-cli
+  $ cat README.md | hackmd-cli
 
   Your note is available at https://codimd.domain/note-url
 ```

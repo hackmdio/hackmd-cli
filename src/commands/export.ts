@@ -9,7 +9,7 @@ export default class Export extends Command {
   static description = 'Export note to local file or stdout(if the output_file param is omitted)'
 
   static examples = [
-    '$ codimd-cli export [--pdf|--md|--html] <note_id> <output_file>',
+    '$ hackmd-cli export [--pdf|--md|--html] <note_id> <output_file>',
   ]
 
   static args = [{

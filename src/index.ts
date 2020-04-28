@@ -4,12 +4,12 @@ import {APIClient} from './api'
 import readStdin from './read-stdin-stream'
 
 class IndexCommand extends Command {
-  static description = 'You can create a note by piping text stream to codimd-cli'
+  static description = 'You can create a note by piping text stream to hackmd-cli'
 
   static examples = [
-    `$ cat README.md | codimd-cli
+    `$ cat README.md | hackmd-cli
 
-Your note is available at https://codimd.domain/note-url`,
+Your note is available at https://hackmd.io/note-url`,
   ]
 
   static args = [{name: 'command'}]
