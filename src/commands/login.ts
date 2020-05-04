@@ -5,12 +5,12 @@ import {APIClient} from '../api'
 import config from '../config'
 
 export default class Login extends Command {
-  static description = 'Login HackMD instance from CLI'
+  static description = 'Login to HackMD/CodiMD server from CLI'
 
   static examples = [
-    `$ codimd-cli login
+    `$ hackmd-cli login
 
-Enter your email: hello@codimd.domain
+Enter your email: hello@hackmd.io
 Enter your password: *******
 
 Login as HMD successfully!

@@ -1,11 +1,11 @@
 {
-  "name": "@hackmd/codimd-cli",
-  "version": "1.0.3",
+  "name": "@hackmd/hackmd-cli",
+  "version": "1.1.0",
   "author": "HackMD Team",
   "bin": {
-    "codimd-cli": "./bin/run"
+    "hackmd-cli": "./bin/run"
   },
-  "bugs": "https://github.com/hackmdio/codimd-cli/issues",
+  "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
     "@hackmd/api": "^1.1.0",
     "@oclif/command": "^1.5.19",
@@ -44,7 +44,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/hackmdio/codimd-cli",
+  "homepage": "https://github.com/hackmdio/hackmd-cli",
   "keywords": [
     "oclif"
   ],
@@ -52,12 +52,12 @@
   "main": "lib/index.js",
   "oclif": {
     "commands": "./lib/commands",
-    "bin": "codimd-cli",
+    "bin": "hackmd-cli",
     "plugins": [
       "@oclif/plugin-help"
     ]
   },
-  "repository": "hackmdio/codimd-cli",
+  "repository": "hackmdio/hackmd-cli",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",

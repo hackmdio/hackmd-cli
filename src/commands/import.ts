@@ -8,9 +8,9 @@ export default class Import extends Command {
   static description = 'Create a note from markdown file'
 
   static examples = [
-    `$ codimd-cli import /path/to/markdown/file.md
+    `$ hackmd-cli import /path/to/markdown/file.md
 
-Your note is available at https://codimd.domain/note-url
+Your note is available at https://hackmd.io/note-url
 `,
   ]
 
