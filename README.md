@@ -230,7 +230,7 @@ OPTIONS
 EXAMPLE
   $ hackmd-cli whoami
 
-  You are logged in codimd.domain as {YOUR NAME} [user-id]
+  You are logged in hackmd.io as {YOUR NAME} [user-id]
 ```
 
 _See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.0/src/commands/whoami.ts)_
@@ -247,7 +247,7 @@ USAGE
 EXAMPLE
   $ cat README.md | hackmd-cli
 
-  Your note is available at https://codimd.domain/note-url
+  Your note is available at https://hackmd.io/note-url
 ```
 
 ## License
