@@ -63,13 +63,14 @@ Login as HMD successfully!
     }
 
     try {
-      let success = false
       if (flags.ldap) {
-        success = await APIClient.loginLdap(id, password)
+        await APIClient.loginLdap(id, password)
       } else {
-        success = await APIClient.login(id, password)
+        await APIClient.login(id, password)
       }
-      if (success) {
+
+      const login = await APIClient.isLogin()
+      if (login) {
         return this.log('Login successfully')
       } else {
         this.log('Login failed, please ensure your credentials are set')
