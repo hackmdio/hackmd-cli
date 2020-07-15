@@ -59,7 +59,7 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 ```json
 {
-  "serverUrl": "https://https://my.hackmd-ee.domain"
+  "serverUrl": "https://my.hackmd-ee.domain"
 }
 ```
 
