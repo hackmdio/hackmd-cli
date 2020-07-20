@@ -16,7 +16,8 @@ const defaultCookiePath = path.join(homedir(), '.hackmd', 'cookies.json')
 const defaultConfig = {
   cookiePath: defaultCookiePath,
   serverUrl: 'https://hackmd.io',
-  enterprise: true
+  enterprise: true,
+  ldap: false
 }
 
 function toBooleanConfig(configValue?: string | boolean) {
@@ -35,7 +36,8 @@ const envConfig = {
       ? false
       : toBooleanConfig(process.env.HMD_CLI_ENTERPRISE),
   loginID: process.env.HMD_CLI_ID || process.env.CMD_CLI_ID,
-  loginPassword: process.env.HMD_CLI_PASSWORD || process.env.CMD_CLI_PASSWORD
+  loginPassword: process.env.HMD_CLI_PASSWORD || process.env.CMD_CLI_PASSWORD,
+  ldap: toBooleanConfig(process.env.HMD_LDAP)
 }
 
 // look for a readable config file; we can merge it with the env.
