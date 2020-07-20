@@ -28,9 +28,10 @@ Login as HMD successfully!
 
     let id = flags.id || config.loginID
     let password = config.loginPassword || ''
+    const useLdap = flags.ldap || config.ldap
 
     if (!id) {
-      if (flags.ldap) {
+      if (useLdap) {
         const out = await inquirer.prompt({
           type: 'input',
           name: 'username',
@@ -63,7 +64,7 @@ Login as HMD successfully!
     }
 
     try {
-      if (flags.ldap) {
+      if (useLdap) {
         await APIClient.loginLdap(id, password)
       } else {
         await APIClient.login(id, password)
