@@ -177,7 +177,7 @@ _See code: [src/commands/import.ts](https://github.com/hackmdio/hackmd-cli/blob/
 
 ## `hackmd-cli list`
 
-List notes
+List owned notes or team notes (HackMD-only feature)
 
 ```
 USAGE

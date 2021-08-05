@@ -4,7 +4,7 @@ import cli from 'cli-ux'
 import {APIClient} from '../api'
 
 export default class History extends Command {
-  static description = 'List notes'
+  static description = 'List owned notes or team notes (HackMD-only feature)'
 
   static examples = [
     `$ hackmd-cli list
