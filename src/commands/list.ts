@@ -46,7 +46,7 @@ EeNHDGocSTi70ytMMGQaaQ Note2`,
         ...flags
       })
     } catch (e) {
-      this.log('Fetch history failed')
+      this.log('List note failed')
       this.error(e as string)
     }
   }
