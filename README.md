@@ -1,5 +1,4 @@
-hackmd-cli - The HackMD/CodiMD Command Line Tool
-===
+# hackmd-cli - The HackMD/CodiMD Command Line Tool
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@hackmd/hackmd-cli.svg)](https://npmjs.org/package/@hackmd/hackmd-cli)
@@ -18,7 +17,7 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (-v|--version|version)
-@hackmd/hackmd-cli/1.1.1 darwin-x64 node-v12.16.2
+@hackmd/hackmd-cli/1.2.0 darwin-x64 node-v12.21.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
@@ -59,7 +58,7 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 ```json
 {
-  "serverUrl": "https://https://my.hackmd-ee.domain"
+  "serverUrl": "https://my.hackmd-ee.domain"
 }
 ```
 
@@ -84,6 +83,7 @@ _Don't commit your login credentials!_
 * [`hackmd-cli help [COMMAND]`](#hackmd-cli-help-command)
 * [`hackmd-cli history`](#hackmd-cli-history)
 * [`hackmd-cli import [FILE]`](#hackmd-cli-import-file)
+* [`hackmd-cli list`](#hackmd-cli-list)
 * [`hackmd-cli login`](#hackmd-cli-login)
 * [`hackmd-cli logout`](#hackmd-cli-logout)
 * [`hackmd-cli teams`](#hackmd-cli-teams)
@@ -107,7 +107,7 @@ EXAMPLE
   $ hackmd-cli export [--pdf|--md|--html] <note_id> <output_file>
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/export.ts)_
 
 ## `hackmd-cli help [COMMAND]`
 
@@ -153,7 +153,7 @@ EXAMPLE
   EeNHDGocSTi70ytMMGQaaQ Note2
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/history.ts)_
 
 ## `hackmd-cli import [FILE]`
 
@@ -173,7 +173,37 @@ EXAMPLE
   Your note is available at https://hackmd.io/note-url
 ```
 
-_See code: [src/commands/import.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/import.ts)_
+_See code: [src/commands/import.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/import.ts)_
+
+## `hackmd-cli list`
+
+List owned notes or team notes (HackMD-only feature)
+
+```
+USAGE
+  $ hackmd-cli list
+
+OPTIONS
+  -h, --help              show CLI help
+  -t, --team=team         team name
+  -x, --extended          show extra columns
+  --columns=columns       only show provided columns (comma-separated)
+  --csv                   output is csv format [alias: --output=csv]
+  --filter=filter         filter property by partial string matching, ex: name=foo
+  --no-header             hide table header from output
+  --no-truncate           do not truncate output to fit screen
+  --output=csv|json|yaml  output in a more machine friendly format
+  --sort=sort             property to sort by (prepend '-' for descending)
+
+EXAMPLE
+  $ hackmd-cli list
+
+  ID                     Name
+  A58r8ehYTlySO94oiC_MUA Note1
+  EeNHDGocSTi70ytMMGQaaQ Note2
+```
+
+_See code: [src/commands/list.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/list.ts)_
 
 ## `hackmd-cli login`
 
@@ -197,7 +227,7 @@ EXAMPLE
   Login as HMD successfully!
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/login.ts)_
 
 ## `hackmd-cli logout`
 
@@ -216,7 +246,7 @@ EXAMPLE
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/logout.ts)_
 
 ## `hackmd-cli teams`
 
@@ -245,7 +275,7 @@ EXAMPLE
   my-awesome-team My Awesome Team
 ```
 
-_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/teams.ts)_
+_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/teams.ts)_
 
 ## `hackmd-cli whoami`
 
@@ -264,7 +294,7 @@ EXAMPLE
   You are logged in hackmd.io as {YOUR NAME} [user-id]
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.1.1/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v1.2.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ## `hackmd-cli` piping mode

@@ -1,13 +1,13 @@
 {
   "name": "@hackmd/hackmd-cli",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "author": "HackMD Team",
   "bin": {
     "hackmd-cli": "./bin/run"
   },
   "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
-    "@hackmd/api": "1.1.1",
+    "@hackmd/api": "1.2.0",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.13.3",
     "@oclif/plugin-help": "^2.2.3",
