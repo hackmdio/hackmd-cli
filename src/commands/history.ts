@@ -1,6 +1,4 @@
-import {Command, flags} from '@oclif/command'
-import cli from 'cli-ux'
-
+import {Command, Flags, CliUx } from '@oclif/core'
 import {APIClient} from '../api'
 
 export default class History extends Command {
@@ -8,31 +6,32 @@ export default class History extends Command {
 
   static examples = [
     `$ hackmd-cli history
-
-ID                     Name
-A58r8ehYTlySO94oiC_MUA Note1
-EeNHDGocSTi70ytMMGQaaQ Note2`,
+ID                     Title                            Userpath               Teampath 
+────────────────────── ──────────────────────────────── ────────────────────── ──────── 
+raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     
+BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test `,
   ]
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    ...cli.table.flags(),
+    help: Flags.help({char: 'h'}),
+    ...CliUx.ux.table.flags(),
   }
 
   async run() {
-    const {flags} = this.parse(History)
-
+    const {flags} = await this.parse(History)
+    
     try {
       const history = await APIClient.getHistory()
-      cli.table(history, {
+
+      CliUx.ux.table(history, {
         id: {
           header: 'ID',
         },
-        name: {
-          get: row => row.title
-        }
+        title: {},
+        userPath: {},
+        teamPath: {},
       }, {
-        printLine: this.log,
+        printLine: this.log.bind(this),
         ...flags
       })
     } catch (e) {

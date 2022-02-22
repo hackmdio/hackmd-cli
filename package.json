@@ -7,10 +7,10 @@
   },
   "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
-    "@hackmd/api": "1.2.0",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.13.3",
     "@oclif/plugin-help": "^2.2.3",
+    "@oclif/plugin-version": "^1.0.4",
     "cli-ux": "^5.4.4",
     "fs-extra": "^8.1.0",
     "inquirer": "^6.5.2",
@@ -54,8 +54,15 @@
   "oclif": {
     "commands": "./lib/commands",
     "bin": "hackmd-cli",
+    "additionalHelpFlags": [
+      "-h"
+    ],
+    "additionalVersionFlags": [
+      "-v"
+    ],
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-version"
     ]
   },
   "repository": "hackmdio/hackmd-cli",
