@@ -23,13 +23,13 @@ EeNHDGocSTi70ytMMGQaaQ Note2`,
     const {flags} = this.parse(History)
 
     try {
-      const {history} = await APIClient.getHistory()
+      const history = await APIClient.getHistory()
       cli.table(history, {
         id: {
           header: 'ID',
         },
         name: {
-          get: row => row.text
+          get: row => row.title
         }
       }, {
         printLine: this.log,
