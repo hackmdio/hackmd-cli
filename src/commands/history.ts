@@ -2,7 +2,7 @@ import {Command, Flags, CliUx } from '@oclif/core'
 import {APIClient} from '../api'
 
 export default class History extends Command {
-  static description = 'List history'
+  static description = 'List user browsing history'
 
   static examples = [
     `$ hackmd-cli history
