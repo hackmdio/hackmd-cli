@@ -7,7 +7,7 @@ export default class Whoami extends Command {
 
   static examples = [
     `$ hackmd-cli whoami
-ID                                   Name           Email Userpath               
+ID                                   Name           Email User path               
 ──────────────────────────────────── ────────────── ───── ────────────────────── 
 82f7f3d9-4079-4c78-8a00-14094272ece9 Ming-Hsiu Tsai null  gvfz2UB5THiKABQJQnLs6Q  `,
   ]
@@ -29,7 +29,9 @@ ID                                   Name           Email Userpath
         },
         name: {},
         email: {},
-        userPath: {},
+        userPath: {
+          header: 'User Path'
+        },
       }, {
         printLine: this.log.bind(this),
         ...flags

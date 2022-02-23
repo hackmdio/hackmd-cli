@@ -54,6 +54,7 @@
   "oclif": {
     "commands": "./lib/commands",
     "bin": "hackmd-cli",
+    "topicSeparator": " ",
     "additionalHelpFlags": [
       "-h"
     ],
