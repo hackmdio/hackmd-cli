@@ -6,10 +6,10 @@ export default class Create extends Command {
   static description = 'Create a team note'
 
   static examples = [
-    `team-notes:create --teamPath=CLI-test --content='# A new note created' --readPermission=owner --writePermission=owner --commentPermission=disabled
-ID                     Title                            User Path               Team Path 
+    `team-notes:create --teamPath=CLI-test --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
+ID                     Title                            User Path              Team Path 
 ────────────────────── ──────────────────────────────── ────────────────────── ──────── 
-raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     `
+raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `
 	]
 
   static flags = {
@@ -52,7 +52,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
         ...flags
       })
     } catch (e) {
-      this.log('Update team note content failed')
+      this.log('Create team note failed')
       this.error(e)
     }
   }

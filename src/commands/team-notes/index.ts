@@ -45,7 +45,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
         ...flags
       })
     } catch (e) {
-      this.log('Fetch team note list failed')
+      this.log('Fetch team notes failed')
       this.error(e)
     }
   }

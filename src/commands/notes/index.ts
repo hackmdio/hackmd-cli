@@ -1,7 +1,7 @@
 import {Command, Flags, CliUx } from '@oclif/core'
-import {APIClient} from '../api'
+import {APIClient} from '../../api'
 
-export default class Notes extends Command {
+export default class IndexCommand extends Command {
   static description = 'List user notes'
 
   static examples = [
@@ -13,15 +13,16 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
 
   static flags = {
     help: Flags.help({char: 'h'}),
+    noteId: Flags.string(),
     ...CliUx.ux.table.flags(),
   }
 
   async run() {
-    const {flags} = await this.parse(Notes)
+    const {flags} = await this.parse(IndexCommand)
     
     try {
-      const notes = await APIClient.getNoteList()
-
+			const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
+       
       CliUx.ux.table(notes, {
         id: {
           header: 'ID',
