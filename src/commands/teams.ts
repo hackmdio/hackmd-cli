@@ -1,44 +1,43 @@
-import {Command, flags} from '@oclif/command'
-import cli from 'cli-ux'
-
+import {Command, Flags, CliUx } from '@oclif/core'
 import {APIClient} from '../api'
 
 export default class Teams extends Command {
-  static description = 'HackMD Teams Command'
+  static description = 'List teams'
 
   static examples = [
     `$ hackmd-cli teams
-
-Path            Name
-team1           Team 1
-my-awesome-team My Awesome Team`,
+ID                                   Name          Path     Owner ID                             
+──────────────────────────────────── ───────────── ──────── ──────────────────────────────────── 
+f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8a00-14094272ece9 `,
   ]
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    ...cli.table.flags()
+    help: Flags.help({char: 'h'}),
+    ...CliUx.ux.table.flags(),
   }
 
   async run() {
-    if (!APIClient.enterprise) {
-      return this.log('Teams command only works on HackMD EE instance')
-    }
-
+    const {flags} = await this.parse(Teams)
+    
     try {
-      const teams = await APIClient.getTeams()
+      const notes = await APIClient.getTeams()
 
-      cli.table(teams, {
-        path: {
-          header: 'Path',
+      CliUx.ux.table(notes, {
+        id: {
+          header: 'ID',
         },
-        name: {}
+        name:{},
+        path: {},
+        ownerId: {
+          header: 'Owner ID'
+        }
       }, {
-        printLine: this.log,
+        printLine: this.log.bind(this),
         ...flags
       })
-    } catch (err) {
+    } catch (e) {
       this.log('Fetch teams failed')
-      this.error(err)
+      this.error(e)
     }
   }
 }
