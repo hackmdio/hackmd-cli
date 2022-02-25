@@ -2,7 +2,7 @@ import {Command, Flags, CliUx } from '@oclif/core'
 import {APIClient} from '../../api'
 
 export default class IndexCommand extends Command {
-  static description = 'List user notes'
+  static description = 'HackMD notes commands'
 
   static examples = [
     `$ hackmd-cli notes
