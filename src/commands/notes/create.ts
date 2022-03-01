@@ -1,4 +1,4 @@
-import {Command, Flags, CliUx} from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
 
@@ -7,10 +7,10 @@ export default class Create extends Command {
 
   static examples = [
     `notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
-ID                     Title                            User Path               Team Path 
-────────────────────── ──────────────────────────────── ──────────────────────  ──────── 
+ID                     Title                            User Path               Team Path
+────────────────────── ──────────────────────────────── ──────────────────────  ────────
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  null     `
-	]
+  ]
 
   static flags = {
     help: Flags.help({char: 'h'}),
@@ -19,18 +19,18 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     readPermission: Flags.string(),
     writePermission: Flags.string(),
     commentPermission: Flags.string(),
-		...CliUx.ux.table.flags(),
+    ...CliUx.ux.table.flags(),
   }
 
   async run() {
     const {flags} = await this.parse(Create)
     const options = {...flags}
-    
+
     try {
-			// TODO: create note options typing
+      // TODO: create note options typing
       const note = await APIClient.createNote(options as any)
 
-			CliUx.ux.table([note], {
+      CliUx.ux.table([note], {
         id: {
           header: 'ID',
         },
@@ -38,7 +38,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
         userPath: {
           header: 'User path'
         },
-        teamPath:{
+        teamPath: {
           header: 'Team path'
         }
       }, {
@@ -51,4 +51,3 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     }
   }
 }
-

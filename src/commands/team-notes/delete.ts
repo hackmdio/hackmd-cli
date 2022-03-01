@@ -6,7 +6,7 @@ export default class Delete extends Command {
   static description = 'Delete a team note'
 
   static examples = [
-    `$ hackmd-cli team-notes delete --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA`
+    '$ hackmd-cli team-notes delete --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA'
   ]
 
   static flags = {
@@ -19,14 +19,14 @@ export default class Delete extends Command {
     const {flags} = await this.parse(Delete)
     const {teamPath, noteId} = flags
 
-    if(!teamPath) {
+    if (!teamPath) {
       this.error('Flag teamPath could not be empty')
     }
 
-    if(!noteId) {
+    if (!noteId) {
       this.error('Flag noteId could not be empty')
     }
-    
+
     try {
       await APIClient.deleteTeamNote(teamPath, noteId)
     } catch (e) {
@@ -35,4 +35,3 @@ export default class Delete extends Command {
     }
   }
 }
-

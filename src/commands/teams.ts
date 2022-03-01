@@ -1,4 +1,5 @@
-import {Command, Flags, CliUx } from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
+
 import {APIClient} from '../api'
 
 export default class Teams extends Command {
@@ -6,8 +7,8 @@ export default class Teams extends Command {
 
   static examples = [
     `$ hackmd-cli teams
-ID                                   Name          Path     Owner ID                             
-──────────────────────────────────── ───────────── ──────── ──────────────────────────────────── 
+ID                                   Name          Path     Owner ID
+──────────────────────────────────── ───────────── ──────── ────────────────────────────────────
 f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8a00-14094272ece9 `,
   ]
 
@@ -18,7 +19,7 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
 
   async run() {
     const {flags} = await this.parse(Teams)
-    
+
     try {
       const notes = await APIClient.getTeams()
 
@@ -26,7 +27,7 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
         id: {
           header: 'ID',
         },
-        name:{},
+        name: {},
         path: {},
         ownerId: {
           header: 'Owner ID'

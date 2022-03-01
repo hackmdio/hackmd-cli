@@ -1,4 +1,5 @@
-import {Command, Flags, CliUx } from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
+
 import {APIClient} from '../../api'
 
 export default class IndexCommand extends Command {
@@ -6,8 +7,8 @@ export default class IndexCommand extends Command {
 
   static examples = [
     `$ hackmd-cli notes
-ID                     Title                            User Path               Team Path 
-────────────────────── ──────────────────────────────── ────────────────────── ──────── 
+ID                     Title                            User Path               Team Path
+────────────────────── ──────────────────────────────── ────────────────────── ────────
 raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     `,
   ]
 
@@ -19,17 +20,17 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
 
   async run() {
     const {flags} = await this.parse(IndexCommand)
-    
+
     try {
-			const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
-       
+      const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
+
       CliUx.ux.table(notes, {
         id: {
           header: 'ID',
         },
         title: {},
         userPath: {
-          header:'User Path'
+          header: 'User Path'
         },
         teamPath: {
           header: 'Team Path'

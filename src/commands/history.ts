@@ -1,4 +1,5 @@
-import {Command, Flags, CliUx } from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
+
 import {APIClient} from '../api'
 
 export default class History extends Command {
@@ -6,9 +7,9 @@ export default class History extends Command {
 
   static examples = [
     `$ hackmd-cli history
-ID                     Title                            User Path               Team Path 
-────────────────────── ──────────────────────────────── ────────────────────── ──────── 
-raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     
+ID                     Title                            User Path               Team Path
+────────────────────── ──────────────────────────────── ────────────────────── ────────
+raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
 BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test `,
   ]
 
@@ -19,7 +20,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
 
   async run() {
     const {flags} = await this.parse(History)
-    
+
     try {
       const history = await APIClient.getHistory()
 
@@ -29,7 +30,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
         },
         title: {},
         userPath: {
-          header:'User Path'
+          header: 'User Path'
         },
         teamPath: {
           header: 'Team Path'

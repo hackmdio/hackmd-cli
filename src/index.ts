@@ -19,8 +19,8 @@ Your note is available at https://hackmd.io/note-url`,
 
     if (pipeString) {
       try {
-        // const url = await APIClient.newNote(pipeString)
-        // this.log(`Your note is available at ${url}`)
+        const note = await APIClient.createNote({content: pipeString})
+        this.log(`Your note is available at {{HackMD server url}}/${note.id}`)
       } catch (err) {
         this.error(err)
       }

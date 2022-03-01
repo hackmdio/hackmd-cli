@@ -1,4 +1,4 @@
-import {Command, Flags, CliUx } from '@oclif/core'
+import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
 
@@ -7,9 +7,9 @@ export default class IndexCommand extends Command {
 
   static examples = [
     `$ hackmd-cli team-notes --teamPath=CLI-test
-ID                     Title                            User path Team path 
-────────────────────── ──────────────────────────────── ──────── ──────── 
-WNkLM6gkS0Cg2cQ8rv7bYA a team note                      null     CLI-test 
+ID                     Title                            User path Team path
+────────────────────── ──────────────────────────────── ──────── ────────
+WNkLM6gkS0Cg2cQ8rv7bYA a team note                      null     CLI-test
 BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
   ]
 
@@ -21,14 +21,14 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
 
   async run() {
     const {flags} = await this.parse(IndexCommand)
-    
-    if(!flags.teamPath) {
+
+    if (!flags.teamPath) {
       this.error('Flag teamPath could not be empty')
     }
 
     try {
       const notes = await APIClient.getTeamNotes(flags.teamPath)
-      
+
       CliUx.ux.table(notes, {
         id: {
           header: 'ID',
@@ -37,7 +37,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
         userPath: {
           header: 'User path'
         },
-        teamPath:{
+        teamPath: {
           header: 'Team path'
         }
       }, {
@@ -50,4 +50,3 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
     }
   }
 }
-

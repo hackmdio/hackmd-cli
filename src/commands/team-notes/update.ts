@@ -6,7 +6,7 @@ export default class Update extends Command {
   static description = 'Update team note content'
 
   static examples = [
-    `$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'`
+    "$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'"
   ]
 
   static flags = {
@@ -20,11 +20,11 @@ export default class Update extends Command {
     const {flags} = await this.parse(Update)
     const {teamPath, noteId, content} = flags
 
-    if(!teamPath) {
+    if (!teamPath) {
       this.error('Flag teamPath could not be empty')
     }
 
-    if(!noteId) {
+    if (!noteId) {
       this.error('Flag noteId could not be empty')
     }
 
@@ -36,4 +36,3 @@ export default class Update extends Command {
     }
   }
 }
-
