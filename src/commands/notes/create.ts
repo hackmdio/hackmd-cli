@@ -1,3 +1,4 @@
+import { CreateNoteOptions } from '@hackmd/api/dist/type'
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
@@ -27,8 +28,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     const options = {...flags}
 
     try {
-      // TODO: create note options typing
-      const note = await APIClient.createNote(options as any)
+      const note = await APIClient.createNote(options as CreateNoteOptions)
 
       CliUx.ux.table([note], {
         id: {
