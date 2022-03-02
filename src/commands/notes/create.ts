@@ -31,7 +31,6 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
   async run() {
     const {flags} = await this.parse(Create)
     const pipeString = await readStdin()
-    if (pipeString) return
 
     const options: CreateNoteOptions = {
       title: flags.title,
