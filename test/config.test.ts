@@ -26,7 +26,7 @@ describe('Config test', function () {
     this.configFilePath = setupConfigFile()
   })
 
-  it.skip('should throw no config error if config.json not found and no hackmdEndpointURL set in env', function () {
+  it.skip('should throw no config error if config.json not found and no hackmdAPIEndpointURL set in env', function () {
     expect(requireConfig)
       .to.throw(new RegExp(`Configuration file at ${this.configFilePath} not readable`))
   })
@@ -38,11 +38,11 @@ describe('Config test', function () {
       .to.throw(/Could not read JSON config file at/)
   })
 
-  it.skip('should throw error if no hackmdEndpointURL is set', function () {
+  it('should set hackmdAPIEndpointURL to defalut value: https://api.hackmd.io/v1 if no value is given', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 
-    expect(requireConfig)
-      .to.throw(/Please specify HackMD API endpoint URL either/)
+    const config = requireConfig()
+    expect(config.hackmdAPIEndpointURL).to.eq('https://api.hackmd.io/v1')
   })
 
   it.skip('should throw error if no access token is set', function () {
