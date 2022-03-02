@@ -1,4 +1,4 @@
-import { CreateNoteOptions } from '@hackmd/api/dist/type'
+import { CommentPermissionType, CreateNoteOptions, NotePermissionRole } from '@hackmd/api/dist/type'
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
@@ -25,10 +25,16 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
 
   async run() {
     const {flags} = await this.parse(Create)
-    const options = {...flags}
+    const options: CreateNoteOptions = {
+      title: flags.title,
+      content: flags.content,
+      readPermission: flags.readPermission as NotePermissionRole,
+      writePermission: flags.writePermission as NotePermissionRole,
+      commentPermission: flags.commentPermission as CommentPermissionType
+    }
 
     try {
-      const note = await APIClient.createNote(options as CreateNoteOptions)
+      const note = await APIClient.createNote(options)
 
       CliUx.ux.table([note], {
         id: {

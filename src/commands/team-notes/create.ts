@@ -1,4 +1,4 @@
-import { CreateNoteOptions } from '@hackmd/api/dist/type'
+import { CommentPermissionType, CreateNoteOptions, NotePermissionRole } from '@hackmd/api/dist/type'
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
@@ -26,15 +26,21 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
   async run() {
     const {flags} = await this.parse(Create)
-    const {teamPath, title, content, readPermission, writePermission, commentPermission} = flags
-    const options = {title, content, readPermission, writePermission, commentPermission}
+    const {teamPath} = flags
+    const options: CreateNoteOptions = {
+      title: flags.title,
+      content: flags.content,
+      readPermission: flags.readPermission as NotePermissionRole,
+      writePermission: flags.writePermission as NotePermissionRole,
+      commentPermission: flags.commentPermission as CommentPermissionType
+    }
 
     if (!teamPath) {
       this.error('Flag teamPath could not be empty')
     }
 
     try {
-      const note = await APIClient.createTeamNote(teamPath, options as CreateNoteOptions)
+      const note = await APIClient.createTeamNote(teamPath, options)
 
       CliUx.ux.table([note], {
         id: {
