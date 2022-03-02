@@ -2,6 +2,7 @@ import { CommentPermissionType, CreateNoteOptions, NotePermissionRole } from '@h
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
+import readStdin from '../../read-stdin-stream'
 
 export default class Create extends Command {
   static description = 'Create a team note'
@@ -10,7 +11,10 @@ export default class Create extends Command {
     `team-notes:create --teamPath=CLI-test --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
 ID                     Title                            User Path              Team Path
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
-raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `
+raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
+
+  `Or you can pipe content via Unix pipeline:`,
+  `cat README.md | hackmd-cli notes create --teamPath=CLI-test`
   ]
 
   static flags = {
@@ -26,10 +30,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
   async run() {
     const {flags} = await this.parse(Create)
+    const pipeString = await readStdin()
+
     const {teamPath} = flags
     const options: CreateNoteOptions = {
       title: flags.title,
-      content: flags.content,
+      content: pipeString || flags.content,
       readPermission: flags.readPermission as NotePermissionRole,
       writePermission: flags.writePermission as NotePermissionRole,
       commentPermission: flags.commentPermission as CommentPermissionType
