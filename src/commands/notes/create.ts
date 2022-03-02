@@ -1,4 +1,4 @@
-import { CommentPermissionType, CreateNoteOptions, NotePermissionRole } from '@hackmd/api/dist/type'
+import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
@@ -8,14 +8,14 @@ export default class Create extends Command {
   static description = 'Create a note'
 
   static examples = [
-    `notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled`,
+    "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
 
-`ID                     Title                            User Path               Team Path
+    `ID                     Title                            User Path               Team Path
 ────────────────────── ──────────────────────────────── ──────────────────────  ────────
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  null`,
 
-  `Or you can pipe content via Unix pipeline:`,
-  `cat README.md | hackmd-cli notes create`
+    'Or you can pipe content via Unix pipeline:',
+    'cat README.md | hackmd-cli notes create'
   ]
 
   static flags = {

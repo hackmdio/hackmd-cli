@@ -1,4 +1,4 @@
-import { CommentPermissionType, CreateNoteOptions, NotePermissionRole } from '@hackmd/api/dist/type'
+import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
@@ -13,8 +13,8 @@ ID                     Title                            User Path              T
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
-  `Or you can pipe content via Unix pipeline:`,
-  `cat README.md | hackmd-cli notes create --teamPath=CLI-test`
+    'Or you can pipe content via Unix pipeline:',
+    'cat README.md | hackmd-cli notes create --teamPath=CLI-test'
   ]
 
   static flags = {
