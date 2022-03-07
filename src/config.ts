@@ -18,7 +18,7 @@ const defaultConfig = {
 
 const envConfig = {
   hackmdAPIEndpointURL: process.env.HMD_API_ENDPOINT_URL,
-  accesstoken: process.env.HMD_API_ACCESS_TOKEN
+  accessToken: process.env.HMD_API_ACCESS_TOKEN
 }
 
 // look for a readable config file; we can merge it with the env.

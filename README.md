@@ -38,7 +38,7 @@ export HMD_API_ACCESS_TOKEN=MY_ACCESS_TOKEN
 Or in JSON file (`~/.hackmd/config.json`):
 ```json
 {
-  "accesstoken": "MY_ACCESS_TOKEN"
+  "accessToken": "MY_ACCESS_TOKEN"
 }
 ```
 ### Set self-hosted API endpoint (optional)
@@ -67,7 +67,7 @@ All available configurations are listed in the table below.
 |  Config key  |              Environment Variable              |  Data Type  |         Example Value          |                                                                                                                   Description                                                                                                                    |
 | ------------ | :--------------------------------------------- | ----------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `hackmdAPIEndpointURL`  | `HMD_API_ENDPOINT_URL`   | *`string`*  | `https://my.hackmd-ee.api.endpoint` | The self-hosted API endpoint URL                                                                                                                                                                                                                                 |
-| `accesstoken` | `HMD_API_ACCESS_TOKEN` | *`string`*  | `MY_ACCESS_TOKEN`       | Token to access HackMD APIs                                                                                                                                                                                               |
+| `accessToken` | `HMD_API_ACCESS_TOKEN` | *`string`*  | `MY_ACCESS_TOKEN`       | Token to access HackMD APIs                                                                                                                                                                                               |
                                                                                                                                                                                                                                                                                                   
 
 ## Commands
