@@ -2,6 +2,7 @@ import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hac
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
+import {commentPermission, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
 import readStdin from '../../read-stdin-stream'
 
 export default class Create extends Command {
@@ -19,12 +20,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: Flags.string(),
-    title: Flags.string(),
-    content: Flags.string(),
-    readPermission: Flags.string(),
-    writePermission: Flags.string(),
-    commentPermission: Flags.string(),
+    teamPath: teamPath(),
+    title: noteTitle(),
+    content: noteContent(),
+    readPermission: notePermission(),
+    writePermission: notePermission(),
+    commentPermission: commentPermission(),
     ...CliUx.ux.table.flags(),
   }
 

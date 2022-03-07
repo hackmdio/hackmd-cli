@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
+import {noteId, teamPath} from '../../flags'
 
 export default class Delete extends Command {
   static description = 'Delete a team note'
@@ -11,8 +12,8 @@ export default class Delete extends Command {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: Flags.string(),
-    noteId: Flags.string(),
+    teamPath: teamPath(),
+    noteId: noteId(),
   }
 
   async run() {

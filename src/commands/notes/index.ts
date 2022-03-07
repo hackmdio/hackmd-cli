@@ -1,6 +1,7 @@
 import {CliUx, Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
+import {noteId} from '../../flags'
 
 export default class IndexCommand extends Command {
   static description = 'HackMD notes commands'
@@ -14,7 +15,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    noteId: Flags.string(),
+    noteId: noteId(),
     ...CliUx.ux.table.flags(),
   }
 

@@ -1,6 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 
 import {APIClient} from '../../api'
+import {noteContent, noteId, teamPath} from '../../flags'
 
 export default class Update extends Command {
   static description = 'Update team note content'
@@ -11,9 +12,9 @@ export default class Update extends Command {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: Flags.string(),
-    noteId: Flags.string(),
-    content: Flags.string()
+    teamPath: teamPath(),
+    noteId: noteId(),
+    content: noteContent()
   }
 
   async run() {
