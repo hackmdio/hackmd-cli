@@ -1,16 +1,9 @@
 import * as fs from 'fs-extra'
 import defaults from 'lodash/defaults'
-import {homedir} from 'os'
-import * as path from 'path'
 
-let configDir
-if (process.env.HMD_CLI_CONFIG_DIR) {
-  configDir = process.env.HMD_CLI_CONFIG_DIR || ''
-} else {
-  configDir = path.join(homedir(), '.hackmd')
-}
+import {getConfigFilePath} from './utils'
 
-const configFilePath = path.join(configDir, 'config.json')
+const configFilePath = getConfigFilePath()
 
 const defaultConfig = {
   hackmdAPIEndpointURL: 'https://api.hackmd.io/v1'

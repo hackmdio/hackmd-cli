@@ -1,19 +1,13 @@
-import * as fs from 'fs-extra'
+import {homedir} from 'os'
+import * as path from 'path'
 
-export async function pipeToFile(stream: any, output: string) {
-  const fileStream = fs.createWriteStream(output)
+export function getConfigFilePath() {
+  let configDir
+  if (process.env.HMD_CLI_CONFIG_DIR) {
+    configDir = process.env.HMD_CLI_CONFIG_DIR || ''
+  } else {
+    configDir = path.join(homedir(), '.hackmd')
+  }
 
-  await new Promise((resolve, reject) => {
-    if (!stream) {
-      return reject('No stream given')
-    }
-
-    stream.pipe(fileStream)
-    stream.on('error', (err: any) => {
-      reject(err)
-    })
-    fileStream.on('finish', function () {
-      resolve()
-    })
-  })
+  return path.join(configDir, 'config.json')
 }
