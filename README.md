@@ -10,6 +10,10 @@
 * [Configuration](#configuration)
 * [License](#license)
 
+## hackmd-cli v2 notice
+
+hackmd-cli v2 only supports the official HackMD instance([hackmd.io](https://hackmd.io)) and other enterprise edition instances after version `1.38.1`. CodiMD is not supported anymore. If you want to use CLI tools with CodiMD, please see the [`v1.x` README](https://github.com/hackmdio/hackmd-cli/tree/v1.2.0) and follow the instruction there.
+
 ## Usage
 <!-- usage -->
 ```sh-session
