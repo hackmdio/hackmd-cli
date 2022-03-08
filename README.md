@@ -34,7 +34,14 @@ USAGE
 ### Set access token
 Access token should be set before using `hackmd-cli`. It can be created by landing [hackmd.io](https://hackmd.io) -> Setting -> API -> Create API token. Copy the token and set it as config variable.
 ####  Example:
-Set environment variable in your shell profile:
+
+Set environment variable by command: 
+```sh-session
+$ hackmd-cli login
+Enter your accesstoken: My_ACCESS_TOKEN
+```
+
+Or in your shell profile:
 ```bash
 export HMD_API_ACCESS_TOKEN=MY_ACCESS_TOKEN
 ```
@@ -79,6 +86,8 @@ All available configurations are listed in the table below.
 <!-- commands -->
 * [`hackmd-cli help [COMMAND]`](#hackmd-cli-help-command)
 * [`hackmd-cli history`](#hackmd-cli-history)
+* [`hackmd-cli login`](#hackmd-cli-login)
+* [`hackmd-cli logout`](#hackmd-cli-logout)
 * [`hackmd-cli notes`](#hackmd-cli-notes)
 * [`hackmd-cli notes:create`](#hackmd-cli-notescreate)
 * [`hackmd-cli notes:delete`](#hackmd-cli-notesdelete)
@@ -136,6 +145,46 @@ EXAMPLE
 ```
 
 _See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.0.0/src/commands/history.ts)_
+
+## `hackmd-cli login`
+
+Login to HackMD server from CLI
+
+```
+USAGE
+  $ hackmd-cli login
+
+OPTIONS
+  -h, --help  Show CLI help.
+
+EXAMPLE
+  $ hackmd-cli login
+
+  Enter your access token: MY_ACCESS_TOKEN
+
+  Login successfully
+```
+
+_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.0.0/src/commands/login.ts)_
+
+## `hackmd-cli logout`
+
+Login to HackMD server from CLI
+
+```
+USAGE
+  $ hackmd-cli logout
+
+OPTIONS
+  -h, --help  Show CLI help.
+
+EXAMPLE
+  $ hackmd-cli logout
+
+  You've logged out successfully
+```
+
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.0.0/src/commands/logout.ts)_
 
 ## `hackmd-cli notes`
 
@@ -409,20 +458,6 @@ EXAMPLE
 
 _See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.0.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
-
-## `hackmd-cli` piping mode
-
-You can create a note by piping text stream to hackmd-cli
-
-```
-USAGE
-  $ hackmd-cli [COMMAND]
-
-EXAMPLE
-  $ cat README.md | hackmd-cli
-
-  Your note is available at https://hackmd.io/note-url
-```
 
 ## License
 
