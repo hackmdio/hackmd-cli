@@ -1,3 +1,4 @@
+import fs from 'fs'
 import {homedir} from 'os'
 import * as path from 'path'
 
@@ -10,4 +11,15 @@ export function getConfigFilePath() {
   }
 
   return path.join(configDir, 'config.json')
+}
+
+export function setAccessTokenConfig(token: string) {
+  const configFilePath = getConfigFilePath()
+  const newConfigFile = require(configFilePath)
+  newConfigFile.accessToken = token
+  fs.writeFile(configFilePath, JSON.stringify(newConfigFile, null, 2), function (err) {
+    if (err) {
+      throw err
+    }
+  })
 }

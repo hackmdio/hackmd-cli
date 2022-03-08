@@ -1,8 +1,7 @@
 import {Flags} from '@oclif/core'
-import fs from 'fs'
 
 import HackMDCommand from '../command'
-import {getConfigFilePath} from '../utils'
+import {setAccessTokenConfig} from '../utils'
 
 export default class Logout extends HackMDCommand {
   static description = 'Login to HackMD server from CLI'
@@ -20,14 +19,7 @@ You've logged out successfully
 
   async run() {
     try {
-      const configFilePath = getConfigFilePath()
-      const newConfigFile = require(configFilePath)
-      newConfigFile.accessToken = ''
-      fs.writeFile(configFilePath, JSON.stringify(newConfigFile, null, 2), function (err) {
-        if (err) {
-          throw err
-        }
-      })
+      setAccessTokenConfig('')
       this.log("You've logged out successfully")
     } catch (err) {
       this.error(err)

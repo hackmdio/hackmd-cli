@@ -1,9 +1,8 @@
 import API from '@hackmd/api'
 import {CliUx, Command} from '@oclif/core'
-import fs from 'fs'
 
 import config from './config'
-import {getConfigFilePath} from './utils'
+import {setAccessTokenConfig} from './utils'
 
 export default abstract class HackMDCommand extends Command {
   async getAPIClient() {
@@ -13,14 +12,7 @@ export default abstract class HackMDCommand extends Command {
     try {
       await APIClient.getMe()
       if (!config.accessToken) {
-        const configFilePath = getConfigFilePath()
-        const newConfigFile = require(configFilePath)
-        newConfigFile.accessToken = token
-        fs.writeFile(configFilePath, JSON.stringify(newConfigFile, null, 2), function (err) {
-          if (err) {
-            throw err
-          }
-        })
+        setAccessTokenConfig(token)
       }
 
       return APIClient
