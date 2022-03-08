@@ -1,9 +1,9 @@
-import {CliUx, Command, Flags} from '@oclif/core'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../../api'
+import HackMDCommand from '../../command'
 import {noteId} from '../../flags'
 
-export default class IndexCommand extends Command {
+export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD notes commands'
 
   static examples = [
@@ -23,6 +23,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(IndexCommand)
 
     try {
+      const APIClient = await this.getAPIClient()
       const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
 
       CliUx.ux.table(notes, {

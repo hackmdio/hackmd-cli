@@ -1,8 +1,8 @@
-import {CliUx, Command, Flags} from '@oclif/core'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../api'
+import HackMDCommand from '../command'
 
-export default class Whoami extends Command {
+export default class Whoami extends HackMDCommand {
   static description = 'Show current user information'
 
   static examples = [
@@ -21,6 +21,7 @@ ID                                   Name           Email User path
     const {flags} = await this.parse(Whoami)
 
     try {
+      const APIClient = await this.getAPIClient()
       const user = await APIClient.getMe()
 
       CliUx.ux.table([user], {

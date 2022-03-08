@@ -1,9 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
-import {APIClient} from '../../api'
+import HackMDCommand from '../../command'
 import {noteContent, noteId, teamPath} from '../../flags'
 
-export default class Update extends Command {
+export default class Update extends HackMDCommand {
   static description = 'Update team note content'
 
   static examples = [
@@ -30,6 +30,7 @@ export default class Update extends Command {
     }
 
     try {
+      const APIClient = await this.getAPIClient()
       await APIClient.updateTeamNoteContent(teamPath, noteId, content)
     } catch (e) {
       this.log('Update team note content failed')

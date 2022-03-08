@@ -1,9 +1,9 @@
-import {CliUx, Command, Flags} from '@oclif/core'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../../api'
+import HackMDCommand from '../../command'
 import {teamPath} from '../../flags'
 
-export default class IndexCommand extends Command {
+export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD team-notes commands'
 
   static examples = [
@@ -28,6 +28,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
     }
 
     try {
+      const APIClient = await this.getAPIClient()
       const notes = await APIClient.getTeamNotes(flags.teamPath)
 
       CliUx.ux.table(notes, {

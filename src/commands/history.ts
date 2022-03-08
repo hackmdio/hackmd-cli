@@ -1,8 +1,8 @@
-import {CliUx, Command, Flags} from '@oclif/core'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../api'
+import HackMDCommand from '../command'
 
-export default class History extends Command {
+export default class History extends HackMDCommand {
   static description = 'List user browse history'
 
   static examples = [
@@ -22,6 +22,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
     const {flags} = await this.parse(History)
 
     try {
+      const APIClient = await this.getAPIClient()
       const history = await APIClient.getHistory()
 
       CliUx.ux.table(history, {

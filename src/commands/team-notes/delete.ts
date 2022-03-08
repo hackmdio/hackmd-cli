@@ -1,9 +1,9 @@
-import {Command, Flags} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
-import {APIClient} from '../../api'
+import HackMDCommand from '../../command'
 import {noteId, teamPath} from '../../flags'
 
-export default class Delete extends Command {
+export default class Delete extends HackMDCommand {
   static description = 'Delete a team note'
 
   static examples = [
@@ -29,6 +29,7 @@ export default class Delete extends Command {
     }
 
     try {
+      const APIClient = await this.getAPIClient()
       await APIClient.deleteTeamNote(teamPath, noteId)
     } catch (e) {
       this.log('Delete team note failed')

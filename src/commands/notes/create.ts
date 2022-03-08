@@ -1,11 +1,11 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
-import {CliUx, Command, Flags} from '@oclif/core'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../../api'
+import HackMDCommand from '../../command'
 import {commentPermission, noteContent, notePermission, noteTitle} from '../../flags'
 import readStdin from '../../read-stdin-stream'
 
-export default class Create extends Command {
+export default class Create extends HackMDCommand {
   static description = 'Create a note'
 
   static examples = [
@@ -42,6 +42,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     }
 
     try {
+      const APIClient = await this.getAPIClient()
       const note = await APIClient.createNote(options)
 
       CliUx.ux.table([note], {
