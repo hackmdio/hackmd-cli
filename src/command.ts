@@ -6,7 +6,9 @@ import {setAccessTokenConfig} from './utils'
 
 export default abstract class HackMDCommand extends Command {
   async getAPIClient() {
-    const token = config.accessToken || await CliUx.ux.prompt('Enter your access token')
+    const token = config.accessToken || await CliUx.ux.prompt('Enter your access token', {
+      type: 'hide'
+    })
     const APIClient = new API(token, config.hackmdAPIEndpointURL)
 
     try {
