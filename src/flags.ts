@@ -1,10 +1,10 @@
 import {Flags} from '@oclif/core'
 export const noteId = Flags.build({
-  description: 'hackmd note id'
+  description: 'HackMD note id'
 })
 
 export const teamPath = Flags.build({
-  description: 'hackmd team path'
+  description: 'HackMD team path'
 })
 
 export const noteContent = Flags.build({
