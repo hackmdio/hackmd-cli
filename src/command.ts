@@ -18,10 +18,8 @@ export default abstract class HackMDCommand extends Command {
       }
 
       return APIClient
-    } catch (e) {
-      this.log('Please ensure your credentials are correct')
-      this.error(e)
+    } catch {
+      throw new Error('Please ensure your credentials are correct')
     }
   }
-
 }
