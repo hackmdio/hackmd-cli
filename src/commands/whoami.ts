@@ -1,35 +1,45 @@
-import {Command, flags} from '@oclif/command'
+import {CliUx, Flags} from '@oclif/core'
 
-import {APIClient} from '../api'
+import HackMDCommand from '../command'
 
-export default class Whoami extends Command {
-  static description = 'Show logged in account info'
+export default class Whoami extends HackMDCommand {
+  static description = 'Show current user information'
 
   static examples = [
     `$ hackmd-cli whoami
-
-You are logged in hackmd.io as {YOUR NAME} [user-id]
-`,
+ID                                   Name           Email User path
+──────────────────────────────────── ────────────── ───── ──────────────────────
+82f7f3d9-4079-4c78-8a00-14094272ece9 Ming-Hsiu Tsai null  gvfz2UB5THiKABQJQnLs6Q  `,
   ]
 
   static flags = {
-    help: flags.help({char: 'h'}),
+    help: Flags.help({char: 'h'}),
+    ...CliUx.ux.table.flags(),
   }
 
   async run() {
-    this.parse(Whoami)
+    const {flags} = await this.parse(Whoami)
 
     try {
-      const data = await APIClient.getMe()
-      if (data.status === 'ok') {
-        this.log(`You are logged in ${APIClient.domain} as ${data.name} [${data.id}]`)
-      } else {
-        this.log('You are not logged in yet.')
-      }
-    } catch (err) {
-      this.log('Sorry, something went wrong!')
+      const APIClient = await this.getAPIClient()
+      const user = await APIClient.getMe()
 
-      this.error(err)
+      CliUx.ux.table([user], {
+        id: {
+          header: 'ID',
+        },
+        name: {},
+        email: {},
+        userPath: {
+          header: 'User Path'
+        },
+      }, {
+        printLine: this.log.bind(this),
+        ...flags
+      })
+    } catch (e) {
+      this.log('Fetch user info failed')
+      this.error(e as Error)
     }
   }
 }

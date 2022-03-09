@@ -1,27 +1,26 @@
-import {Command, flags} from '@oclif/command'
+import {Flags} from '@oclif/core'
 
-import {APIClient} from '../api'
+import HackMDCommand from '../command'
+import {setAccessTokenConfig} from '../utils'
 
-export default class Logout extends Command {
-  static description = 'Logout from CLI'
+export default class Logout extends HackMDCommand {
+  static description = 'Login to HackMD server from CLI'
 
   static examples = [
     `$ hackmd-cli logout
 
 You've logged out successfully
-`,
+`
   ]
 
   static flags = {
-    help: flags.help({char: 'h'}),
+    help: Flags.help({char: 'h'})
   }
 
   async run() {
-    this.parse(Logout)
-
     try {
-      await APIClient.logout()
-      this.log('You\'ve logged out successfully')
+      setAccessTokenConfig('')
+      this.log("You've logged out successfully")
     } catch (err) {
       this.error(err)
     }

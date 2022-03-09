@@ -1,31 +1,32 @@
 import {CliUx, Flags} from '@oclif/core'
 
-import HackMDCommand from '../command'
+import HackMDCommand from '../../command'
+import {noteId} from '../../flags'
 
-export default class History extends HackMDCommand {
-  static description = 'List user browse history'
+export default class IndexCommand extends HackMDCommand {
+  static description = 'HackMD notes commands'
 
   static examples = [
-    `$ hackmd-cli history
+    `$ hackmd-cli notes
 ID                     Title                            User Path               Team Path
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
-raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
-BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test `,
+raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     `,
   ]
 
   static flags = {
     help: Flags.help({char: 'h'}),
+    noteId: noteId(),
     ...CliUx.ux.table.flags(),
   }
 
   async run() {
-    const {flags} = await this.parse(History)
+    const {flags} = await this.parse(IndexCommand)
 
     try {
       const APIClient = await this.getAPIClient()
-      const history = await APIClient.getHistory()
+      const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
 
-      CliUx.ux.table(history, {
+      CliUx.ux.table(notes, {
         id: {
           header: 'ID',
         },
@@ -41,7 +42,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
         ...flags
       })
     } catch (e) {
-      this.log('Fetch history failed')
+      this.log('Fetch user notes failed')
       this.error(e as Error)
     }
   }
