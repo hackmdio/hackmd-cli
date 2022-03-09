@@ -62,7 +62,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
       })
     } catch (e) {
       this.log('Create note failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

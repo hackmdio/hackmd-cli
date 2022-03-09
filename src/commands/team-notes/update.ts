@@ -34,7 +34,7 @@ export default class Update extends HackMDCommand {
       await APIClient.updateTeamNoteContent(teamPath, noteId, content)
     } catch (e) {
       this.log('Update team note content failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

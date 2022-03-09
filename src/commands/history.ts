@@ -42,7 +42,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
       })
     } catch (e) {
       this.log('Fetch history failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

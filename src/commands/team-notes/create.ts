@@ -67,7 +67,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
       })
     } catch (e) {
       this.log('Create team note failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

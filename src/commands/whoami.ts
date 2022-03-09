@@ -39,7 +39,7 @@ ID                                   Name           Email User path
       })
     } catch (e) {
       this.log('Fetch user info failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

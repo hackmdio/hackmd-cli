@@ -29,7 +29,7 @@ export default class Update extends HackMDCommand {
       await APIClient.updateNoteContent(noteId, content)
     } catch (e) {
       this.log('Update note content failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

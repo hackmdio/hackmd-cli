@@ -28,7 +28,7 @@ export default class Delete extends HackMDCommand {
       await APIClient.deleteNote(noteId)
     } catch (e) {
       this.log('Delete note failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

@@ -24,7 +24,7 @@ Login successfully
       this.log('Login successfully')
     } catch (err) {
       this.log('Login failed')
-      this.error(err)
+      this.error(err as Error)
     }
   }
 }

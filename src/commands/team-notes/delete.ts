@@ -33,7 +33,7 @@ export default class Delete extends HackMDCommand {
       await APIClient.deleteTeamNote(teamPath, noteId)
     } catch (e) {
       this.log('Delete team note failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

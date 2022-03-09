@@ -48,7 +48,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
       })
     } catch (e) {
       this.log('Fetch team notes failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

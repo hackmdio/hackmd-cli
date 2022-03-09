@@ -43,7 +43,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
       })
     } catch (e) {
       this.log('Fetch user notes failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }

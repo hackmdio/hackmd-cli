@@ -39,7 +39,7 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
       })
     } catch (e) {
       this.log('Fetch teams failed')
-      this.error(e)
+      this.error(e as Error)
     }
   }
 }
