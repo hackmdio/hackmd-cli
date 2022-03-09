@@ -10,9 +10,16 @@
 * [Configuration](#configuration)
 * [License](#license)
 
-## hackmd-cli v2 notice
+## v2 notice
 
-hackmd-cli v2 only supports the official HackMD instance([hackmd.io](https://hackmd.io)) and other enterprise edition instances after version `1.38.1`. CodiMD is not supported anymore. If you want to use CLI tools with CodiMD, please see the [`v1.x` README](https://github.com/hackmdio/hackmd-cli/tree/v1.2.0) and follow the instruction there.
+`hackmd-cli` v2 now only supports the official HackMD instance([hackmd.io](https://hackmd.io)) and HackMD EE instances after version `1.38.1`. CodiMD is not supported anymore. If you want to use the CLI tools with CodiMD, please check out the [`v1.x` README](https://github.com/hackmdio/hackmd-cli/tree/v1.2.0) and follow the instruction there.
+
+### Migrating from v1.x
+
+1. If you are using the CLI with CodiMD, please follow the [`v1.x` README](https://github.com/hackmdio/hackmd-cli/tree/v1.2.0)
+2. If you are using the CLI with HackMD([hackmd.io](https://hackmd.io)) or HackMD EE(Enterprise Edition) instances:
+    * **You're using the JSON file-based config**: Remove `~/.hackmd/config.json` and start over again. You can start with [configuration](#configuration) section.
+    * **You're using environment variable based config**: `HMD_CLI_SERVER_URL` has been replaced with `HMD_API_ENDPOINT_URL`. And `HMD_API_ENDPOINT_URL` may vary depending on your instance. Please check contact your instance admin to get the correct `HMD_API_ENDPOINT_URL`. For generating access token, please check the [configuration](#configuration) section. You'll need to set the `HMD_API_ACCESS_TOKEN` environment variable.
 
 ## Usage
 <!-- usage -->
@@ -32,27 +39,34 @@ USAGE
 ## Configuration
 
 ### Set access token
-Access token should be set before using `hackmd-cli`. It can be created by landing [hackmd.io](https://hackmd.io) -> Setting -> API -> Create API token. Copy the token and set it as config variable.
-####  Example:
 
-Set environment variable by command: 
+Access token should be set before using `hackmd-cli`. It can be created by landing [hackmd.io](https://hackmd.io) -> [Setting](https://hackmd.io/settings#api) -> [API](https://hackmd.io/settings#api) -> Create API token. Copy the token and set it as config variable. For more details, please follow the tutorial: [How to issue an API token](https://hackmd.io/@hackmd-api/developer-portal/https%3A%2F%2Fhackmd.io%2F%40hackmd-api%2Fhow-to-issue-an-api-token).
+
+#### Example:
+
+Set environment variable by command:
+
 ```sh-session
 $ hackmd-cli login
-Enter your accesstoken: My_ACCESS_TOKEN
+Enter your access token: My_ACCESS_TOKEN
 ```
 
 Or in your shell profile:
+
 ```bash
 export HMD_API_ACCESS_TOKEN=MY_ACCESS_TOKEN
 ```
 
 Or in JSON file (`~/.hackmd/config.json`):
+
 ```json
 {
   "accessToken": "MY_ACCESS_TOKEN"
 }
 ```
-### Set self-hosted API endpoint (optional)
+
+### Specify HackMD API endpoint manually (optional)
+
 `hackmd-cli` operates on official HackMD API endpoint (`https://api.hackmd.io/v1`) by default. If you want to use cli with a self-hosted [HackMD EE](https://hackmd.io/pricing) instance and API endpoint, you will need to configure `hackmd-cli` by either environment variable or JSON configuration.
 
 #### Example:
