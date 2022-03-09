@@ -89,10 +89,10 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 All available configurations are listed in the table below.
 
-|       Config key       |  Environment Variable  | Data Type  |            Example Value            |           Description            |
-| ---------------------- | :--------------------- | ---------- | ----------------------------------- | -------------------------------- |
-| `hackmdAPIEndpointURL` | `HMD_API_ENDPOINT_URL` | *`string`* | `https://my.hackmd-ee.api.endpoint` | The self-hosted API endpoint URL |
-| `accessToken`          | `HMD_API_ACCESS_TOKEN` | *`string`* | `MY_ACCESS_TOKEN`                   | Token to access HackMD APIs      |
+|       Config key       |  Environment Variable  | Data Type  |              Example Value              |         Description         |
+| ---------------------- | :--------------------- | ---------- | --------------------------------------- | --------------------------- |
+| `hackmdAPIEndpointURL` | `HMD_API_ENDPOINT_URL` | *`string`* | `https://api.hackmd.io/v1`              | HackMD EE API endpoint URL  |
+| `accessToken`          | `HMD_API_ACCESS_TOKEN` | *`string`* | `UFHR12H7FSEF3ADFY3N9YNRN2E49VGR212NBF` | Token to access HackMD APIs |
 
 ## Commands
 
