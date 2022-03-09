@@ -44,20 +44,20 @@ Access token should be set before using `hackmd-cli`. It can be created by landi
 
 #### Example:
 
-Set environment variable by command:
+Set the access token by `login` command. By doing so, the access token will be saved in `~/.hackmd/config.json`.
 
 ```sh-session
 $ hackmd-cli login
 Enter your access token: My_ACCESS_TOKEN
 ```
 
-Or in your shell profile:
+Or you don't want to keep the credentials in one file, you can set it through environment variable:
 
 ```bash
 export HMD_API_ACCESS_TOKEN=MY_ACCESS_TOKEN
 ```
 
-Or in JSON file (`~/.hackmd/config.json`):
+Or you can write the configuration file manually. Edit `~/.hackmd/config.json` with the following content:
 
 ```json
 {
@@ -67,7 +67,7 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 ### Specify HackMD API endpoint manually (optional)
 
-`hackmd-cli` operates on official HackMD API endpoint (`https://api.hackmd.io/v1`) by default. If you want to use cli with a self-hosted [HackMD EE](https://hackmd.io/pricing) instance and API endpoint, you will need to configure `hackmd-cli` by either environment variable or JSON configuration.
+`hackmd-cli` operates on the official HackMD API endpoint (`https://api.hackmd.io/v1`) by default. If you want to use `hackmd-cli` with a custom [HackMD EE](https://hackmd.io/enterprise) instance, you will need to configure the API endpoint by either environment variable or JSON configuration manually.
 
 #### Example:
 
@@ -89,11 +89,10 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 All available configurations are listed in the table below.
 
-|  Config key  |              Environment Variable              |  Data Type  |         Example Value          |                                                                                                                   Description                                                                                                                    |
-| ------------ | :--------------------------------------------- | ----------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `hackmdAPIEndpointURL`  | `HMD_API_ENDPOINT_URL`   | *`string`*  | `https://my.hackmd-ee.api.endpoint` | The self-hosted API endpoint URL                                                                                                                                                                                                                                 |
-| `accessToken` | `HMD_API_ACCESS_TOKEN` | *`string`*  | `MY_ACCESS_TOKEN`       | Token to access HackMD APIs                                                                                                                                                                                               |
-                                                                                                                                                                                                                                                                                                  
+|       Config key       |  Environment Variable  | Data Type  |            Example Value            |           Description            |
+| ---------------------- | :--------------------- | ---------- | ----------------------------------- | -------------------------------- |
+| `hackmdAPIEndpointURL` | `HMD_API_ENDPOINT_URL` | *`string`* | `https://my.hackmd-ee.api.endpoint` | The self-hosted API endpoint URL |
+| `accessToken`          | `HMD_API_ACCESS_TOKEN` | *`string`* | `MY_ACCESS_TOKEN`                   | Token to access HackMD APIs      |
 
 ## Commands
 
