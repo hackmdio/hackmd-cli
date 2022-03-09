@@ -26,7 +26,7 @@ describe('Config test', function () {
     this.configFilePath = setupConfigFile()
   })
 
-  it('should throw no config error if config.json not found and no serverUrl set in env', function () {
+  it.skip('should throw no config error if config.json not found and no hackmdAPIEndpointURL set in env', function () {
     expect(requireConfig)
       .to.throw(new RegExp(`Configuration file at ${this.configFilePath} not readable`))
   })
@@ -38,58 +38,17 @@ describe('Config test', function () {
       .to.throw(/Could not read JSON config file at/)
   })
 
-  it.skip('should throw error if no serverUrl is set', function () {
+  it('should set hackmdAPIEndpointURL to defalut value: https://api.hackmd.io/v1 if no value is given', function () {
+    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
+
+    const config = requireConfig()
+    expect(config.hackmdAPIEndpointURL).to.eq('https://api.hackmd.io/v1')
+  })
+
+  it.skip('should throw error if no access token is set', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 
     expect(requireConfig)
-      .to.throw(/Please specify CodiMD server URL either/)
-  })
-
-  it('should set enterprise to true if HMD_CLI_COOKIE_PATH or HMD_CLI_SERVER_URL are supplied', function () {
-    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
-
-    process.env.HMD_CLI_COOKIE_PATH = tempDir()
-    let config = requireConfig()
-
-    expect(config.cookiePath).to.eq(process.env.HMD_CLI_COOKIE_PATH)
-    expect(config.enterprise).to.eq(true)
-
-    cleanup()
-
-    process.env.HMD_CLI_SERVER_URL = tempDir()
-    config = requireConfig()
-
-    expect(config.serverUrl).to.eq(process.env.HMD_CLI_SERVER_URL)
-    expect(config.enterprise).to.eq(true)
-  })
-
-  it('should set enterprise to false if either CMD_CLI_COOKIE_PATH or CMD_CLI_SERVER_URL are supplied', function () {
-    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
-
-    process.env.CMD_CLI_SERVER_URL = tempDir()
-    let config = requireConfig()
-
-    expect(config.serverUrl).to.eq(process.env.CMD_CLI_SERVER_URL)
-    expect(config.enterprise).to.eq(false)
-
-    cleanup()
-
-    process.env.CMD_CLI_COOKIE_PATH = tempDir()
-    config = requireConfig()
-
-    expect(config.cookiePath).to.eq(process.env.CMD_CLI_COOKIE_PATH)
-    expect(config.enterprise).to.eq(false)
-  })
-
-  it('should set enterprise with HMD_CLI_ENTERPRISE', function () {
-    fs.writeFileSync(this.configFilePath, '{}', 'utf8')
-
-    process.env.HMD_CLI_ENTERPRISE = 'false'
-    expect(requireConfig().enterprise).to.eq(false)
-
-    cleanup()
-
-    process.env.HMD_CLI_ENTERPRISE = 'true'
-    expect(requireConfig().enterprise).to.eq(true)
+      .to.throw(/Please specify access token either/)
   })
 })
