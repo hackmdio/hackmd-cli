@@ -7,7 +7,7 @@ export default class Update extends HackMDCommand {
   static description = 'Update note content'
 
   static examples = [
-    "$ hackmd-cli notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'"
+    "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'"
   ]
 
   static flags = {

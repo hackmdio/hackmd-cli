@@ -23,3 +23,12 @@ export function setAccessTokenConfig(token: string) {
     }
   })
 }
+
+export function safeStdinRead() {
+  let result
+  try {
+    result = fs.readFileSync(process.stdin.fd).toString()
+  } catch {}
+
+  return result
+}
