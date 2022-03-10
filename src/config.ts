@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import defaults from 'lodash/defaults'
+import defaults from 'lodash.defaults'
 
 import {getConfigFilePath} from './utils'
 
