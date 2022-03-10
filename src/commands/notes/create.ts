@@ -1,9 +1,9 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {CliUx, Flags} from '@oclif/core'
-import * as fs from 'fs'
 
 import HackMDCommand from '../../command'
 import {commentPermission, noteContent, notePermission, noteTitle} from '../../flags'
+import {safePipeRead} from '../../utils'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a note'
@@ -31,7 +31,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
 
   async run() {
     const {flags} = await this.parse(Create)
-    const pipeString = await readStdin()
+    const pipeString = safePipeRead()
 
     const options: CreateNoteOptions = {
       title: flags.title,

@@ -3,7 +3,7 @@ import {CliUx, Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {commentPermission, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
-import readStdin from '../../read-stdin-stream'
+import {safePipeRead} from '../../utils'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a team note'
@@ -31,7 +31,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
   async run() {
     const {flags} = await this.parse(Create)
-    const pipeString = await readStdin()
+    const pipeString = safePipeRead()
 
     const {teamPath} = flags
     const options: CreateNoteOptions = {
