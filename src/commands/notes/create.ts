@@ -1,9 +1,9 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {CliUx, Flags} from '@oclif/core'
+import * as fs from 'fs'
 
 import HackMDCommand from '../../command'
 import {commentPermission, noteContent, notePermission, noteTitle} from '../../flags'
-import readStdin from '../../read-stdin-stream'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a note'
