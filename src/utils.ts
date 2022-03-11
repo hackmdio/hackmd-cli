@@ -26,9 +26,9 @@ export function setAccessTokenConfig(token: string) {
 
 export function safeStdinRead() {
   let result
+  const STDIN_FD = 0
   try {
-    result = fs.readFileSync(process.stdin.fd).toString()
+    result = fs.readFileSync(STDIN_FD).toString()
   } catch {}
-
   return result
 }
