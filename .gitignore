@@ -4,7 +4,6 @@
 /dist
 /lib
 /tmp
-/yarn.lock
 node_modules
 
 .env
