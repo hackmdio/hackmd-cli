@@ -1,25 +1,25 @@
 import {Flags} from '@oclif/core'
-export const noteId = Flags.build({
+export const noteId = Flags.string({
   description: 'HackMD note id'
 })
 
-export const teamPath = Flags.build({
+export const teamPath = Flags.string({
   description: 'HackMD team path'
 })
 
-export const noteContent = Flags.build({
+export const noteContent = Flags.string({
   description: 'new note content'
 })
 
-export const noteTitle = Flags.build({
+export const noteTitle = Flags.string({
   description: 'new note title'
 })
 
-export const notePermission = Flags.build({
+export const notePermission = Flags.string({
   description: 'set note permission: owner, signed_in, guest'
 })
 
-export const commentPermission = Flags.build({
+export const commentPermission = Flags.string({
   description: 'set comment permission: disabled, forbidden, owners, signed_in_users, everyone'
 })
 

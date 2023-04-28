@@ -1,5 +1,5 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
-import {CliUx, Flags} from '@oclif/core'
+import {Flags, ux} from '@oclif/core'
 import fs from 'fs'
 
 import HackMDCommand from '../../command'
@@ -22,14 +22,14 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: teamPath(),
-    title: noteTitle(),
-    content: noteContent(),
-    readPermission: notePermission(),
-    writePermission: notePermission(),
-    commentPermission: commentPermission(),
+    teamPath,
+    title: noteTitle,
+    content: noteContent,
+    readPermission: notePermission,
+    writePermission: notePermission,
+    commentPermission,
     editor,
-    ...CliUx.ux.table.flags(),
+    ...ux.table.flags(),
   }
 
   async run() {
@@ -64,7 +64,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
       const APIClient = await this.getAPIClient()
       const note = await APIClient.createTeamNote(teamPath, options)
 
-      CliUx.ux.table([note], {
+      ux.table([note], {
         id: {
           header: 'ID',
         },
