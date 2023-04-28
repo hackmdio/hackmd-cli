@@ -1,6 +1,6 @@
 {
   "name": "@hackmd/hackmd-cli",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": "HackMD Team",
   "bin": {
     "hackmd-cli": "./bin/run"
@@ -41,6 +41,7 @@
   },
   "files": [
     "/bin",
+    "/lib",
     "/dist",
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
