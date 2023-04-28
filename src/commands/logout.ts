@@ -22,7 +22,7 @@ You've logged out successfully
       setAccessTokenConfig('')
       this.log("You've logged out successfully")
     } catch (err) {
-      this.error(err)
+      this.error(String(err))
     }
   }
 }
