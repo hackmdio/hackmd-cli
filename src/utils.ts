@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {homedir} from 'os'
+import {homedir, tmpdir} from 'os'
 import * as path from 'path'
 
 export function getConfigFilePath() {
@@ -31,4 +31,13 @@ export function safeStdinRead() {
     result = fs.readFileSync(STDIN_FD).toString()
   } catch {}
   return result
+}
+
+// generate temporary markdown file in /tmp directory
+export function temporaryMD() {
+  const tmpDir = tmpdir();
+  const filename = `temp_${Math.random().toString(36).substring(2)}.md`;
+  const filePath = path.join(tmpDir, filename);
+
+  return filePath;
 }
