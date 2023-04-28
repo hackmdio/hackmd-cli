@@ -41,9 +41,9 @@ export function safeStdinRead() {
 
 // generate temporary markdown file in /tmp directory
 export function temporaryMD() {
-  const tmpDir = tmpdir();
-  const filename = `temp_${Math.random().toString(36).substring(2)}.md`;
-  const filePath = path.join(tmpDir, filename);
+  const tmpDir = tmpdir()
+  const filename = `temp_${Math.random().toString(36).substring(2)}.md`
+  const filePath = path.join(tmpDir, filename)
 
-  return filePath;
+  return filePath
 }
