@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs-extra'
 import {homedir, tmpdir} from 'os'
 import * as path from 'path'
 
@@ -10,7 +10,11 @@ export function getConfigFilePath() {
     configDir = path.join(homedir(), '.hackmd')
   }
 
-  return path.join(configDir, 'config.json')
+  const configPath = path.join(configDir, 'config.json')
+
+  fs.ensureFileSync(configPath)
+
+  return configPath
 }
 
 export function setAccessTokenConfig(token: string) {
