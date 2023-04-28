@@ -12,8 +12,8 @@ export default class Delete extends HackMDCommand {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: teamPath(),
-    noteId: noteId(),
+    teamPath,
+    noteId,
   }
 
   async run() {

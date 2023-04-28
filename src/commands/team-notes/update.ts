@@ -12,9 +12,9 @@ export default class Update extends HackMDCommand {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    teamPath: teamPath(),
-    noteId: noteId(),
-    content: noteContent()
+    teamPath,
+    noteId,
+    content: noteContent,
   }
 
   async run() {

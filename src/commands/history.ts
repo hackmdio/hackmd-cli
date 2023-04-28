@@ -1,4 +1,4 @@
-import {CliUx, Flags} from '@oclif/core'
+import {ux, Flags} from '@oclif/core'
 
 import HackMDCommand from '../command'
 
@@ -15,7 +15,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    ...CliUx.ux.table.flags(),
+    ...ux.table.flags(),
   }
 
   async run() {
@@ -25,7 +25,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
       const APIClient = await this.getAPIClient()
       const history = await APIClient.getHistory()
 
-      CliUx.ux.table(history, {
+      ux.table(history, {
         id: {
           header: 'ID',
         },

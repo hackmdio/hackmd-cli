@@ -12,8 +12,8 @@ export default class Update extends HackMDCommand {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    noteId: noteId(),
-    content: noteContent()
+    noteId,
+    content: noteContent
   }
 
   async run() {
