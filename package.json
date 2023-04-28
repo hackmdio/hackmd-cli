@@ -1,6 +1,6 @@
 {
   "name": "@hackmd/hackmd-cli",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": "HackMD Team",
   "bin": {
     "hackmd-cli": "./bin/run"
