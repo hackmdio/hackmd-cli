@@ -1,5 +1,5 @@
-import fs from 'fs'
-import {homedir} from 'os'
+import fs from 'fs-extra'
+import {homedir, tmpdir} from 'os'
 import * as path from 'path'
 
 export function getConfigFilePath() {
@@ -10,7 +10,14 @@ export function getConfigFilePath() {
     configDir = path.join(homedir(), '.hackmd')
   }
 
-  return path.join(configDir, 'config.json')
+  const configPath = path.join(configDir, 'config.json')
+
+  if (!fs.existsSync(configDir)) {
+    fs.ensureFileSync(configPath)
+    fs.writeFileSync(configPath, JSON.stringify({}))
+  }
+
+  return configPath
 }
 
 export function setAccessTokenConfig(token: string) {
@@ -26,9 +33,17 @@ export function setAccessTokenConfig(token: string) {
 
 export function safeStdinRead() {
   let result
-  const STDIN_FD = 0
   try {
-    result = fs.readFileSync(STDIN_FD).toString()
+    result = fs.readFileSync(process.stdin.fd).toString()
   } catch {}
   return result
+}
+
+// generate temporary markdown file in /tmp directory
+export function temporaryMD() {
+  const tmpDir = tmpdir()
+  const filename = `temp_${Math.random().toString(36).substring(2)}.md`
+  const filePath = path.join(tmpDir, filename)
+
+  return filePath
 }
