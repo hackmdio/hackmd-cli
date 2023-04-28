@@ -12,7 +12,10 @@ export function getConfigFilePath() {
 
   const configPath = path.join(configDir, 'config.json')
 
-  fs.ensureFileSync(configPath)
+  if (!fs.existsSync(configDir)) {
+    fs.ensureFileSync(configPath)
+    fs.writeFileSync(configPath, JSON.stringify({}))
+  }
 
   return configPath
 }
@@ -30,9 +33,8 @@ export function setAccessTokenConfig(token: string) {
 
 export function safeStdinRead() {
   let result
-  const STDIN_FD = 0
   try {
-    result = fs.readFileSync(STDIN_FD).toString()
+    result = fs.readFileSync(process.stdin.fd).toString()
   } catch {}
   return result
 }
