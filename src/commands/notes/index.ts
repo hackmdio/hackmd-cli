@@ -1,4 +1,4 @@
-import {CliUx, Flags} from '@oclif/core'
+import {Flags, ux} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {noteId} from '../../flags'
@@ -15,8 +15,8 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    noteId: noteId(),
-    ...CliUx.ux.table.flags(),
+    noteId,
+    ...ux.table.flags(),
   }
 
   async run() {
@@ -26,24 +26,24 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
       const APIClient = await this.getAPIClient()
       const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
 
-      CliUx.ux.table(notes, {
+      ux.table(notes, {
         id: {
           header: 'ID',
         },
         title: {},
         userPath: {
-          header: 'User Path'
+          header: 'User Path',
         },
         teamPath: {
-          header: 'Team Path'
+          header: 'Team Path',
         },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch user notes failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

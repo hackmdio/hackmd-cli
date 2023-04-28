@@ -1,4 +1,4 @@
-import {CliUx, Flags} from '@oclif/core'
+import {Flags, ux} from '@oclif/core'
 
 import HackMDCommand from '../command'
 
@@ -14,7 +14,7 @@ ID                                   Name           Email User path
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    ...CliUx.ux.table.flags(),
+    ...ux.table.flags(),
   }
 
   async run() {
@@ -24,22 +24,22 @@ ID                                   Name           Email User path
       const APIClient = await this.getAPIClient()
       const user = await APIClient.getMe()
 
-      CliUx.ux.table([user], {
+      ux.table([user], {
         id: {
           header: 'ID',
         },
         name: {},
         email: {},
         userPath: {
-          header: 'User Path'
+          header: 'User Path',
         },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch user info failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

@@ -1,4 +1,4 @@
-import {ChildProcess, spawn} from 'child_process'
+import {ChildProcess, spawn} from 'node:child_process'
 
 interface EditorOptions {
   editor?: string
@@ -6,7 +6,7 @@ interface EditorOptions {
 
 export function openEditor(
   file: string,
-  opts: EditorOptions = {}
+  opts: EditorOptions = {},
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const editor = getEditor(opts.editor)
@@ -37,7 +37,7 @@ function getEditor(editor?: string): string {
 }
 
 function getDefaultEditor(): string {
-  return /^win/.test(process.platform) ? 'notepad' : 'vim'
+  return process.platform.startsWith('win') ? 'notepad' : 'vim'
 }
 
 export default openEditor

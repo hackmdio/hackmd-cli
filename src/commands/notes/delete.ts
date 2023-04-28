@@ -7,12 +7,12 @@ export default class Delete extends HackMDCommand {
   static description = 'Delete a note'
 
   static examples = [
-    '$ hackmd-cli notes delete --noteId=WNkLM6gkS0Cg2cQ8rv7bYA'
+    '$ hackmd-cli notes delete --noteId=WNkLM6gkS0Cg2cQ8rv7bYA',
   ]
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    noteId: noteId(),
+    noteId,
   }
 
   async run() {
@@ -26,9 +26,9 @@ export default class Delete extends HackMDCommand {
     try {
       const APIClient = await this.getAPIClient()
       await APIClient.deleteNote(noteId)
-    } catch (e) {
+    } catch (error) {
       this.log('Delete note failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }
