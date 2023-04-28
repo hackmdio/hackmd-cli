@@ -1,4 +1,4 @@
-import {ux, Flags} from '@oclif/core'
+import {Flags, ux} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {noteId} from '../../flags'

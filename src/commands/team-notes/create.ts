@@ -1,5 +1,5 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
-import {ux, Flags} from '@oclif/core'
+import {Flags, ux} from '@oclif/core'
 import fs from 'fs'
 
 import HackMDCommand from '../../command'
@@ -27,7 +27,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     content: noteContent,
     readPermission: notePermission,
     writePermission: notePermission,
-    commentPermission: commentPermission,
+    commentPermission,
     editor,
     ...ux.table.flags(),
   }

@@ -1,5 +1,5 @@
 import API from '@hackmd/api'
-import {ux, Command} from '@oclif/core'
+import {Command, ux} from '@oclif/core'
 
 import config from './config'
 import {setAccessTokenConfig} from './utils'
