@@ -4,7 +4,7 @@ import {
   NotePermissionRole,
 } from '@hackmd/api/dist/type'
 import {Flags, ux} from '@oclif/core'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 import HackMDCommand from '../../command'
 import {
@@ -60,8 +60,8 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
         await openEditor(mdFile)
 
         options.content = fs.readFileSync(mdFile).toString()
-      } catch (e) {
-        this.error(e as Error)
+      } catch (error) {
+        this.error(error as Error)
       }
     }
 
@@ -86,11 +86,11 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
         {
           printLine: this.log.bind(this),
           ...flags,
-        }
+        },
       )
-    } catch (e) {
+    } catch (error) {
       this.log('Create note failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

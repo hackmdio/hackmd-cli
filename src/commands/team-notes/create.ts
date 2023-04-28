@@ -1,6 +1,6 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {Flags, ux} from '@oclif/core'
-import fs from 'fs'
+import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
 import {commentPermission, editor, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
@@ -17,7 +17,7 @@ ID                     Title                            User Path              T
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
     'Or you can pipe content via Unix pipeline:',
-    'cat README.md | hackmd-cli notes create --teamPath=CLI-test'
+    'cat README.md | hackmd-cli notes create --teamPath=CLI-test',
   ]
 
   static flags = {
@@ -36,13 +36,13 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {teamPath} = flags
+    const {teamPath, title, content, readPermission, writePermission, commentPermission} = flags
     const options: CreateNoteOptions = {
-      title: flags.title,
-      content: pipeString || flags.content,
-      readPermission: flags.readPermission as NotePermissionRole,
-      writePermission: flags.writePermission as NotePermissionRole,
-      commentPermission: flags.commentPermission as CommentPermissionType
+      title: title,
+      content: pipeString || content,
+      readPermission: readPermission as NotePermissionRole,
+      writePermission: writePermission as NotePermissionRole,
+      commentPermission: commentPermission as CommentPermissionType,
     }
 
     if (!teamPath) {
@@ -55,8 +55,8 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
         await openEditor(mdFile)
 
         options.content = fs.readFileSync(mdFile).toString()
-      } catch (e) {
-        this.error(e as Error)
+      } catch (error) {
+        this.error(error as Error)
       }
     }
 
@@ -70,18 +70,18 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
         },
         title: {},
         userPath: {
-          header: 'User path'
+          header: 'User path',
         },
         teamPath: {
-          header: 'Team path'
-        }
+          header: 'Team path',
+        },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Create team note failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

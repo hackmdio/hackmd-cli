@@ -1,14 +1,9 @@
 import fs from 'fs-extra'
-import {homedir, tmpdir} from 'os'
-import * as path from 'path'
+import {homedir, tmpdir} from 'node:os'
+import * as path from 'node:path'
 
 export function getConfigFilePath() {
-  let configDir
-  if (process.env.HMD_CLI_CONFIG_DIR) {
-    configDir = process.env.HMD_CLI_CONFIG_DIR || ''
-  } else {
-    configDir = path.join(homedir(), '.hackmd')
-  }
+  const configDir = process.env.HMD_CLI_CONFIG_DIR ? process.env.HMD_CLI_CONFIG_DIR || '' : path.join(homedir(), '.hackmd')
 
   const configPath = path.join(configDir, 'config.json')
 
@@ -36,13 +31,14 @@ export function safeStdinRead() {
   try {
     result = fs.readFileSync(process.stdin.fd).toString()
   } catch {}
+
   return result
 }
 
 // generate temporary markdown file in /tmp directory
 export function temporaryMD() {
   const tmpDir = tmpdir()
-  const filename = `temp_${Math.random().toString(36).substring(2)}.md`
+  const filename = `temp_${Math.random().toString(36).slice(2)}.md`
   const filePath = path.join(tmpDir, filename)
 
   return filePath

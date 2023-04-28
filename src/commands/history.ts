@@ -31,18 +31,18 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
         },
         title: {},
         userPath: {
-          header: 'User Path'
+          header: 'User Path',
         },
         teamPath: {
-          header: 'Team Path'
+          header: 'Team Path',
         },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch history failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

@@ -37,18 +37,18 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
         },
         title: {},
         userPath: {
-          header: 'User path'
+          header: 'User path',
         },
         teamPath: {
-          header: 'Team path'
-        }
+          header: 'Team path',
+        },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch team notes failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }
