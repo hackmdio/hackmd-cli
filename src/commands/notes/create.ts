@@ -12,6 +12,7 @@ import {
   noteContent,
   notePermission,
   noteTitle,
+  editor,
 } from '../../flags'
 import openEditor from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
@@ -37,10 +38,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     readPermission: notePermission(),
     writePermission: notePermission(),
     commentPermission: commentPermission(),
-    editor: Flags.boolean({
-      char: 'e',
-      description: 'create note with $EDITOR',
-    }),
+    editor,
     ...CliUx.ux.table.flags(),
   }
 
