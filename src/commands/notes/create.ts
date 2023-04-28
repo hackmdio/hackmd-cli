@@ -9,6 +9,7 @@ import * as fs from 'fs'
 import HackMDCommand from '../../command'
 import {
   commentPermission,
+  editor,
   noteContent,
   notePermission,
   noteTitle,
@@ -37,10 +38,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     readPermission: notePermission(),
     writePermission: notePermission(),
     commentPermission: commentPermission(),
-    editor: Flags.boolean({
-      char: 'e',
-      description: 'create note with $EDITOR',
-    }),
+    editor,
     ...CliUx.ux.table.flags(),
   }
 

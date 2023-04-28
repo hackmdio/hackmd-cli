@@ -1,9 +1,11 @@
 import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
 import {CliUx, Flags} from '@oclif/core'
+import fs from 'fs'
 
 import HackMDCommand from '../../command'
-import {commentPermission, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
-import {safeStdinRead} from '../../utils'
+import {commentPermission, editor, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
+import openEditor from '../../open-editor'
+import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a team note'
@@ -26,6 +28,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     readPermission: notePermission(),
     writePermission: notePermission(),
     commentPermission: commentPermission(),
+    editor,
     ...CliUx.ux.table.flags(),
   }
 
@@ -44,6 +47,17 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
     if (!teamPath) {
       this.error('Flag teamPath could not be empty')
+    }
+
+    if (flags.editor) {
+      try {
+        const mdFile = temporaryMD()
+        await openEditor(mdFile)
+
+        options.content = fs.readFileSync(mdFile).toString()
+      } catch (e) {
+        this.error(e as Error)
+      }
     }
 
     try {

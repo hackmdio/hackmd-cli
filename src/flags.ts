@@ -22,3 +22,8 @@ export const notePermission = Flags.build({
 export const commentPermission = Flags.build({
   description: 'set comment permission: disabled, forbidden, owners, signed_in_users, everyone'
 })
+
+export const editor = Flags.boolean({
+  char: 'e',
+  description: 'create note with $EDITOR',
+})
