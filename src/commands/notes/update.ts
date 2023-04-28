@@ -7,13 +7,13 @@ export default class Update extends HackMDCommand {
   static description = 'Update note content'
 
   static examples = [
-    "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'"
+    "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'",
   ]
 
   static flags = {
     help: Flags.help({char: 'h'}),
     noteId,
-    content: noteContent
+    content: noteContent,
   }
 
   async run() {
@@ -27,9 +27,9 @@ export default class Update extends HackMDCommand {
     try {
       const APIClient = await this.getAPIClient()
       await APIClient.updateNoteContent(noteId, content)
-    } catch (e) {
+    } catch (error) {
       this.log('Update note content failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

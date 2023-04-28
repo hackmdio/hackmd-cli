@@ -10,19 +10,19 @@ export default class Logout extends HackMDCommand {
     `$ hackmd-cli logout
 
 You've logged out successfully
-`
+`,
   ]
 
   static flags = {
-    help: Flags.help({char: 'h'})
+    help: Flags.help({char: 'h'}),
   }
 
   async run() {
     try {
       setAccessTokenConfig('')
       this.log("You've logged out successfully")
-    } catch (err) {
-      this.error(String(err))
+    } catch (error) {
+      this.error(String(error))
     }
   }
 }

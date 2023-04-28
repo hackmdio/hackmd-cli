@@ -31,15 +31,15 @@ ID                                   Name           Email User path
         name: {},
         email: {},
         userPath: {
-          header: 'User Path'
+          header: 'User Path',
         },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch user info failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

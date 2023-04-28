@@ -32,18 +32,18 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
         },
         title: {},
         userPath: {
-          header: 'User Path'
+          header: 'User Path',
         },
         teamPath: {
-          header: 'Team Path'
+          header: 'Team Path',
         },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch user notes failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

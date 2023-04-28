@@ -14,7 +14,7 @@ export default class Export extends HackMDCommand {
 
   static flags = {
     help: Flags.help({char: 'h'}),
-    noteId
+    noteId,
   }
 
   async run() {
@@ -29,9 +29,9 @@ export default class Export extends HackMDCommand {
       const APIClient = await this.getAPIClient()
       const note = await APIClient.getNote(noteId)
       this.log(note.content)
-    } catch (e) {
+    } catch (error) {
       this.log('Export note content failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }

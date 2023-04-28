@@ -11,20 +11,20 @@ export default class Login extends HackMDCommand {
 Enter your access token: MY_ACCESS_TOKEN
 
 Login successfully
-`
+`,
   ]
 
   static flags = {
-    help: Flags.help({char: 'h'})
+    help: Flags.help({char: 'h'}),
   }
 
   async run() {
     try {
       await this.getAPIClient()
       this.log('Login successfully')
-    } catch (err) {
+    } catch (error) {
       this.log('Login failed')
-      this.error(err as Error)
+      this.error(error as Error)
     }
   }
 }

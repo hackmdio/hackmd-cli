@@ -7,7 +7,7 @@ import {setAccessTokenConfig} from './utils'
 export default abstract class HackMDCommand extends Command {
   async getAPIClient() {
     const token = config.accessToken || await ux.prompt('Enter your access token', {
-      type: 'hide'
+      type: 'hide',
     })
     const APIClient = new API(token, config.hackmdAPIEndpointURL)
 

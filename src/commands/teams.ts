@@ -31,15 +31,15 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
         name: {},
         path: {},
         ownerId: {
-          header: 'Owner ID'
-        }
+          header: 'Owner ID',
+        },
       }, {
         printLine: this.log.bind(this),
-        ...flags
+        ...flags,
       })
-    } catch (e) {
+    } catch (error) {
       this.log('Fetch teams failed')
-      this.error(e as Error)
+      this.error(error as Error)
     }
   }
 }
