@@ -24,6 +24,6 @@ export const commentPermission = Flags.build({
 })
 
 export const editor = Flags.boolean({
-      char: 'e',
-      description: 'create note with $EDITOR',
-    })
+  char: 'e',
+  description: 'create note with $EDITOR',
+})

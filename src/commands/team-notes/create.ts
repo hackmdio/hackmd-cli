@@ -3,9 +3,9 @@ import {CliUx, Flags} from '@oclif/core'
 import fs from 'fs'
 
 import HackMDCommand from '../../command'
-import {commentPermission, noteContent, notePermission, noteTitle, teamPath, editor} from '../../flags'
-import {safeStdinRead, temporaryMD} from '../../utils'
+import {commentPermission, editor, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
 import openEditor from '../../open-editor'
+import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a team note'

@@ -9,10 +9,10 @@ import * as fs from 'fs'
 import HackMDCommand from '../../command'
 import {
   commentPermission,
+  editor,
   noteContent,
   notePermission,
   noteTitle,
-  editor,
 } from '../../flags'
 import openEditor from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
