@@ -107,9 +107,9 @@ runs:
       run: |
         echo "::group::Setting outputs"
         if [ "${{ steps.pkg-action-internal.outputs.target-os }}" == "win" ]; then
-          echo "file=dist/$(node -p "require('./package.json').name").exe" >> $GITHUB_OUTPUT
+          echo "file=dist/hackmd-cli.exe" >> $GITHUB_OUTPUT
         else
-          echo "file=dist/$(node -p "require('./package.json').name")" >> $GITHUB_OUTPUT
+          echo "file=dist/hackmd-cli" >> $GITHUB_OUTPUT
         fi
 
         echo "artifact-key=${{ github.event.repository.name }}-${{ steps.pkg-action-internal.outputs.target-node }}-${{ steps.pkg-action-internal.outputs.target-os }}-${{ steps.pkg-action-internal.outputs.target-arch }}-${{ github.sha }}" >> $GITHUB_OUTPUT

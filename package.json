@@ -80,7 +80,6 @@
   },
   "types": "dist/index.d.ts",
   "pkg": {
-    "scripts": "./lib/**/*.js",
-    "outputPath": "exec"
+    "scripts": "./lib/**/*.js"
   }
 }
