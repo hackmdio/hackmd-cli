@@ -45,6 +45,12 @@ jobs:
         with:
           path: binaries
 
+
+      - name: deubg ls binaries
+        shell: bash
+        run: |
+          ls -la binaries
+
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
