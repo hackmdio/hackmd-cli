@@ -24,6 +24,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+
+      - name: Run build
+        run: |
+          npm install
+          npm run build
+
       - name: Package Node.js binary with pkg
         id: pkg-action
         uses: ./.github/actions/pkg-action
