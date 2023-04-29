@@ -69,5 +69,5 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             release_assets/*.zip
-          name: Release ${{ github.ref }}/*
+          name: Release ${{ replace(github.ref, 'refs/tags/', '') }}
           tag_name: ${{ github.ref }}
