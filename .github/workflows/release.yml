@@ -1,0 +1,44 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build-and-release:
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, windows-latest, macOS-latest]
+        arch: [x64, arm64]
+        node-version: ['18']
+        include:
+          - runs-on: ubuntu-latest
+            os: linux
+          - runs-on: windows-latest
+            os: win
+          - runs-on: macOS-latest
+            os: macos
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Package Node.js binary with pkg
+        id: pkg-action
+        uses: lando/pkg-action@v2
+        with:
+          entrypoint: bin/cli
+          arch: ${{ matrix.arch }}
+          node-version: ${{ matrix.node-version }}
+          os: ${{ matrix.os }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ${{ steps.pkg-action.outputs.file }}
+          name: Release-${{ matrix.os }}-${{ matrix.arch }}
+          tag_name: ${{ github.ref }}
+
