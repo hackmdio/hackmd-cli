@@ -26,9 +26,9 @@ jobs:
 
       - name: Package Node.js binary with pkg
         id: pkg-action
-        uses: lando/pkg-action@v2
+        uses: ./.github/actions/pkg-action
         with:
-          entrypoint: ./bin/run
+          entrypoint: .
           arch: ${{ matrix.arch }}
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
