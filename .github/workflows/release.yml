@@ -45,15 +45,10 @@ jobs:
         with:
           path: binaries
 
-      - name: Prepare files for release
-        run: |
-          mkdir release_assets
-          mv binaries/*/release-assets/* release_assets/
-
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: release_assets/*
+          files: binaries/*
           name: Release
           tag_name: ${{ github.ref }}
