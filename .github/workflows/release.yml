@@ -28,7 +28,7 @@ jobs:
         id: pkg-action
         uses: lando/pkg-action@v2
         with:
-          entrypoint: .
+          entrypoint: ./bin/run
           arch: ${{ matrix.arch }}
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
