@@ -7,19 +7,19 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ${{ matrix.runs-on }}
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, windows-latest, macOS-latest]
-        arch: [x64, arm64]
-        node-version: ['node18']
-        include:
-          - runs-on: ubuntu-latest
-            os: linux
-          - runs-on: windows-latest
-            os: win
-          - runs-on: macOS-latest
-            os: macos
+        arch:
+          - x64
+          - arm64
+        node-version:
+          - node16
+        os:
+          - linux
+          - macos
+          - win
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
         id: pkg-action
         uses: lando/pkg-action@v2
         with:
-          entrypoint: bin/run
+          entrypoint: .
           arch: ${{ matrix.arch }}
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
