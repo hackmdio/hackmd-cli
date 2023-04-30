@@ -1,0 +1,165 @@
+name: "Pkg Action"
+description: "A GitHub Action for 'compiling' node projects into binaries using vercel/pkg."
+branding:
+  color: purple
+  icon: package
+inputs:
+  # Required
+  entrypoint:
+    description: "The binary entrypoint path"
+    required: true
+
+  # Optional
+  arch:
+    description: "The architecture to build for x64|amd64|aarch64|arm64"
+    required: false
+    default: amd64
+  node-version:
+    description: "The node version to package with"
+    required: false
+    default: node14
+  options:
+    description: "Additional options and flags to pass into pkg"
+    required: false
+  os:
+    description: "The operating system to build for win|linux|macos"
+    required: false
+    default: ${{ runner.os }}
+  pkg:
+    description: "The version on @vercel/pkg to use"
+    required: false
+    default: "5.8.0"
+  test:
+    description: "Hidden flag for input testing"
+    default: false
+    required: false
+  upload:
+    description: "Upload the artifacts. Useful if you need to grab them for downstream for things like code signing."
+    required: false
+    default: true
+
+outputs:
+  file:
+    description: "The path to the generated binary."
+    value: ${{ steps.pkg-action.outputs.file }}
+  artifact-key:
+    description: "The artifact upload key."
+    value: ${{ steps.pkg-action.outputs.artifact-key }}
+
+runs:
+  using: composite
+  steps:
+    - name: Validate required inputs
+      shell: bash
+      run: |
+        echo "::group::Ensure entrypoint is set"
+        if [ "${{ inputs.entrypoint }}" == "" ]; then
+          echo "::error title=Entrypoint is not set!::You must specify an entrypoint file in order to run this shit."
+          exit 47
+        fi
+        echo "::endgroup::"
+
+    - name: Set internal outputs
+      shell: bash
+      id: pkg-action-internal
+      run: |
+        echo "::group::Setting internal outputs"
+        if [ "${{ inputs.os }}" == "Linux" ]; then
+          echo "target-os=linux" >> $GITHUB_OUTPUT
+        elif [ "${{ inputs.os }}" == "macOS" ]; then
+          echo "target-os=macos" >> $GITHUB_OUTPUT
+        elif [ "${{ inputs.os }}" == "Windows" ]; then
+          echo "target-os=win" >> $GITHUB_OUTPUT
+        else
+          echo "target-os=${{ inputs.os }}" >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.arch }}" == "amd64" ]; then
+          echo "target-arch=x64" >> $GITHUB_OUTPUT
+        elif [ "${{ inputs.arch }}" == "aarch64" ]; then
+          echo "target-arch=arm64" >> $GITHUB_OUTPUT
+        else
+          echo "target-arch=${{ inputs.arch }}" >> $GITHUB_OUTPUT
+        fi
+
+        echo "target-node=${{ inputs.node-version }}" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+
+    - name: Install node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: npm
+
+    - name: Install pkg ${{ inputs.pkg }}
+      shell: bash
+      run: |
+        npm install -g pkg@${{ inputs.pkg }}
+        if pkg --version >/dev/null; then
+          echo "::notice title=pkg installed::Using version $(pkg --version)"
+        else
+          echo "::error title=Cannot run pkg::Cannot seem to find the pkg binary"
+        fi
+
+    - name: Set outputs
+      shell: bash
+      id: pkg-action
+      run: |
+        echo "::group::Setting outputs"
+        if [ "${{ steps.pkg-action-internal.outputs.target-os }}" == "win" ]; then
+          echo "file=dist/hackmd-cli.exe" >> $GITHUB_OUTPUT
+        else
+          echo "file=dist/hackmd-cli" >> $GITHUB_OUTPUT
+        fi
+
+        echo "artifact-key=${{ github.event.repository.name }}-${{ steps.pkg-action-internal.outputs.target-node }}-${{ steps.pkg-action-internal.outputs.target-os }}-${{ steps.pkg-action-internal.outputs.target-arch }}-${{ github.sha }}" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
+
+    - name: Run x64 pkg command
+      if: inputs.test != 'true' && steps.pkg-action-internal.outputs.target-arch == 'x64'
+      shell: bash
+      run: |
+        pkg \
+        --target=${{ steps.pkg-action-internal.outputs.target-node }}-${{ steps.pkg-action-internal.outputs.target-os }}-${{ steps.pkg-action-internal.outputs.target-arch }} \
+        --out-path dist \
+        --debug \
+        ${{ inputs.options }} \
+        ${{ inputs.entrypoint }}
+        stat ${{ steps.pkg-action.outputs.file }}
+
+    - name: Run arm64 pkg command
+      if: inputs.test != 'true' && steps.pkg-action-internal.outputs.target-arch == 'arm64'
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: aarch64
+        # @TODO: eventually we need to get this to work on ubuntu20.04 for build parity but we are using
+        # 18.04 because it was easier to get working, apparently there is a bug in 20.04s gpg?
+        distro: ubuntu18.04
+        githubToken: ${{ github.token }}
+        # We need to install node and yarn "again" because they dont exist inside our build container
+        install: |
+          apt update && apt -y install curl
+          curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+          apt-get install -y nodejs
+          curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+          apt update && apt -y install yarn
+          yarn global add pkg@${{ inputs.pkg }} --prefix /usr/local
+          pkg --version
+        run: |
+          pkg \
+          --target=${{ steps.pkg-action-internal.outputs.target-node }}-${{ steps.pkg-action-internal.outputs.target-os }}-${{ steps.pkg-action-internal.outputs.target-arch }} \
+          --out-path dist \
+          --debug \
+          ${{ inputs.options }} \
+          ${{ inputs.entrypoint }}
+          stat ${{ steps.pkg-action.outputs.file }}
+
+    - name: Upload ${{ steps.pkg-action.outputs.artifact-key }}
+      if: inputs.test != 'true' && inputs.upload == 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ steps.pkg-action.outputs.artifact-key }}
+        path: ${{ steps.pkg-action.outputs.file }}
+        if-no-files-found: error
+        retention-days: 1
