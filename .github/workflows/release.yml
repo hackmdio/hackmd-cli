@@ -68,7 +68,7 @@ jobs:
           mkdir release_assets
           cd binaries
           for dir in */; do
-            file_name=$(basename "${dir}" | cut -d'-' -f1-4)
+            file_name=$(basename "${dir}" | cut -d'-' -f1-5)
             zip -j "../release_assets/${file_name}.zip" "${dir}"*
           done
           cd ..
