@@ -506,7 +506,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/command@^1", "@oclif/command@^1.8.15":
+"@oclif/command@^1.8.15":
   version "1.8.24"
   resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.8.24.tgz#203ad9e2b2dc2336c0333f100978aada50d53007"
   integrity sha512-FbSChfBO2QFeC5eEeXmi8+kZvBCDzYdpEKhOMaz0sfKMerwSlKxsqWQPGWCjTHaowIUMtnMD3VZ8yfX5qE7SAQ==
@@ -530,7 +530,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/config@^1", "@oclif/config@^1.18.2":
+"@oclif/config@^1.18.2":
   version "1.18.8"
   resolved "https://registry.yarnpkg.com/@oclif/config/-/config-1.18.8.tgz#efaccbd0381f90a98fa69c9131e14c5a91fc0659"
   integrity sha512-FetS52+emaZQui0roFSdbBP8ddBkIezEoH2NcjLJRjqkMGdE9Z1V+jsISVqTYXk2KJ1gAI0CHDXFjJlNBYbJBg==
@@ -4084,15 +4084,6 @@ object-treeify@^1.1.33, object-treeify@^1.1.4:
   resolved "https://registry.yarnpkg.com/object-treeify/-/object-treeify-1.1.33.tgz#f06fece986830a3cba78ddd32d4c11d1f76cdf40"
   integrity sha512-EFVjAYfzWqWsBMRHPMAXLCDIJnpMhdWAqR7xG6M6a2cs6PMFpl/+Z20w9zDW4vkxOFfddegBKq9Rehd0bxWE7A==
 
-oclif-plugin-completion@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/oclif-plugin-completion/-/oclif-plugin-completion-0.6.0.tgz#b9828d33cce01a4577f0d4c8c23a66220705d81f"
-  integrity sha512-0HGaSR/E/seIhSzFxLkh0QqckuNSre4iGqSElZRUv1hVHH2YgrZ7xtQL9McwL8o1fh6HqkzykjUx0Iy2haVIUg==
-  dependencies:
-    "@oclif/command" "^1"
-    "@oclif/config" "^1"
-    tslib "^2"
-
 oclif@3.8.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/oclif/-/oclif-3.8.1.tgz#15be26a8ce842b690c8384b4056fcf67394caa11"
@@ -5567,9 +5558,9 @@ widest-line@^3.1.0:
     string-width "^4.0.0"
 
 word-wrap@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
-  integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.4.tgz#cb4b50ec9aca570abd1f52f33cd45b6c61739a9f"
+  integrity sha512-2V81OA4ugVo5pRo46hAoD2ivUJx8jXmWXfUkY4KFNw0hEptvN0QfH3K4nHiwzGeKl5rFKedV48QVoqYavy4YpA==
 
 wordwrap@^1.0.0:
   version "1.0.0"
