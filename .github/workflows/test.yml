@@ -54,5 +54,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build project
+        run: pnpm run build
+
       - name: Run smoke tests
-        run: pnpm run test:smoke
+        run: pnpm exec mocha --forbid-only "test/smoke/**/*.test.ts"

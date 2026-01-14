@@ -9,6 +9,7 @@ const execAsync = promisify(exec)
 /**
  * Verify that build artifacts exist
  * This is a prerequisite for smoke tests
+ * Throws an error if build artifacts are missing
  */
 function ensureBuildExists(): void {
   // Use process.cwd() which works in both CommonJS and ES modules
@@ -47,6 +48,7 @@ describe('Smoke Tests: Built CLI Binary', () => {
 
   before(() => {
     // Ensure build exists before running tests
+    // This will throw an error if build is missing, causing tests to fail explicitly
     ensureBuildExists()
   })
 

@@ -74,7 +74,7 @@
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
     "prepack": "pnpm run build && oclif manifest && oclif readme",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\" --exclude \"test/smoke/**/*\"",
     "test:unit": "mocha --forbid-only \"test/**/*.test.ts\" --exclude \"test/integration/**/*\" --exclude \"test/smoke/**/*\"",
     "test:smoke": "pnpm run build && mocha --forbid-only \"test/smoke/**/*.test.ts\"",
     "version": "oclif readme && git add README.md"
