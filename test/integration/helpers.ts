@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra'
 import * as os from 'node:os'
-import * as path from 'node:path'
+import path from 'node:path'
 
 /**
  * Check if integration tests should run
@@ -44,6 +44,5 @@ export function cleanupTestConfigDir(configDir: string): void {
  * @returns {void}
  */
 export function clearConfigCache(): void {
-  // eslint-disable-next-line unicorn/prefer-module, node/no-missing-require
   delete require.cache[require.resolve('../../src/config')]
 }

@@ -4,7 +4,6 @@ import HackMDCommand from '../command'
 
 export default class History extends HackMDCommand {
   static description = 'List user browse history'
-
   static examples = [
     `$ hackmd-cli history
 ID                     Title                            User Path               Team Path
@@ -12,7 +11,6 @@ ID                     Title                            User Path               
 raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
 BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test `,
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
     ...ux.table.flags(),
@@ -29,12 +27,12 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
         id: {
           header: 'ID',
         },
+        teamPath: {
+          header: 'Team Path',
+        },
         title: {},
         userPath: {
           header: 'User Path',
-        },
-        teamPath: {
-          header: 'Team Path',
         },
       }, {
         printLine: this.log.bind(this),

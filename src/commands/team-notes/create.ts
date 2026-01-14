@@ -3,13 +3,14 @@ import {Flags, ux} from '@oclif/core'
 import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
-import {commentPermission, editor, noteContent, notePermission, noteTitle, teamPath} from '../../flags'
+import {
+  commentPermission, editor, noteContent, notePermission, noteTitle, teamPath,
+} from '../../flags'
 import openEditor from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a team note'
-
   static examples = [
     `team-notes:create --teamPath=CLI-test --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
 ID                     Title                            User Path              Team Path
@@ -19,16 +20,15 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create --teamPath=CLI-test',
   ]
-
   static flags = {
+    commentPermission,
+    content: noteContent,
+    editor,
     help: Flags.help({char: 'h'}),
+    readPermission: notePermission,
     teamPath,
     title: noteTitle,
-    content: noteContent,
-    readPermission: notePermission,
     writePermission: notePermission,
-    commentPermission,
-    editor,
     ...ux.table.flags(),
   }
 
@@ -36,13 +36,13 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {teamPath, title, content, readPermission, writePermission, commentPermission} = flags
+    const {commentPermission, content, readPermission, teamPath, title, writePermission} = flags
     const options: CreateNoteOptions = {
-      title: title,
+      commentPermission: commentPermission as CommentPermissionType,
       content: pipeString || content,
       readPermission: readPermission as NotePermissionRole,
+      title,
       writePermission: writePermission as NotePermissionRole,
-      commentPermission: commentPermission as CommentPermissionType,
     }
 
     if (!teamPath) {
@@ -68,12 +68,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
         id: {
           header: 'ID',
         },
+        teamPath: {
+          header: 'Team path',
+        },
         title: {},
         userPath: {
           header: 'User path',
-        },
-        teamPath: {
-          header: 'Team path',
         },
       }, {
         printLine: this.log.bind(this),

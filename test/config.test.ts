@@ -1,8 +1,7 @@
-/* eslint-disable node/no-missing-require */
-/* eslint-disable unicorn/prefer-module */
+
 import {expect} from 'chai'
 import * as fs from 'fs-extra'
-import * as path from 'node:path'
+import path from 'node:path'
 
 import {tempDir} from './utils'
 
@@ -22,7 +21,7 @@ const setupConfigFile = () => {
   return path.join(configDir, 'config.json')
 }
 
-describe('Config test', function () {
+describe('Config test', () => {
   beforeEach(function () {
     cleanup()
     this.configFilePath = setupConfigFile()

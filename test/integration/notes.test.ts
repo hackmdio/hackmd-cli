@@ -1,11 +1,12 @@
 import API from '@hackmd/api'
-// eslint-disable-next-line node/no-missing-import
 import {CommentPermissionType, NotePermissionRole} from '@hackmd/api/dist/type'
 import {expect} from 'chai'
 
-import {clearConfigCache, cleanupTestConfigDir, getTestAPIEndpoint, setupTestConfigDir, shouldRunIntegrationTests} from './helpers'
+import {
+  cleanupTestConfigDir, clearConfigCache, getTestAPIEndpoint, setupTestConfigDir, shouldRunIntegrationTests,
+} from './helpers'
 
-describe('Integration: API Client - Notes', function () {
+describe('Integration: API Client - Notes', () => {
   let testConfigDir: string
   let apiClient: API
   let createdNoteIds: string[] = []
@@ -13,59 +14,60 @@ describe('Integration: API Client - Notes', function () {
   before(function () {
     // Ensure .env is loaded (it should be loaded by init.js, but double-check)
     if (!process.env.HMD_API_ACCESS_TOKEN) {
-      // Try to load .env if not already loaded
-      const path = require('path')
       const dotenv = require('dotenv')
+      // Try to load .env if not already loaded
+      const path = require('node:path')
       const envPath = path.resolve(process.cwd(), '.env')
-      dotenv.config({path: envPath, override: true})
+      dotenv.config({override: true, path: envPath})
     }
-    
+
     if (!shouldRunIntegrationTests()) {
       this.skip()
     }
   })
 
-  beforeEach(function () {
+  beforeEach(() => {
     clearConfigCache()
     testConfigDir = setupTestConfigDir()
     // Ensure env vars are set from .env
     if (!process.env.HMD_API_ENDPOINT_URL) {
       process.env.HMD_API_ENDPOINT_URL = getTestAPIEndpoint()
     }
+
     if (!process.env.HMD_API_ACCESS_TOKEN) {
       throw new Error('HMD_API_ACCESS_TOKEN not set. Please check your .env file.')
     }
+
     const endpoint = getTestAPIEndpoint()
     const token = process.env.HMD_API_ACCESS_TOKEN!
     apiClient = new API(token, endpoint)
   })
 
-  afterEach(async function () {
+  afterEach(async () => {
     // Cleanup: delete created notes
     if (apiClient && createdNoteIds.length > 0) {
-      await Promise.all(
-        createdNoteIds.map(async noteId => {
-          try {
-            await apiClient.deleteNote(noteId)
-          } catch {
-            // Ignore errors during cleanup
-          }
-        }),
-      )
+      await Promise.all(createdNoteIds.map(async noteId => {
+        try {
+          await apiClient.deleteNote(noteId)
+        } catch {
+          // Ignore errors during cleanup
+        }
+      }))
     }
+
     createdNoteIds = []
 
     cleanupTestConfigDir(testConfigDir)
     // Don't delete env vars - they're needed for other tests
   })
 
-  it('should create a new note', async function () {
+  it('should create a new note', async () => {
     const note = await apiClient.createNote({
-      title: 'Test Note',
+      commentPermission: 'disabled' as CommentPermissionType,
       content: '# Test Content\n\nThis is a test note created by integration tests.',
       readPermission: 'owner' as NotePermissionRole,
+      title: 'Test Note',
       writePermission: 'owner' as NotePermissionRole,
-      commentPermission: 'disabled' as CommentPermissionType,
     })
 
     expect(note).to.have.property('id')
@@ -76,7 +78,7 @@ describe('Integration: API Client - Notes', function () {
     createdNoteIds.push(note.id)
   })
 
-  it('should list user notes', async function () {
+  it('should list user notes', async () => {
     const notes = await apiClient.getNoteList()
     expect(notes).to.be.an('array')
     if (notes.length > 0) {
@@ -85,14 +87,14 @@ describe('Integration: API Client - Notes', function () {
     }
   })
 
-  it('should get a specific note', async function () {
+  it('should get a specific note', async () => {
     // Create a note first
     const createdNote = await apiClient.createNote({
-      title: 'Note to Get',
+      commentPermission: 'disabled' as CommentPermissionType,
       content: '# Test Content',
       readPermission: 'owner' as NotePermissionRole,
+      title: 'Note to Get',
       writePermission: 'owner' as NotePermissionRole,
-      commentPermission: 'disabled' as CommentPermissionType,
     })
     createdNoteIds.push(createdNote.id)
 
@@ -105,14 +107,14 @@ describe('Integration: API Client - Notes', function () {
     expect(note).to.have.property('content')
   })
 
-  it('should update a note', async function () {
+  it('should update a note', async () => {
     // Create a note first
     const createdNote = await apiClient.createNote({
-      title: 'Note to Update',
+      commentPermission: 'disabled' as CommentPermissionType,
       content: '# Original Content',
       readPermission: 'owner' as NotePermissionRole,
+      title: 'Note to Update',
       writePermission: 'owner' as NotePermissionRole,
-      commentPermission: 'disabled' as CommentPermissionType,
     })
     createdNoteIds.push(createdNote.id)
 
@@ -132,14 +134,14 @@ describe('Integration: API Client - Notes', function () {
     }
   })
 
-  it('should delete a note', async function () {
+  it('should delete a note', async () => {
     // Create a note first
     const createdNote = await apiClient.createNote({
-      title: 'Note to Delete',
+      commentPermission: 'disabled' as CommentPermissionType,
       content: '# Test',
       readPermission: 'owner' as NotePermissionRole,
+      title: 'Note to Delete',
       writePermission: 'owner' as NotePermissionRole,
-      commentPermission: 'disabled' as CommentPermissionType,
     })
 
     // Delete the note
