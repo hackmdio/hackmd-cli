@@ -75,6 +75,7 @@
     "posttest": "pnpm run lint",
     "prepack": "pnpm run build && oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "test:smoke": "pnpm run build && mocha --forbid-only \"test/smoke/**/*.test.ts\"",
     "version": "oclif readme && git add README.md"
   },
   "types": "dist/index.d.ts"
