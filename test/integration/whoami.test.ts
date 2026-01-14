@@ -1,4 +1,4 @@
-import API from '@hackmd/api'
+import {API} from '@hackmd/api'
 import {expect} from 'chai'
 
 import {

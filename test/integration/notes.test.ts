@@ -1,4 +1,4 @@
-import API from '@hackmd/api'
+import {API} from '@hackmd/api'
 import {CommentPermissionType, NotePermissionRole} from '@hackmd/api/dist/type'
 import {expect} from 'chai'
 

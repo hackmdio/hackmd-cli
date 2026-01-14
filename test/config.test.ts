@@ -27,6 +27,7 @@ describe('Config test', () => {
     this.configFilePath = setupConfigFile()
   })
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it.skip('should throw no config error if config.json not found and no hackmdAPIEndpointURL set in env', function () {
     expect(requireConfig)
     .to.throw(new RegExp(`Configuration file at ${this.configFilePath} not readable`))
@@ -46,6 +47,7 @@ describe('Config test', () => {
     expect(config.hackmdAPIEndpointURL).to.eq('https://api.hackmd.io/v1')
   })
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it.skip('should throw error if no access token is set', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 

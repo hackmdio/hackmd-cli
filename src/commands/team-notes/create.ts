@@ -6,7 +6,7 @@ import HackMDCommand from '../../command'
 import {
   commentPermission, editor, noteContent, notePermission, noteTitle, teamPath,
 } from '../../flags'
-import openEditor from '../../open-editor'
+import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class Create extends HackMDCommand {
