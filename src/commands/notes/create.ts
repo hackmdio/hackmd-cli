@@ -14,12 +14,11 @@ import {
   notePermission,
   noteTitle,
 } from '../../flags'
-import openEditor from '../../open-editor'
+import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class CreateCommand extends HackMDCommand {
   static description = 'Create a note'
-
   static examples = [
     "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
 
@@ -30,15 +29,14 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create',
   ]
-
   static flags = {
-    help: Flags.help({char: 'h'}),
-    title: noteTitle,
-    content: noteContent,
-    readPermission: notePermission,
-    writePermission: notePermission,
     commentPermission,
+    content: noteContent,
     editor,
+    help: Flags.help({char: 'h'}),
+    readPermission: notePermission,
+    title: noteTitle,
+    writePermission: notePermission,
     ...ux.table.flags(),
   }
 
@@ -47,11 +45,11 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     const pipeString = safeStdinRead()
 
     const options: CreateNoteOptions = {
-      title: flags.title,
+      commentPermission: flags.commentPermission as CommentPermissionType,
       content: pipeString || flags.content,
       readPermission: flags.readPermission as NotePermissionRole,
+      title: flags.title,
       writePermission: flags.writePermission as NotePermissionRole,
-      commentPermission: flags.commentPermission as CommentPermissionType,
     }
 
     if (flags.editor) {
@@ -75,12 +73,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
           id: {
             header: 'ID',
           },
+          teamPath: {
+            header: 'Team path',
+          },
           title: {},
           userPath: {
             header: 'User path',
-          },
-          teamPath: {
-            header: 'Team path',
           },
         },
         {

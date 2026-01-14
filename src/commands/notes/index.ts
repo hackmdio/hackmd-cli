@@ -5,14 +5,12 @@ import {noteId} from '../../flags'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD notes commands'
-
   static examples = [
     `$ hackmd-cli notes
 ID                     Title                            User Path               Team Path
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
 raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null     `,
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
     noteId,
@@ -30,12 +28,12 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
         id: {
           header: 'ID',
         },
+        teamPath: {
+          header: 'Team Path',
+        },
         title: {},
         userPath: {
           header: 'User Path',
-        },
-        teamPath: {
-          header: 'Team Path',
         },
       }, {
         printLine: this.log.bind(this),

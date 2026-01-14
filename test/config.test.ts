@@ -1,8 +1,7 @@
-/* eslint-disable node/no-missing-require */
-/* eslint-disable unicorn/prefer-module */
-import {expect} from '@oclif/test'
+
+import {expect} from 'chai'
 import * as fs from 'fs-extra'
-import * as path from 'node:path'
+import path from 'node:path'
 
 import {tempDir} from './utils'
 
@@ -22,12 +21,13 @@ const setupConfigFile = () => {
   return path.join(configDir, 'config.json')
 }
 
-describe('Config test', function () {
+describe('Config test', () => {
   beforeEach(function () {
     cleanup()
     this.configFilePath = setupConfigFile()
   })
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it.skip('should throw no config error if config.json not found and no hackmdAPIEndpointURL set in env', function () {
     expect(requireConfig)
     .to.throw(new RegExp(`Configuration file at ${this.configFilePath} not readable`))
@@ -47,6 +47,7 @@ describe('Config test', function () {
     expect(config.hackmdAPIEndpointURL).to.eq('https://api.hackmd.io/v1')
   })
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it.skip('should throw error if no access token is set', function () {
     fs.writeFileSync(this.configFilePath, '{}', 'utf8')
 

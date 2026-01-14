@@ -1,13 +1,13 @@
 {
   "name": "@hackmd/hackmd-cli",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "author": "HackMD Team",
   "bin": {
     "hackmd-cli": "./bin/run"
   },
   "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
-    "@hackmd/api": "^2.0.0",
+    "@hackmd/api": "^2.5.0",
     "@hackmd/oclif-plugin-autocomplete": "^2.1.9-fish",
     "@oclif/core": "2.8.2",
     "@oclif/plugin-help": "5.2.9",
@@ -24,26 +24,24 @@
     "@types/fs-extra": "^8.0.1",
     "@types/lodash.defaults": "^4.2.6",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^18.16.2",
+    "@types/node": "^24.0.0",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "7",
-    "eslint-config-oclif": "^4.0.0",
-    "eslint-config-oclif-typescript": "^1.0.3",
+    "eslint": "^9.39.2",
+    "eslint-config-oclif": "^6.0.130",
     "mocha": "^10.2.0",
     "nyc": "^13.3.0",
     "shx": "^0.3.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.6.0"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=24.0.0"
   },
   "files": [
     "/bin",
     "/lib",
     "/dist",
-    "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
   "homepage": "https://github.com/hackmdio/hackmd-cli",
@@ -69,13 +67,16 @@
     ]
   },
   "repository": "hackmdio/hackmd-cli",
+  "packageManager": "pnpm@10.28.0",
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint . --ext .ts --config .eslintrc",
+    "lint": "eslint .",
     "postpack": "shx rm -f oclif.manifest.json",
-    "posttest": "yarn lint",
-    "prepack": "yarn build && oclif manifest && oclif readme",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "posttest": "pnpm run lint",
+    "prepack": "pnpm run build && oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\" --exclude \"test/smoke/**/*\"",
+    "test:unit": "mocha --forbid-only \"test/**/*.test.ts\" --exclude \"test/integration/**/*\" --exclude \"test/smoke/**/*\"",
+    "test:smoke": "pnpm run build && mocha --forbid-only \"test/smoke/**/*.test.ts\"",
     "version": "oclif readme && git add README.md"
   },
   "types": "dist/index.d.ts"

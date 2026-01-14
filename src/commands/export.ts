@@ -5,13 +5,11 @@ import {noteId} from '../flags'
 
 export default class Export extends HackMDCommand {
   static description = 'Export note content'
-
   static examples = [
     `$ hackmd-cli export --noteId=kNFWV5E-Qz-QP7u6XnNvyQ
 # A note to be exported
     `,
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
     noteId,

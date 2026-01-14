@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import {homedir, tmpdir} from 'node:os'
-import * as path from 'node:path'
+import path from 'node:path'
 
 export function getConfigFilePath() {
   const configDir = process.env.HMD_CLI_CONFIG_DIR ? process.env.HMD_CLI_CONFIG_DIR || '' : path.join(homedir(), '.hackmd')
@@ -17,9 +17,10 @@ export function getConfigFilePath() {
 
 export function setAccessTokenConfig(token: string) {
   const configFilePath = getConfigFilePath()
-  const newConfigFile = require(configFilePath)
+  const configContent = fs.readFileSync(configFilePath, 'utf8')
+  const newConfigFile = JSON.parse(configContent)
   newConfigFile.accessToken = token
-  fs.writeFile(configFilePath, JSON.stringify(newConfigFile, null, 2), function (err) {
+  fs.writeFile(configFilePath, JSON.stringify(newConfigFile, null, 2), err => {
     if (err) {
       throw err
     }
