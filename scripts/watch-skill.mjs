@@ -5,8 +5,8 @@
  * Usage: node scripts/watch-skill.mjs
  */
 
-import {watch} from 'node:fs';
 import {execSync} from 'node:child_process';
+import {watch} from 'node:fs';
 
 const SKILL_DIR = './hackmd-cli';
 

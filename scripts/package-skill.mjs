@@ -145,6 +145,6 @@ function getAllFiles(dir) {
 
 try {
   packageSkill();
-} catch (error) {
+} catch {
   process.exitCode = 1;
 }
