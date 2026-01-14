@@ -4,7 +4,6 @@ import HackMDCommand from '../command'
 
 export default class Login extends HackMDCommand {
   static description = 'Login to HackMD server from CLI'
-
   static examples = [
     `$ hackmd-cli login
 
@@ -13,7 +12,6 @@ Enter your access token: MY_ACCESS_TOKEN
 Login successfully
 `,
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
   }

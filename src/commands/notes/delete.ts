@@ -5,11 +5,9 @@ import {noteId} from '../../flags'
 
 export default class Delete extends HackMDCommand {
   static description = 'Delete a note'
-
   static examples = [
     '$ hackmd-cli notes delete --noteId=WNkLM6gkS0Cg2cQ8rv7bYA',
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
     noteId,

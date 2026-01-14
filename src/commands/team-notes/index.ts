@@ -5,7 +5,6 @@ import {teamPath} from '../../flags'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD team-notes commands'
-
   static examples = [
     `$ hackmd-cli team-notes --teamPath=CLI-test
 ID                     Title                            User path Team path
@@ -13,7 +12,6 @@ ID                     Title                            User path Team path
 WNkLM6gkS0Cg2cQ8rv7bYA a team note                      null     CLI-test
 BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
   ]
-
   static flags = {
     help: Flags.help({char: 'h'}),
     teamPath,
@@ -35,12 +33,12 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
         id: {
           header: 'ID',
         },
+        teamPath: {
+          header: 'Team path',
+        },
         title: {},
         userPath: {
           header: 'User path',
-        },
-        teamPath: {
-          header: 'Team path',
         },
       }, {
         printLine: this.log.bind(this),

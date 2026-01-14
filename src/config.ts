@@ -10,8 +10,8 @@ const defaultConfig = {
 }
 
 const envConfig = {
-  hackmdAPIEndpointURL: process.env.HMD_API_ENDPOINT_URL,
   accessToken: process.env.HMD_API_ACCESS_TOKEN,
+  hackmdAPIEndpointURL: process.env.HMD_API_ENDPOINT_URL,
 }
 
 // look for a readable config file; we can merge it with the env.
@@ -27,7 +27,7 @@ try {
 let readConfig = {}
 if (hasExistingConfigFile) {
   try {
-    readConfig = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))
+    readConfig = JSON.parse(fs.readFileSync(configFilePath, 'utf8'))
   } catch (error) {
     throw new Error(`
 

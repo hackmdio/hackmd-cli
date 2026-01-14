@@ -1,4 +1,4 @@
-import API from '@hackmd/api'
+import {API} from '@hackmd/api'
 import {Command, ux} from '@oclif/core'
 
 import config from './config'
