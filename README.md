@@ -9,6 +9,7 @@
 * [Commands](#commands)
 * [Configuration](#configuration)
 * [License](#license)
+* [Changelog](#changelog)
 
 ## v2 notice
 
@@ -592,3 +593,7 @@ _See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/
 ## License
 
 MIT
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
