@@ -1,6 +1,6 @@
 /* eslint-disable node/no-missing-require */
 /* eslint-disable unicorn/prefer-module */
-import {expect} from '@oclif/test'
+import {expect} from 'chai'
 import * as fs from 'fs-extra'
 import * as path from 'node:path'
 

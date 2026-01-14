@@ -25,6 +25,8 @@
 <!-- usage -->
 ```sh-session
 $ npm install -g @hackmd/hackmd-cli
+# or using pnpm
+$ pnpm add -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
