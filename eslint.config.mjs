@@ -9,6 +9,7 @@ export default [
     files: ['test/**/*.ts', 'test/**/*.js'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
+      'n/no-extraneous-require': 'off',
       'n/no-missing-require': 'off',
       'unicorn/prefer-module': 'off',
     },

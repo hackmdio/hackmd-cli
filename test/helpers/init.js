@@ -43,7 +43,6 @@ process.env.NODE_ENV = 'development'
 
 // Initialize oclif config for @oclif/test
 try {
-  // eslint-disable-next-line n/no-extraneous-require
   const {Config} = require('@oclif/config')
   const config = Config.load()
   globalThis.oclif = globalThis.oclif || {}
