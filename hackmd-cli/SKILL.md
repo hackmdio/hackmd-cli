@@ -129,11 +129,14 @@ All list commands support:
 ### Sync local file to HackMD
 
 ```bash
-# Create new note from file
+# Create new note from file and verify
 cat doc.md | hackmd-cli notes create --title="My Doc"
+# Confirm creation by retrieving the note
+hackmd-cli notes --filter=title="My Doc"
 
-# Update existing note from file
+# Update existing note from file and verify
 cat doc.md | hackmd-cli notes update --noteId=<id>
+hackmd-cli export --noteId=<id> | head -5
 ```
 
 ### Export note to local file
@@ -153,3 +156,13 @@ hackmd-cli notes --output=json | jq '.[] | .id'
 ```bash
 hackmd-cli notes --filter=title=README
 ```
+
+## Error Handling
+
+Common errors and fixes:
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Unauthorized` | Invalid or expired token | Re-run `hackmd-cli login` or update `HMD_API_ACCESS_TOKEN` |
+| `Not Found` | Wrong `noteId` or `teamPath` | Verify the ID with `hackmd-cli notes` or `hackmd-cli teams` |
+| `Forbidden` | Insufficient permissions | Check note permissions with `hackmd-cli notes --noteId=<id> -x` |
