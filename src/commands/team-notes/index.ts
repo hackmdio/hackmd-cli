@@ -33,6 +33,9 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
         id: {
           header: 'ID',
         },
+        tags: {
+          get: row => (row.tags ?? []).join(', '),
+        },
         teamPath: {
           header: 'Team path',
         },

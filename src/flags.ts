@@ -27,6 +27,10 @@ export const permalink = Flags.string({
   description: 'note permalink',
 })
 
+export const noteTags = Flags.string({
+  description: 'set note tags, comma-separated (e.g. tag1,tag2)',
+})
+
 export const editor = Flags.boolean({
   char: 'e',
   description: 'create note with $EDITOR',

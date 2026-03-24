@@ -12,6 +12,7 @@ import {
   editor,
   noteContent,
   notePermission,
+  noteTags,
   noteTitle,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
@@ -22,9 +23,9 @@ export default class CreateCommand extends HackMDCommand {
   static examples = [
     "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
 
-    `ID                     Title                            User Path               Team Path
-────────────────────── ──────────────────────────────── ──────────────────────  ────────
-raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  null`,
+    `ID                     Title                            Tags     User Path               Team Path
+────────────────────── ──────────────────────────────── ──────── ──────────────────────  ────────
+raUuSTetT5uQbqQfLnz9lA A new note                                gvfz2UB5THiKABQJQnLs6Q  null`,
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create',
@@ -35,6 +36,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     editor,
     help: Flags.help({char: 'h'}),
     readPermission: notePermission,
+    tags: noteTags,
     title: noteTitle,
     writePermission: notePermission,
     ...ux.table.flags(),
@@ -44,12 +46,16 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     const {flags} = await this.parse(CreateCommand)
     const pipeString = safeStdinRead()
 
-    const options: CreateNoteOptions = {
+    const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: flags.commentPermission as CommentPermissionType,
       content: pipeString || flags.content,
       readPermission: flags.readPermission as NotePermissionRole,
       title: flags.title,
       writePermission: flags.writePermission as NotePermissionRole,
+    }
+
+    if (flags.tags !== undefined) {
+      options.tags = flags.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
     }
 
     if (flags.editor) {
@@ -65,13 +71,16 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
 
     try {
       const APIClient = await this.getAPIClient()
-      const note = await APIClient.createNote(options)
+      const note = await APIClient.createNote(options as CreateNoteOptions)
 
       ux.table(
         [note],
         {
           id: {
             header: 'ID',
+          },
+          tags: {
+            get: row => (row.tags ?? []).join(', '),
           },
           teamPath: {
             header: 'Team path',

@@ -28,6 +28,9 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
         id: {
           header: 'ID',
         },
+        tags: {
+          get: row => (row.tags ?? []).join(', '),
+        },
         teamPath: {
           header: 'Team Path',
         },
