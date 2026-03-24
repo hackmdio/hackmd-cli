@@ -364,22 +364,27 @@ EXAMPLES
 
 ## `hackmd-cli notes update`
 
-Update note content
+Update note
 
 ```
 USAGE
-  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>]
+  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--permalink <value>] [--readPermission <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help         Show CLI help.
-  --content=<value>  new note content
-  --noteId=<value>   HackMD note id
+  -h, --help                    Show CLI help.
+  --content=<value>             new note content
+  --noteId=<value>              HackMD note id
+  --permalink=<value>           note permalink
+  --readPermission=<value>      set note permission: owner, signed_in, guest
+  --writePermission=<value>     set note permission: owner, signed_in, guest
 
 DESCRIPTION
-  Update note content
+  Update note
 
 EXAMPLES
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'
+
+  $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
 ```
 
 ## `hackmd-cli team-notes`
@@ -482,23 +487,28 @@ EXAMPLES
 
 ## `hackmd-cli team-notes update`
 
-Update team note content
+Update team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--teamPath <value>]
+  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--permalink <value>] [--readPermission <value>] [--teamPath <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  --content=<value>   new note content
-  --noteId=<value>    HackMD note id
-  --teamPath=<value>  HackMD team path
+  -h, --help                    Show CLI help.
+  --content=<value>             new note content
+  --noteId=<value>              HackMD note id
+  --permalink=<value>           note permalink
+  --readPermission=<value>      set note permission: owner, signed_in, guest
+  --teamPath=<value>            HackMD team path
+  --writePermission=<value>     set note permission: owner, signed_in, guest
 
 DESCRIPTION
-  Update team note content
+  Update team note
 
 EXAMPLES
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'
+
+  $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
 ```
 
 ## `hackmd-cli teams`
