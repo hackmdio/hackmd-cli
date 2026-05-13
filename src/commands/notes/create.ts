@@ -1,8 +1,9 @@
-import {
+import type {
   CommentPermissionType,
   CreateNoteOptions,
   NotePermissionRole,
-} from '@hackmd/api/dist/type'
+} from '@hackmd/api'
+
 import {Flags, ux} from '@oclif/core'
 import * as fs from 'node:fs'
 
@@ -13,6 +14,7 @@ import {
   noteContent,
   notePermission,
   noteTitle,
+  parentFolderId,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
@@ -34,6 +36,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     content: noteContent,
     editor,
     help: Flags.help({char: 'h'}),
+    parentFolderId,
     readPermission: notePermission,
     title: noteTitle,
     writePermission: notePermission,
@@ -47,6 +50,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     const options: CreateNoteOptions = {
       commentPermission: flags.commentPermission as CommentPermissionType,
       content: pipeString || flags.content,
+      parentFolderId: flags.parentFolderId,
       readPermission: flags.readPermission as NotePermissionRole,
       title: flags.title,
       writePermission: flags.writePermission as NotePermissionRole,

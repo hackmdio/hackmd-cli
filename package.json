@@ -7,7 +7,7 @@
   },
   "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
-    "@hackmd/api": "^2.5.0",
+    "@hackmd/api": "2.5.0-beta.20260430192828.99a5117",
     "@hackmd/oclif-plugin-autocomplete": "^2.1.9-fish",
     "@oclif/core": "2.8.2",
     "@oclif/plugin-help": "5.2.9",

@@ -1,7 +1,11 @@
+import type {UpdateNoteOptions} from '@hackmd/api'
+
 import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
-import {noteContent, noteId, teamPath} from '../../flags'
+import {
+  noteContent, noteId, parentFolderId, teamPath,
+} from '../../flags'
 
 export default class Update extends HackMDCommand {
   static description = 'Update team note content'
@@ -12,12 +16,13 @@ export default class Update extends HackMDCommand {
     content: noteContent,
     help: Flags.help({char: 'h'}),
     noteId,
+    parentFolderId,
     teamPath,
   }
 
   async run() {
     const {flags} = await this.parse(Update)
-    const {content, noteId, teamPath} = flags
+    const {content, noteId, parentFolderId, teamPath} = flags
 
     if (!teamPath) {
       this.error('Flag teamPath could not be empty')
@@ -27,9 +32,14 @@ export default class Update extends HackMDCommand {
       this.error('Flag noteId could not be empty')
     }
 
+    const payload: UpdateNoteOptions = {
+      content,
+      parentFolderId,
+    }
+
     try {
       const APIClient = await this.getAPIClient()
-      await APIClient.updateTeamNoteContent(teamPath, noteId, content)
+      await APIClient.updateTeamNote(teamPath, noteId, payload)
     } catch (error) {
       this.log('Update team note content failed')
       this.error(error as Error)

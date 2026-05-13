@@ -1,10 +1,11 @@
-import {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api/dist/type'
+import type {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api'
+
 import {Flags, ux} from '@oclif/core'
 import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
 import {
-  commentPermission, editor, noteContent, notePermission, noteTitle, teamPath,
+  commentPermission, editor, noteContent, notePermission, noteTitle, parentFolderId, teamPath,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
@@ -25,6 +26,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     content: noteContent,
     editor,
     help: Flags.help({char: 'h'}),
+    parentFolderId,
     readPermission: notePermission,
     teamPath,
     title: noteTitle,
@@ -36,10 +38,11 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {commentPermission, content, readPermission, teamPath, title, writePermission} = flags
+    const {commentPermission, content, parentFolderId, readPermission, teamPath, title, writePermission} = flags
     const options: CreateNoteOptions = {
       commentPermission: commentPermission as CommentPermissionType,
       content: pipeString || content,
+      parentFolderId,
       readPermission: readPermission as NotePermissionRole,
       title,
       writePermission: writePermission as NotePermissionRole,
