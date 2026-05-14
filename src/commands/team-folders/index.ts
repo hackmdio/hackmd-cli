@@ -5,6 +5,12 @@ import {folderId, teamPath} from '../../flags'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD team folders commands'
+  static examples = [
+    `$ hackmd-cli team-folders --teamPath engineering
+ID                                   Color Description     Icon  Name       Parent Folder ID
+──────────────────────────────────── ───── ─────────────── ───── ────────── ────────────────────────────────────
+91722050-bf47-4334-9e5d-87125a724c29 blue  Team handbook    1F600 team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c`,
+  ]
   static flags = {
     folderId,
     help: Flags.help({char: 'h'}),
@@ -24,12 +30,12 @@ export default class IndexCommand extends HackMDCommand {
       const folders = flags.folderId ? [await APIClient.getTeamFolder(flags.teamPath, flags.folderId)] : await APIClient.getTeamFolderList(flags.teamPath)
 
       ux.table(folders, {
-        color: {},
-        description: {},
-        icon: {},
         id: {
           header: 'ID',
         },
+        color: {},
+        description: {},
+        icon: {},
         name: {},
         parentFolderId: {
           header: 'Parent Folder ID',
