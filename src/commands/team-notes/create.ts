@@ -13,13 +13,18 @@ import {safeStdinRead, temporaryMD} from '../../utils'
 export default class Create extends HackMDCommand {
   static description = 'Create a team note'
   static examples = [
-    `team-notes:create --teamPath=CLI-test --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
+    `$ hackmd-cli team-notes create --teamPath=CLI-test --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
+ID                     Title                            User Path              Team Path
+────────────────────── ──────────────────────────────── ────────────────────── ────────
+raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
+
+    `$ hackmd-cli team-notes create --teamPath=CLI-test --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
 ID                     Title                            User Path              Team Path
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
     'Or you can pipe content via Unix pipeline:',
-    'cat README.md | hackmd-cli notes create --teamPath=CLI-test',
+    'cat README.md | hackmd-cli team-notes create --teamPath=CLI-test',
   ]
   static flags = {
     commentPermission,

@@ -6,6 +6,10 @@ import {parseFolderOrder} from '../../utils'
 
 export default class Order extends HackMDCommand {
   static description = 'Get or update folder order'
+  static examples = [
+    '$ hackmd-cli folders order',
+    `$ hackmd-cli folders order --order='{"root":["91722050-bf47-4334-9e5d-87125a724c29","fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c"]}'`,
+  ]
   static flags = {
     help: Flags.help({char: 'h'}),
     order: folderOrder,

@@ -23,6 +23,7 @@ export default class CreateCommand extends HackMDCommand {
   static description = 'Create a note'
   static examples = [
     "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
+    "notes create --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
 
     `ID                     Title                            User Path               Team Path
 ────────────────────── ──────────────────────────────── ──────────────────────  ────────
