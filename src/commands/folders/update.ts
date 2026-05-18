@@ -15,10 +15,10 @@ import {
 export default class Update extends HackMDCommand {
   static description = 'Update folder'
   static examples = [
-    `$ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --name='docs' --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --description='Docs' --icon=1F600 --color=blue
-ID                                   Name Parent Folder ID                     Color Description Icon
-──────────────────────────────────── ──── ──────────────────────────────────── ───── ─────────── ─────
-a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c blue  Docs        1F600`,
+    `$ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --name='docs' --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --description='Docs' --icon=1F600 --color=#4F46E5
+ID                                   Name Parent Folder ID                     Color   Description Icon
+──────────────────────────────────── ──── ──────────────────────────────────── ─────── ─────────── ─────
+a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600`,
   ]
   static flags = {
     color: folderColor,

@@ -7,9 +7,9 @@ export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD team folders commands'
   static examples = [
     `$ hackmd-cli team-folders --teamPath engineering
-ID                                   Color Description     Icon  Name       Parent Folder ID
-──────────────────────────────────── ───── ─────────────── ───── ────────── ────────────────────────────────────
-91722050-bf47-4334-9e5d-87125a724c29 blue  Team handbook    1F600 team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c`,
+ID                                   Color   Description     Icon  Name       Parent Folder ID
+──────────────────────────────────── ─────── ─────────────── ───── ────────── ────────────────────────────────────
+91722050-bf47-4334-9e5d-87125a724c29 #4F46E5 Team handbook    1F600 team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c`,
   ]
   static flags = {
     folderId,
