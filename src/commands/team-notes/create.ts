@@ -18,10 +18,15 @@ ID                     Title                            User Path              T
 ────────────────────── ──────────────────────────────── ────────────────────── ────────
 raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
-    `$ hackmd-cli team-notes create --teamPath=CLI-test --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
-ID                     Title                            User Path              Team Path
-────────────────────── ──────────────────────────────── ────────────────────── ────────
-raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
+    [
+      '$ hackmd-cli team-notes create --teamPath=CLI-test ',
+      '--parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c ',
+      "--content='# A new note' --readPermission=owner ",
+      '--writePermission=owner --commentPermission=disabled\n',
+      'ID                     Title                            User Path              Team Path\n',
+      '────────────────────── ──────────────────────────────── ────────────────────── ────────\n',
+      'raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     ',
+    ].join(''),
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli team-notes create --teamPath=CLI-test',

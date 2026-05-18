@@ -24,21 +24,31 @@ ID                                   Color Description           Icon  Name     
       const APIClient = await this.getAPIClient()
       const folders = flags.folderId ? [await APIClient.getFolder(flags.folderId)] : await APIClient.getFolderList()
 
-      ux.table(folders, {
-        id: {
-          header: 'ID',
+      ux.table(
+        folders,
+        Object.fromEntries([
+          [
+            'id',
+            {
+              header: 'ID',
+            },
+          ],
+          ['color', {}],
+          ['description', {}],
+          ['icon', {}],
+          ['name', {}],
+          [
+            'parentFolderId',
+            {
+              header: 'Parent Folder ID',
+            },
+          ],
+        ]),
+        {
+          printLine: this.log.bind(this),
+          ...flags,
         },
-        color: {},
-        description: {},
-        icon: {},
-        name: {},
-        parentFolderId: {
-          header: 'Parent Folder ID',
-        },
-      }, {
-        printLine: this.log.bind(this),
-        ...flags,
-      })
+      )
     } catch (error) {
       this.log('Fetch folders failed')
       this.error(error as Error)
