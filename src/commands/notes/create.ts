@@ -22,12 +22,20 @@ import {safeStdinRead, temporaryMD} from '../../utils'
 export default class CreateCommand extends HackMDCommand {
   static description = 'Create a note'
   static examples = [
-    "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
-    "notes create --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
+    `$ hackmd-cli notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
+ID                     Title                            User Path               Team Path
+────────────────────── ──────────────────────────────── ────────────────────── ────────
+raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
-    `ID                     Title                            User Path               Team Path
-────────────────────── ──────────────────────────────── ──────────────────────  ────────
-raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  null`,
+    [
+      '$ hackmd-cli notes create ',
+      '--parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c ',
+      "--content='# A new note' --readPermission=owner ",
+      '--writePermission=owner --commentPermission=disabled\n',
+      'ID                     Title                            User Path               Team Path\n',
+      '────────────────────── ──────────────────────────────── ────────────────────── ────────\n',
+      'raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     ',
+    ].join(''),
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create',
