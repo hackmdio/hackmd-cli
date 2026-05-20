@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@hackmd/api':
-        specifier: 2.5.0-beta.20260430192828.99a5117
-        version: 2.5.0-beta.20260430192828.99a5117
+        specifier: 2.6.0
+        version: 2.6.0
       '@hackmd/oclif-plugin-autocomplete':
         specifier: ^2.1.9-fish
         version: 2.1.9-fish(@types/node@24.10.8)(typescript@5.9.3)
@@ -219,8 +219,8 @@ packages:
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
 
-  '@hackmd/api@2.5.0-beta.20260430192828.99a5117':
-    resolution: {integrity: sha512-JhAxOqIU6L/Hc6QWw8oq/rYwNzkxKC0J0XBHu+N/zqJezvKSFhdSysCbhKsLuJpBXG5LsVM7ZpnLHuN3f8EOJA==}
+  '@hackmd/api@2.6.0':
+    resolution: {integrity: sha512-of5h9WRvkqus07V4IXaHGXEGBuShr0fdhy7G3h9rK8ueKOqibw73n0VMaVYiTB32FaoCMYTQI2Pmr/GOsCG7hg==}
 
   '@hackmd/oclif-plugin-autocomplete@2.1.9-fish':
     resolution: {integrity: sha512-wLiROF31bABA+Q9+blweBfythR6HuUANsdYql+MJNb+R1Z6/JJvyHvtAfA6u+mcT4quLJeU5xZ0timWgfDkhlw==}
@@ -3979,7 +3979,7 @@ snapshots:
 
   '@gar/promisify@1.1.3': {}
 
-  '@hackmd/api@2.5.0-beta.20260430192828.99a5117':
+  '@hackmd/api@2.6.0':
     dependencies:
       axios: 1.13.2
       tslib: 1.14.1
