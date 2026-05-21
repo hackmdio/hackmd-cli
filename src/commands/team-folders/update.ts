@@ -1,6 +1,6 @@
 import type {UpdateTeamFolderBody} from '@hackmd/api'
 
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {
@@ -21,10 +21,7 @@ export default class Update extends HackMDCommand {
       '--folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d ',
       "--name='team-docs' ",
       '--parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c ',
-      "--description='Docs' --icon=1F600 --color=#4F46E5\n",
-      'ID                                   Name      Parent Folder ID                     Color   Description Icon\n',
-      '──────────────────────────────────── ───────── ──────────────────────────────────── ─────── ─────────── ─────\n',
-      'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600',
+      "--description='Docs' --icon=1F600 --color=#4F46E5",
     ].join(''),
   ]
   static flags = {
@@ -36,7 +33,6 @@ export default class Update extends HackMDCommand {
     name: folderName,
     parentFolderId,
     teamPath,
-    ...ux.table.flags(),
   }
 
   async run() {
@@ -61,33 +57,7 @@ export default class Update extends HackMDCommand {
 
     try {
       const APIClient = await this.getAPIClient()
-      const folder = await APIClient.updateTeamFolder(teamPath, folderId, payload)
-
-      ux.table(
-        [folder],
-        Object.fromEntries([
-          [
-            'id',
-            {
-              header: 'ID',
-            },
-          ],
-          ['name', {}],
-          [
-            'parentFolderId',
-            {
-              header: 'Parent Folder ID',
-            },
-          ],
-          ['color', {}],
-          ['description', {}],
-          ['icon', {}],
-        ]),
-        {
-          printLine: this.log.bind(this),
-          ...flags,
-        },
-      )
+      await APIClient.updateTeamFolder(teamPath, folderId, payload)
     } catch (error) {
       this.log('Update team folder failed')
       this.error(error as Error)
