@@ -1,3 +1,5 @@
+import type {ApiFolderOrder} from '@hackmd/api'
+
 import fs from 'fs-extra'
 import {homedir, tmpdir} from 'node:os'
 import path from 'node:path'
@@ -43,4 +45,20 @@ export function temporaryMD() {
   const filePath = path.join(tmpDir, filename)
 
   return filePath
+}
+
+export function parseFolderOrder(order: string): ApiFolderOrder {
+  const parsed = JSON.parse(order)
+
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error('Folder order must be a JSON object')
+  }
+
+  for (const [key, value] of Object.entries(parsed)) {
+    if (!Array.isArray(value) || !value.every(item => typeof item === 'string')) {
+      throw new Error(`Folder order entry "${key}" must be an array of folder ids`)
+    }
+  }
+
+  return parsed as ApiFolderOrder
 }
