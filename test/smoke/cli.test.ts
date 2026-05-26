@@ -206,6 +206,38 @@ describe('Smoke Tests: Built CLI Binary', () => {
         expect(result.stdout.toLowerCase()).to.include('logout')
       }
     })
+
+    it('should recognize folders command', async () => {
+      const result = await runCLI(['folders', '--help'])
+      expect(result.stdout || result.stderr).to.exist
+      if (result.code === 0) {
+        expect(result.stdout.toLowerCase()).to.include('folders')
+      }
+    })
+
+    it('should recognize folders create command', async () => {
+      const result = await runCLI(['folders', 'create', '--help'])
+      expect(result.stdout || result.stderr).to.exist
+      if (result.code === 0) {
+        expect(result.stdout.toLowerCase()).to.include('folder')
+      }
+    })
+
+    it('should recognize team-folders command', async () => {
+      const result = await runCLI(['team-folders', '--help'])
+      expect(result.stdout || result.stderr).to.exist
+      if (result.code === 0) {
+        expect(result.stdout.toLowerCase()).to.include('team')
+      }
+    })
+
+    it('should recognize team-folders create command', async () => {
+      const result = await runCLI(['team-folders', 'create', '--help'])
+      expect(result.stdout || result.stderr).to.exist
+      if (result.code === 0) {
+        expect(result.stdout.toLowerCase()).to.include('folder')
+      }
+    })
   })
 
   describe('Error handling', () => {
