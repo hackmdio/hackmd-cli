@@ -455,8 +455,8 @@ Create a note
 ```
 USAGE
   $ hackmd-cli notes create [--commentPermission <value>] [--content <value>] [-e] [-h] [--parentFolderId <value>]
-    [--readPermission <value>] [--title <value>] [--writePermission <value>] [--columns <value> | -x] [--sort <value>]
-    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+    [--readPermission <value>] [--tags <value>] [--title <value>] [--writePermission <value>] [--columns <value> | -x]
+    [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -e, --editor                 create note with $EDITOR
@@ -474,6 +474,7 @@ FLAGS
   --parentFolderId=<value>     parent folder id
   --readPermission=<value>     set note permission: owner, signed_in, guest
   --sort=<value>               property to sort by (prepend '-' for descending)
+  --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
   --title=<value>              new note title
   --writePermission=<value>    set note permission: owner, signed_in, guest
 
@@ -517,25 +518,34 @@ EXAMPLES
 
 ## `hackmd-cli notes update`
 
-Update note content
+Update note
 
 ```
 USAGE
-  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>]
+  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink <value>]
+    [--readPermission <value>] [--tags <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                Show CLI help.
-  --content=<value>         new note content
-  --noteId=<value>          HackMD note id
-  --parentFolderId=<value>  parent folder id
+  -h, --help                    Show CLI help.
+  --content=<value>             new note content
+  --noteId=<value>              HackMD note id
+  --parentFolderId=<value>      parent folder id
+  --permalink=<value>           note permalink
+  --readPermission=<value>      set note permission: owner, signed_in, guest
+  --tags=<value>                set note tags, comma-separated (e.g. tag1,tag2)
+  --writePermission=<value>     set note permission: owner, signed_in, guest
 
 DESCRIPTION
-  Update note content
+  Update note
 
 EXAMPLES
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'
 
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new title'
+
+  $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
+
+  $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 ```
 
 ## `hackmd-cli team-folders`
@@ -721,8 +731,9 @@ Create a team note
 ```
 USAGE
   $ hackmd-cli team-notes create [--commentPermission <value>] [--content <value>] [-e] [-h] [--parentFolderId <value>]
-    [--readPermission <value>] [--teamPath <value>] [--title <value>] [--writePermission <value>] [--columns <value> |
-    -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+    [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--title <value>] [--writePermission <value>]
+    [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]]
+    [--no-header | ]
 
 FLAGS
   -e, --editor                 create note with $EDITOR
@@ -740,6 +751,7 @@ FLAGS
   --parentFolderId=<value>     parent folder id
   --readPermission=<value>     set note permission: owner, signed_in, guest
   --sort=<value>               property to sort by (prepend '-' for descending)
+  --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
   --teamPath=<value>           HackMD team path
   --title=<value>              new note title
   --writePermission=<value>    set note permission: owner, signed_in, guest
@@ -785,27 +797,35 @@ EXAMPLES
 
 ## `hackmd-cli team-notes update`
 
-Update team note content
+Update team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--teamPath
-    <value>]
+  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>]
+    [--permalink <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                Show CLI help.
-  --content=<value>         new note content
-  --noteId=<value>          HackMD note id
-  --parentFolderId=<value>  parent folder id
-  --teamPath=<value>        HackMD team path
+  -h, --help                    Show CLI help.
+  --content=<value>             new note content
+  --noteId=<value>              HackMD note id
+  --parentFolderId=<value>      parent folder id
+  --permalink=<value>           note permalink
+  --readPermission=<value>      set note permission: owner, signed_in, guest
+  --tags=<value>                set note tags, comma-separated (e.g. tag1,tag2)
+  --teamPath=<value>            HackMD team path
+  --writePermission=<value>     set note permission: owner, signed_in, guest
 
 DESCRIPTION
-  Update team note content
+  Update team note
 
 EXAMPLES
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'
 
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new title'
+
+  $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
+
+  $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 ```
 
 ## `hackmd-cli teams`

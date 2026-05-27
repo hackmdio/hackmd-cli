@@ -5,7 +5,7 @@ import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
 import {
-  commentPermission, editor, noteContent, notePermission, noteTitle, parentFolderId, teamPath,
+  commentPermission, editor, noteContent, notePermission, noteTags, noteTitle, parentFolderId, teamPath,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
@@ -38,6 +38,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     help: Flags.help({char: 'h'}),
     parentFolderId,
     readPermission: notePermission,
+    tags: noteTags,
     teamPath,
     title: noteTitle,
     writePermission: notePermission,
@@ -48,14 +49,18 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {commentPermission, content, parentFolderId, readPermission, teamPath, title, writePermission} = flags
-    const options: CreateNoteOptions = {
+    const {commentPermission, content, parentFolderId, readPermission, tags, teamPath, title, writePermission} = flags
+    const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: commentPermission as CommentPermissionType,
       content: pipeString || content,
       parentFolderId,
       readPermission: readPermission as NotePermissionRole,
       title,
       writePermission: writePermission as NotePermissionRole,
+    }
+
+    if (tags !== undefined) {
+      options.tags = tags.split(',').map((t: string) => t.trim()).filter(Boolean)
     }
 
     if (!teamPath) {
@@ -75,11 +80,14 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
     try {
       const APIClient = await this.getAPIClient()
-      const note = await APIClient.createTeamNote(teamPath, options)
+      const note = await APIClient.createTeamNote(teamPath, options as CreateNoteOptions)
 
       ux.table([note], {
         id: {
           header: 'ID',
+        },
+        tags: {
+          get: row => (row.tags ?? []).join(', '),
         },
         teamPath: {
           header: 'Team path',
