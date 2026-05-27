@@ -2,6 +2,23 @@
 
 All notable changes to HackMD-CLI will be documented in this file.
 
+## 2.5.0
+
+### Added
+
+- Personal folder commands: `folders`, `folders create`, `folders update`, `folders delete`, and `folders order`
+- Team folder commands: `team-folders`, `team-folders create`, `team-folders update`, `team-folders delete`, and `team-folders order`
+- Agent skill (`hackmd-cli/SKILL.md`) with auto-packaging scripts for Cursor and other AI tooling
+
+### Changed
+
+- Upgraded `@hackmd/api` to v2.6.0
+
+### Fixed
+
+- Folder update command now returns silently on success
+- Folder command examples use hex color codes
+
 ## 2.4.0
 
 ### Added
