@@ -49,7 +49,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {commentPermission, content, parentFolderId, readPermission, teamPath, tags, title, writePermission} = flags
+    const {commentPermission, content, parentFolderId, readPermission, tags, teamPath, title, writePermission} = flags
     const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: commentPermission as CommentPermissionType,
       content: pipeString || content,
