@@ -1,8 +1,9 @@
-import {
+import type {
   CommentPermissionType,
   CreateNoteOptions,
   NotePermissionRole,
-} from '@hackmd/api/dist/type'
+} from '@hackmd/api'
+
 import {Flags, ux} from '@oclif/core'
 import * as fs from 'node:fs'
 
@@ -12,7 +13,9 @@ import {
   editor,
   noteContent,
   notePermission,
+  noteTags,
   noteTitle,
+  parentFolderId,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
 import {safeStdinRead, temporaryMD} from '../../utils'
@@ -20,11 +23,20 @@ import {safeStdinRead, temporaryMD} from '../../utils'
 export default class CreateCommand extends HackMDCommand {
   static description = 'Create a note'
   static examples = [
-    "notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled",
+    `$ hackmd-cli notes create --content='# A new note' --readPermission=owner --writePermission=owner --commentPermission=disabled
+ID                     Title                            User Path               Team Path
+────────────────────── ──────────────────────────────── ────────────────────── ────────
+raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     `,
 
-    `ID                     Title                            User Path               Team Path
-────────────────────── ──────────────────────────────── ──────────────────────  ────────
-raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  null`,
+    [
+      '$ hackmd-cli notes create ',
+      '--parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c ',
+      "--content='# A new note' --readPermission=owner ",
+      '--writePermission=owner --commentPermission=disabled\n',
+      'ID                     Title                            User Path               Team Path\n',
+      '────────────────────── ──────────────────────────────── ────────────────────── ────────\n',
+      'raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q null     ',
+    ].join(''),
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create',
@@ -34,7 +46,9 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     content: noteContent,
     editor,
     help: Flags.help({char: 'h'}),
+    parentFolderId,
     readPermission: notePermission,
+    tags: noteTags,
     title: noteTitle,
     writePermission: notePermission,
     ...ux.table.flags(),
@@ -44,12 +58,17 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
     const {flags} = await this.parse(CreateCommand)
     const pipeString = safeStdinRead()
 
-    const options: CreateNoteOptions = {
+    const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: flags.commentPermission as CommentPermissionType,
       content: pipeString || flags.content,
+      parentFolderId: flags.parentFolderId,
       readPermission: flags.readPermission as NotePermissionRole,
       title: flags.title,
       writePermission: flags.writePermission as NotePermissionRole,
+    }
+
+    if (flags.tags !== undefined) {
+      options.tags = flags.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
     }
 
     if (flags.editor) {
@@ -65,13 +84,16 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q  
 
     try {
       const APIClient = await this.getAPIClient()
-      const note = await APIClient.createNote(options)
+      const note = await APIClient.createNote(options as CreateNoteOptions)
 
       ux.table(
         [note],
         {
           id: {
             header: 'ID',
+          },
+          tags: {
+            get: row => (row.tags ?? []).join(', '),
           },
           teamPath: {
             header: 'Team path',
