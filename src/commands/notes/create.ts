@@ -47,10 +47,10 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     editor,
     help: Flags.help({char: 'h'}),
     parentFolderId,
-    readPermission: notePermission,
+    readPermission: notePermission(),
     tags: noteTags,
     title: noteTitle,
-    writePermission: notePermission,
+    writePermission: notePermission(),
     ...ux.table.flags(),
   }
 
