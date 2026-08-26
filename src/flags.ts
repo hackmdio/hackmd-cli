@@ -43,7 +43,7 @@ export const folderOrder = Flags.string({
   description: 'folder order JSON, e.g. {"root":["folder-id"]}',
 })
 
-export const notePermission = Flags.string({
+export const notePermission = () => Flags.string({
   description: 'set note permission: owner, signed_in, guest',
 })
 

@@ -21,9 +21,9 @@ export default class Update extends HackMDCommand {
     noteId,
     parentFolderId,
     permalink,
-    readPermission: notePermission,
+    readPermission: notePermission(),
     tags: noteTags,
-    writePermission: notePermission,
+    writePermission: notePermission(),
   }
 
   async run() {
