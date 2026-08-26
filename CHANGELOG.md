@@ -2,6 +2,24 @@
 
 All notable changes to HackMD-CLI will be documented in this file.
 
+## 2.5.1
+
+### Added
+
+- `--tags` flag for `notes create`, `notes update`, `team-notes create`, and `team-notes update`
+- Tags column on `notes` and `team-notes` list output
+- `--readPermission`, `--writePermission`, and `--permalink` flags for `notes update` and `team-notes update`
+- Automated npm prereleases and GitHub pre-releases from the `develop` branch
+
+### Changed
+
+- Agent skill now includes workflow verification steps and an error-handling table
+- CodiMD compatibility notice now points to the standalone [codimd-cli](https://github.com/hackmdio/codimd-cli)
+
+### Fixed
+
+- `readPermission` and `writePermission` flags no longer overwrite each other when both are set
+
 ## 2.5.0
 
 ### Added

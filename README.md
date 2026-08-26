@@ -31,7 +31,7 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.0 darwin-arm64 node-v26.0.0
+@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v26.0.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
@@ -179,7 +179,7 @@ EXAMPLES
   # A note to be exported
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/export.ts)_
 
 ## `hackmd-cli folders`
 
@@ -213,7 +213,7 @@ EXAMPLES
   91722050-bf47-4334-9e5d-87125a724c29 #4F46E5 Project documentation 1F600 engineering fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c
 ```
 
-_See code: [src/commands/folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/folders/index.ts)_
+_See code: [src/commands/folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/index.ts)_
 
 ## `hackmd-cli folders create`
 
@@ -369,7 +369,7 @@ EXAMPLES
   BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/history.ts)_
 
 ## `hackmd-cli login`
 
@@ -391,7 +391,7 @@ EXAMPLES
   Login successfully
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/login.ts)_
 
 ## `hackmd-cli logout`
 
@@ -412,7 +412,7 @@ EXAMPLES
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/logout.ts)_
 
 ## `hackmd-cli notes`
 
@@ -446,7 +446,7 @@ EXAMPLES
   raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
 ```
 
-_See code: [src/commands/notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/notes/index.ts)_
+_See code: [src/commands/notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/index.ts)_
 
 ## `hackmd-cli notes create`
 
@@ -522,18 +522,18 @@ Update note
 
 ```
 USAGE
-  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink <value>]
-    [--readPermission <value>] [--tags <value>] [--writePermission <value>]
+  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink
+    <value>] [--readPermission <value>] [--tags <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                    Show CLI help.
-  --content=<value>             new note content
-  --noteId=<value>              HackMD note id
-  --parentFolderId=<value>      parent folder id
-  --permalink=<value>           note permalink
-  --readPermission=<value>      set note permission: owner, signed_in, guest
-  --tags=<value>                set note tags, comma-separated (e.g. tag1,tag2)
-  --writePermission=<value>     set note permission: owner, signed_in, guest
+  -h, --help                 Show CLI help.
+  --content=<value>          new note content
+  --noteId=<value>           HackMD note id
+  --parentFolderId=<value>   parent folder id
+  --permalink=<value>        note permalink
+  --readPermission=<value>   set note permission: owner, signed_in, guest
+  --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
+  --writePermission=<value>  set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Update note
@@ -581,7 +581,7 @@ EXAMPLES
   91722050-bf47-4334-9e5d-87125a724c29 #4F46E5 Team handbook    1F600 team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c
 ```
 
-_See code: [src/commands/team-folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/team-folders/index.ts)_
+_See code: [src/commands/team-folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/index.ts)_
 
 ## `hackmd-cli team-folders create`
 
@@ -722,7 +722,7 @@ EXAMPLES
   BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test
 ```
 
-_See code: [src/commands/team-notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/team-notes/index.ts)_
+_See code: [src/commands/team-notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/index.ts)_
 
 ## `hackmd-cli team-notes create`
 
@@ -801,19 +801,19 @@ Update team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>]
-    [--permalink <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--writePermission <value>]
+  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink
+    <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                    Show CLI help.
-  --content=<value>             new note content
-  --noteId=<value>              HackMD note id
-  --parentFolderId=<value>      parent folder id
-  --permalink=<value>           note permalink
-  --readPermission=<value>      set note permission: owner, signed_in, guest
-  --tags=<value>                set note tags, comma-separated (e.g. tag1,tag2)
-  --teamPath=<value>            HackMD team path
-  --writePermission=<value>     set note permission: owner, signed_in, guest
+  -h, --help                 Show CLI help.
+  --content=<value>          new note content
+  --noteId=<value>           HackMD note id
+  --parentFolderId=<value>   parent folder id
+  --permalink=<value>        note permalink
+  --readPermission=<value>   set note permission: owner, signed_in, guest
+  --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
+  --teamPath=<value>         HackMD team path
+  --writePermission=<value>  set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Update team note
@@ -859,7 +859,7 @@ EXAMPLES
   f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8a00-14094272ece9
 ```
 
-_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/teams.ts)_
+_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/teams.ts)_
 
 ## `hackmd-cli version`
 
@@ -912,7 +912,7 @@ EXAMPLES
   82f7f3d9-4079-4c78-8a00-14094272ece9 Ming-Hsiu Tsai null  gvfz2UB5THiKABQJQnLs6Q
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.0/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ## License

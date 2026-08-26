@@ -9,7 +9,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: write  # Required for GitHub pre-releases
+  contents: write  # Required for GitHub releases
 
 jobs:
   publish-release:
@@ -44,6 +44,27 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --access public
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub release ${TAG} already exists, skipping"
+            exit 0
+          fi
+          NOTES="$(awk -v ver="$VERSION" '
+            $0 == "## " ver {p=1; next}
+            p && /^## / {exit}
+            p
+          ' CHANGELOG.md)"
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes "$NOTES" \
+            --generate-notes \
+            --latest
 
   publish-prerelease:
     name: Pre-release (develop)
