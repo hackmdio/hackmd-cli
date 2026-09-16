@@ -26,7 +26,7 @@ export default class Export extends HackMDCommand {
     try {
       const APIClient = await this.getAPIClient()
       const note = await APIClient.getNote(noteId)
-      this.log(note.content)
+      process.stdout.write(note.content)
     } catch (error) {
       this.log('Export note content failed')
       this.error(error as Error)
