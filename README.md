@@ -546,6 +546,8 @@ EXAMPLES
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
 
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
+
+  cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
 ## `hackmd-cli team-folders`
@@ -826,6 +828,8 @@ EXAMPLES
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner
 
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
+
+  cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
 ## `hackmd-cli teams`

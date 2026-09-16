@@ -1,4 +1,4 @@
-import type {NotePermissionRole, UpdateNoteOptions} from '@hackmd/api'
+import type {UpdateNoteOptions} from '@hackmd/api'
 
 import {Flags} from '@oclif/core'
 
@@ -6,6 +6,8 @@ import HackMDCommand from '../../command'
 import {
   noteContent, noteId, notePermission, noteTags, parentFolderId, permalink,
 } from '../../flags'
+import {buildNoteUpdatePayload} from '../../note-update'
+import {safeStdinRead} from '../../utils'
 
 export default class Update extends HackMDCommand {
   static description = 'Update note'
@@ -14,6 +16,7 @@ export default class Update extends HackMDCommand {
     "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new title'",
     '$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner',
     '$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2',
+    '$ cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA',
   ]
   static flags = {
     content: noteContent,
@@ -34,18 +37,22 @@ export default class Update extends HackMDCommand {
       this.error('Flag noteId could not be empty')
     }
 
-    const payload: UpdateNoteOptions & {tags?: string[]} = {}
-
-    if (content !== undefined) payload.content = content
-    if (parentFolderId !== undefined) payload.parentFolderId = parentFolderId
-    if (readPermission !== undefined) payload.readPermission = readPermission as NotePermissionRole
-    if (writePermission !== undefined) payload.writePermission = writePermission as NotePermissionRole
-    if (permalink !== undefined) payload.permalink = permalink
-    if (tags !== undefined) payload.tags = tags.split(',').map((t: string) => t.trim()).filter(Boolean)
+    const stdinContent = process.stdin.isTTY ? undefined : safeStdinRead()
+    let payload: UpdateNoteOptions
+    try {
+      payload = buildNoteUpdatePayload(
+        {
+          content, parentFolderId, permalink, readPermission, tags, writePermission,
+        },
+        stdinContent,
+      )
+    } catch (error) {
+      this.error(error as Error)
+    }
 
     try {
       const APIClient = await this.getAPIClient()
-      await APIClient.updateNote(noteId, payload as UpdateNoteOptions)
+      await APIClient.updateNote(noteId, payload)
     } catch (error) {
       this.log('Update note failed')
       this.error(error as Error)
