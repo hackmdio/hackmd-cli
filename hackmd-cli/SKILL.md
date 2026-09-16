@@ -67,6 +67,7 @@ hackmd-cli notes create -e
 
 # Update note
 hackmd-cli notes update --noteId=<id> --content='# New Content'
+hackmd-cli notes update --noteId=<id> --title='New title'
 
 # Move note into a folder
 hackmd-cli notes update --noteId=<id> --parentFolderId=<folder-id>
@@ -89,6 +90,7 @@ hackmd-cli team-notes create --teamPath=<team-path> --parentFolderId=<folder-id>
 
 # Update team note
 hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --content='# Updated'
+hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --title='New title'
 
 # Move team note into a folder
 hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --parentFolderId=<folder-id>
@@ -216,7 +218,7 @@ cat doc.md | hackmd-cli notes create --title="My Doc"
 hackmd-cli notes --filter=title="My Doc"
 
 # Update existing note from file and verify
-cat doc.md | hackmd-cli notes update --noteId=<id>
+cat doc.md | hackmd-cli notes update --noteId=<id> --title="My Doc"
 hackmd-cli export --noteId=<id> | head -5
 ```
 
