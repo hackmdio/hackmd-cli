@@ -4,7 +4,7 @@ import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {
-  noteContent, noteId, notePermission, noteTags, parentFolderId, permalink,
+  noteContent, noteId, notePermission, noteTags, noteTitle, parentFolderId, permalink,
 } from '../../flags'
 import {buildNoteUpdatePayload} from '../../note-update'
 import {safeStdinRead} from '../../utils'
@@ -12,6 +12,7 @@ import {safeStdinRead} from '../../utils'
 export default class Update extends HackMDCommand {
   static description = 'Update note'
   static examples = [
+    "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --title='A new title'",
     "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --content='# A new title'",
     "$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --content='# A new title'",
     '$ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner',
@@ -26,12 +27,13 @@ export default class Update extends HackMDCommand {
     permalink,
     readPermission: notePermission(),
     tags: noteTags,
+    title: noteTitle,
     writePermission: notePermission(),
   }
 
   async run() {
     const {flags} = await this.parse(Update)
-    const {content, noteId, parentFolderId, permalink, readPermission, tags, writePermission} = flags
+    const {content, noteId, parentFolderId, permalink, readPermission, tags, title, writePermission} = flags
 
     if (!noteId) {
       this.error('Flag noteId could not be empty')
@@ -42,7 +44,7 @@ export default class Update extends HackMDCommand {
     try {
       payload = buildNoteUpdatePayload(
         {
-          content, parentFolderId, permalink, readPermission, tags, writePermission,
+          content, parentFolderId, permalink, readPermission, tags, title, writePermission,
         },
         stdinContent,
       )

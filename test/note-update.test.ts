@@ -1,8 +1,15 @@
 import {expect} from 'chai'
 
+import NotesUpdate from '../src/commands/notes/update'
+import TeamNotesUpdate from '../src/commands/team-notes/update'
 import {buildNoteUpdatePayload} from '../src/note-update'
 
 describe('Note update payload', () => {
+  it('exposes --title for personal and team note updates', () => {
+    expect(NotesUpdate.flags).to.have.property('title')
+    expect(TeamNotesUpdate.flags).to.have.property('title')
+  })
+
   it('uses piped stdin content without changing it', () => {
     const content = '# Piped content\n\nBody with trailing newline.\n'
 
@@ -30,17 +37,23 @@ describe('Note update payload', () => {
       permalink: 'new-permalink',
       readPermission: 'guest',
       tags: ' tag1, tag2, ,',
+      title: 'New title',
       writePermission: 'owner',
     })).to.deep.equal({
       parentFolderId: 'folder-id',
       permalink: 'new-permalink',
       readPermission: 'guest',
       tags: ['tag1', 'tag2'],
+      title: 'New title',
       writePermission: 'owner',
     })
   })
 
   it('allows an explicit empty --content value', () => {
     expect(buildNoteUpdatePayload({content: ''}, '')).to.deep.equal({content: ''})
+  })
+
+  it('allows an explicit empty --title value', () => {
+    expect(buildNoteUpdatePayload({title: ''})).to.deep.equal({title: ''})
   })
 })
