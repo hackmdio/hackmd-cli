@@ -93,7 +93,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
             header: 'ID',
           },
           tags: {
-            get: row => (row.tags ?? []).join(', '),
+            get: row => ('tags' in row ? row.tags ?? [] : []).join(', '),
           },
           teamPath: {
             header: 'Team path',

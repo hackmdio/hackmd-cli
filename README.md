@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/npm/l/@hackmd/hackmd-cli.svg)](https://github.com/hackmdio/hackmd-cli/blob/master/package.json)
 
 * [Usage](#usage)
+* [Full API access](#full-api-access)
 * [Commands](#commands)
 * [Configuration](#configuration)
 * [License](#license)
@@ -31,13 +32,30 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v26.0.0
+@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.16.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
 ...
 ```
 <!-- usagestop -->
+
+## Full API access
+
+The existing `notes`, `folders`, and other commands remain unchanged. For operations without a dedicated command, use the installed API client's generated operations:
+
+```bash
+hackmd-cli api operations
+hackmd-cli api describe GetTeamNote
+hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
+hackmd-cli api call ListVersions --path noteId=abc --query limit=10
+hackmd-cli api call CreateNote --body @note.json
+hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
+```
+
+Use repeated `--path key=value`, `--query key=value`, and `--header 'Name: value'` flags. `--body` accepts JSON text, `@file`, or `-` for stdin. For multipart image uploads, use `--file image=@path`; the file extension sets its MIME type, or use `--mime` to override it. `--include` prints HTTP status and headers before the response body. Empty 204/304 responses print no body; NDJSON is printed unchanged. Errors exit nonzero.
+
+`api operations` and `api describe` work offline and show what the **installed API client version** supports, not what a connected HackMD EE server necessarily supports. `api call` uses the same access token and endpoint configuration as other commands. Writes are not retried automatically.
 
 ## Configuration
 
@@ -100,6 +118,9 @@ All available configurations are listed in the table below.
 ## Commands
 
 <!-- commands -->
+* [`hackmd-cli api call OPERATIONID`](#hackmd-cli-api-call-operationid)
+* [`hackmd-cli api describe OPERATIONID`](#hackmd-cli-api-describe-operationid)
+* [`hackmd-cli api operations`](#hackmd-cli-api-operations)
 * [`hackmd-cli autocomplete [SHELL]`](#hackmd-cli-autocomplete-shell)
 * [`hackmd-cli export`](#hackmd-cli-export)
 * [`hackmd-cli folders`](#hackmd-cli-folders)
@@ -127,6 +148,66 @@ All available configurations are listed in the table below.
 * [`hackmd-cli teams`](#hackmd-cli-teams)
 * [`hackmd-cli version`](#hackmd-cli-version)
 * [`hackmd-cli whoami`](#hackmd-cli-whoami)
+
+## `hackmd-cli api call OPERATIONID`
+
+Call an operation through the installed @hackmd/api/raw API client
+
+```
+USAGE
+  $ hackmd-cli api call OPERATIONID [--body <value>] [--file <value>] [--header <value>] [-h] [--include]
+    [--mime <value>] [--path <value>] [--query <value>]
+
+FLAGS
+  -h, --help           Show CLI help.
+  --body=<value>       JSON value, @file, or - for stdin
+  --file=<value>...    Multipart binary field, e.g. image=@photo.png
+  --header=<value>...  Request header Name: value
+  --include            Include HTTP status and response headers
+  --mime=<value>       MIME type override for --file
+  --path=<value>...    Path parameter key=value
+  --query=<value>...   Query parameter key=value
+
+DESCRIPTION
+  Call an operation through the installed @hackmd/api/raw API client
+
+EXAMPLES
+  $ hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
+
+  $ hackmd-cli api call CreateNote --body @note.json
+
+  $ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
+```
+
+## `hackmd-cli api describe OPERATIONID`
+
+Describe one installed API client operation (offline)
+
+```
+USAGE
+  $ hackmd-cli api describe OPERATIONID [-h]
+
+FLAGS
+  -h, --help  Show CLI help.
+
+DESCRIPTION
+  Describe one installed API client operation (offline)
+```
+
+## `hackmd-cli api operations`
+
+List operations supported by the installed @hackmd/api API client (offline)
+
+```
+USAGE
+  $ hackmd-cli api operations [-h]
+
+FLAGS
+  -h, --help  Show CLI help.
+
+DESCRIPTION
+  List operations supported by the installed @hackmd/api API client (offline)
+```
 
 ## `hackmd-cli autocomplete [SHELL]`
 
@@ -550,7 +631,7 @@ EXAMPLES
 
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 
-  cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+  $ cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
 ## `hackmd-cli team-folders`
@@ -836,7 +917,7 @@ EXAMPLES
 
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 
-  cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+  $ cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
 ## `hackmd-cli teams`

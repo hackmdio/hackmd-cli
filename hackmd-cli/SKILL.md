@@ -1,6 +1,6 @@
 ---
 name: hackmd-cli
-description: HackMD command-line interface for managing personal/team notes and folders. Use this skill when users want to create, read, update, delete, reorder, or export HackMD notes and folders via CLI, manage team content, list teams, view browsing history, or automate HackMD workflows.
+description: HackMD command-line interface for managing notes and folders or calling any v1 API operation through the installed API client. Use for HackMD content, team workflows, exports, or API automation.
 ---
 
 # HackMD CLI
@@ -34,6 +34,20 @@ export HMD_API_ENDPOINT_URL=https://your.hackmd-ee.endpoint
 ```
 
 ## Commands
+
+### Full v1 API via the installed API client
+
+Prefer the existing `notes`, `folders`, and other focused commands when available. For any other v1 operation, discover the exact operation ID and parameters offline, then call it through the API client's raw layer:
+
+```bash
+hackmd-cli api operations
+hackmd-cli api describe GetTeamNote
+hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
+hackmd-cli api call CreateNote --body @note.json
+hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
+```
+
+Repeat `--path key=value`, `--query key=value`, or `--header 'Name: value'` as needed. `--body` accepts JSON text, `@file`, or `-` for stdin. `--file image=@path` is for multipart upload; use `--mime` if the extension is unknown. `--include` shows HTTP status and headers. The operation list describes the installed API client, not necessarily an older EE server; check server support before using a new operation. Generic writes are not retried automatically. Do not run writes or deletes without the user's authorization.
 
 ### Authentication
 
