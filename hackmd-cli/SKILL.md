@@ -67,7 +67,7 @@ hackmd-cli notes
 hackmd-cli notes --noteId=<id>
 
 # Create note
-hackmd-cli notes create --content='# Title' --title='My Note'
+hackmd-cli notes create --content='# Title' --title='My Note' --description='Summary'
 hackmd-cli notes create --readPermission=owner --writePermission=owner
 
 # Create note inside a folder
@@ -82,9 +82,12 @@ hackmd-cli notes create -e
 # Update note
 hackmd-cli notes update --noteId=<id> --content='# New Content'
 hackmd-cli notes update --noteId=<id> --title='New title'
+hackmd-cli notes update --noteId=<id> --description='New summary'
+hackmd-cli notes update --noteId=<id> --clear=description
 
 # Move note into a folder
 hackmd-cli notes update --noteId=<id> --parentFolderId=<folder-id>
+hackmd-cli notes update --noteId=<id> --root
 
 # Delete note
 hackmd-cli notes delete --noteId=<id>
@@ -96,8 +99,11 @@ hackmd-cli notes delete --noteId=<id>
 # List team notes
 hackmd-cli team-notes --teamPath=<team-path>
 
+# Get a specific team note
+hackmd-cli team-notes --teamPath=<team-path> --noteId=<id>
+
 # Create team note
-hackmd-cli team-notes create --teamPath=<team-path> --content='# Team Doc'
+hackmd-cli team-notes create --teamPath=<team-path> --content='# Team Doc' --description='Summary'
 
 # Create team note inside a folder
 hackmd-cli team-notes create --teamPath=<team-path> --parentFolderId=<folder-id> --content='# Team Doc'
@@ -105,9 +111,12 @@ hackmd-cli team-notes create --teamPath=<team-path> --parentFolderId=<folder-id>
 # Update team note
 hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --content='# Updated'
 hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --title='New title'
+hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --description='New summary'
+hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --clear=description
 
 # Move team note into a folder
 hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --parentFolderId=<folder-id>
+hackmd-cli team-notes update --teamPath=<team-path> --noteId=<id> --root
 
 # Delete team note
 hackmd-cli team-notes delete --teamPath=<team-path> --noteId=<id>
@@ -133,6 +142,8 @@ hackmd-cli folders create --name='Docs' --description='Project docs' --icon=1F60
 
 # Update folder
 hackmd-cli folders update --folderId=<id> --name='Updated Docs'
+hackmd-cli folders update --folderId=<id> --root
+hackmd-cli folders update --folderId=<id> --clear=description --clear=icon --clear=color
 
 # Delete folder
 hackmd-cli folders delete --folderId=<id>
@@ -162,6 +173,8 @@ hackmd-cli team-folders create --teamPath=<team-path> --name='Team Docs' --descr
 
 # Update team folder
 hackmd-cli team-folders update --teamPath=<team-path> --folderId=<id> --name='Updated Team Docs'
+hackmd-cli team-folders update --teamPath=<team-path> --folderId=<id> --root
+hackmd-cli team-folders update --teamPath=<team-path> --folderId=<id> --clear=description
 
 # Delete team folder
 hackmd-cli team-folders delete --teamPath=<team-path> --folderId=<id>
@@ -176,6 +189,7 @@ hackmd-cli team-folders order --teamPath=<team-path> --order='{"root":["folder-i
 ```bash
 hackmd-cli teams              # List accessible teams
 hackmd-cli history            # List browsing history
+hackmd-cli history --limit=10 # Limit the number of items
 ```
 
 ### Export
@@ -194,10 +208,15 @@ Available permission values:
 | `--writePermission`   | `owner`, `signed_in`, `guest`                                    |
 | `--commentPermission` | `disabled`, `forbidden`, `owners`, `signed_in_users`, `everyone` |
 
-## Folder Flags
+## Note and Folder Update Flags
+
+Omitted fields stay unchanged. `--description=''` sets an empty string; `--clear=description` removes the description. Do not set and clear the same field in one command.
 
 ```bash
 --parentFolderId=<folder-id>          # Put note/folder inside another folder
+--root                                # Move a note/folder to root (update only)
+--clear=description                   # Clear note/folder description (update only)
+--clear=icon --clear=color             # Clear folder fields (repeatable, update only)
 --icon=1F600                          # Emoji unified codepoint string
 --color='#4F46E5'                     # Hex color string
 --order='{"root":["id1","id2"]}'  # Folder ordering JSON

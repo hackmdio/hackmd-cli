@@ -30,7 +30,7 @@ function run(args: string[], endpoint: string, configDir: string, input?: string
   })
 }
 
-describe('API commands with local API client', () => {
+describe('CLI commands with local API client', () => {
   const configDir = mkdtempSync(path.join(tmpdir(), 'hackmd-cli-api-'))
   const requests: Array<{authorization: string | undefined; body: string; contentType: string | undefined; url: string | undefined}> = []
   let endpoint = ''
@@ -165,5 +165,122 @@ describe('API commands with local API client', () => {
     expect(notFound.code).not.to.equal(0)
     expect(notFound.stderr).to.include('HTTP 404')
     expect(notFound.stderr).to.include('Note not found')
+  })
+
+  it('passes descriptions when creating personal and team notes', async () => {
+    responseBody = JSON.stringify({id: 'abc', tags: [], title: 'Test'})
+    const personal = await run(['notes', 'create', '--title=Test', '--description=Personal'], endpoint, configDir)
+    expect(personal.code, personal.stderr).to.equal(0)
+    const personalRequest = requests.find(request => request.url === '/v1/notes')
+    expect(JSON.parse(personalRequest!.body)).to.include({description: 'Personal'})
+
+    requests.length = 0
+    const team = await run(['team-notes', 'create', '--teamPath=docs', '--title=Test', '--description=Team'], endpoint, configDir)
+    expect(team.code, team.stderr).to.equal(0)
+    const teamRequest = requests.find(request => request.url === '/v1/teams/docs/notes')
+    expect(JSON.parse(teamRequest!.body)).to.include({description: 'Team'})
+  })
+
+  it('passes description and null root placement when updating personal and team notes', async () => {
+    status = 202
+    const personal = await run(['notes', 'update', '--noteId=abc', '--description=', '--root'], endpoint, configDir)
+    expect(personal.code, personal.stderr).to.equal(0)
+    const personalRequest = requests.find(request => request.url === '/v1/notes/abc')
+    expect(JSON.parse(personalRequest!.body)).to.deep.equal({description: '', parentFolderId: null})
+
+    requests.length = 0
+    const team = await run(['team-notes', 'update', '--teamPath=docs', '--noteId=abc', '--description=Team', '--root'], endpoint, configDir)
+    expect(team.code, team.stderr).to.equal(0)
+    const teamRequest = requests.find(request => request.url === '/v1/teams/docs/notes/abc')
+    expect(JSON.parse(teamRequest!.body)).to.deep.equal({description: 'Team', parentFolderId: null})
+  })
+
+  it('clears nullable personal and team folder fields without changing omitted fields', async () => {
+    status = 202
+    const personal = await run(['folders', 'update', '--folderId=abc', '--clear=description', '--root'], endpoint, configDir)
+    expect(personal.code, personal.stderr).to.equal(0)
+    const personalRequest = requests.find(request => request.url === '/v1/folders/abc')
+    expect(JSON.parse(personalRequest!.body)).to.deep.equal({description: null, parentFolderId: null})
+
+    requests.length = 0
+    const team = await run(['team-folders', 'update', '--teamPath=docs', '--folderId=abc', '--clear=color', '--clear=icon'], endpoint, configDir)
+    expect(team.code, team.stderr).to.equal(0)
+    const teamRequest = requests.find(request => request.url === '/v1/teams/docs/folders/abc')
+    expect(JSON.parse(teamRequest!.body)).to.deep.equal({color: null, icon: null})
+  })
+
+  it('clears personal and team note descriptions with null', async () => {
+    status = 202
+    const personal = await run(['notes', 'update', '--noteId=abc', '--clear=description'], endpoint, configDir)
+    expect(personal.code, personal.stderr).to.equal(0)
+
+    const team = await run(['team-notes', 'update', '--teamPath=docs', '--noteId=abc', '--clear=description'], endpoint, configDir)
+    expect(team.code, team.stderr).to.equal(0)
+    const personalRequest = requests.find(request => request.url === '/v1/notes/abc')
+    const teamRequest = requests.find(request => request.url === '/v1/teams/docs/notes/abc')
+    expect(JSON.parse(personalRequest!.body)).to.deep.equal({description: null})
+    expect(JSON.parse(teamRequest!.body)).to.deep.equal({description: null})
+  })
+
+  it('reads one team note and passes a history limit', async () => {
+    responseBody = JSON.stringify({id: 'abc', tags: [], title: 'Team note'})
+    const note = await run(['team-notes', '--teamPath=docs', '--noteId=abc'], endpoint, configDir)
+    expect(note.code, note.stderr).to.equal(0)
+    expect(note.stdout).to.include('Team note')
+    expect(requests.some(request => request.url === '/v1/teams/docs/notes/abc')).to.be.true
+
+    requests.length = 0
+    responseBody = '[]'
+    const history = await run(['history', '--limit=5'], endpoint, configDir)
+    expect(history.code, history.stderr).to.equal(0)
+    expect(requests.some(request => request.url === '/v1/history?limit=5')).to.be.true
+  })
+
+  for (const [args, url, body] of [
+    [['notes', 'update', '--noteId=abc', '--title=Changed'], '/v1/notes/abc', {title: 'Changed'}],
+    [['team-notes', 'update', '--teamPath=docs', '--noteId=abc', '--title=Changed'], '/v1/teams/docs/notes/abc', {title: 'Changed'}],
+    [['folders', 'update', '--folderId=abc', '--name=Changed'], '/v1/folders/abc', {name: 'Changed'}],
+    [['team-folders', 'update', '--teamPath=docs', '--folderId=abc', '--name=Changed'], '/v1/teams/docs/folders/abc', {name: 'Changed'}],
+  ] as const) {
+    it(`keeps omitted ${args[0]} update fields unchanged`, async () => {
+      status = 202
+      const result = await run([...args], endpoint, configDir)
+      expect(result.code, result.stderr).to.equal(0)
+      const request = requests.find(request => request.url === url)
+      expect(JSON.parse(request!.body)).to.deep.equal(body)
+    })
+  }
+
+  it('keeps the default team list and history requests unchanged', async () => {
+    responseBody = '[]'
+    const team = await run(['team-notes', '--teamPath=docs'], endpoint, configDir)
+    expect(team.code, team.stderr).to.equal(0)
+    expect(requests.some(request => request.url === '/v1/teams/docs/notes')).to.be.true
+
+    const history = await run(['history'], endpoint, configDir)
+    expect(history.code, history.stderr).to.equal(0)
+    expect(requests.some(request => request.url === '/v1/history')).to.be.true
+  })
+
+  it('rejects conflicting and invalid flags before sending any request', async () => {
+    const rootConflict = await run(['notes', 'update', '--noteId=abc', '--parentFolderId=folder', '--root'], endpoint, configDir)
+    expect(rootConflict.code).not.to.equal(0)
+    expect(rootConflict.stderr).to.include('Use either --root or --parentFolderId')
+
+    const clearConflict = await run(['folders', 'update', '--folderId=abc', '--description=Text', '--clear=description'], endpoint, configDir)
+    expect(clearConflict.code).not.to.equal(0)
+    expect(clearConflict.stderr).to.include('Use either --description or --clear=description')
+
+    const noteConflict = await run(['notes', 'update', '--noteId=abc', '--description=', '--clear=description'], endpoint, configDir)
+    expect(noteConflict.code).not.to.equal(0)
+    expect(noteConflict.stderr).to.include('Use either --description or --clear=description')
+
+    const invalidClear = await run(['notes', 'update', '--noteId=abc', '--clear=icon'], endpoint, configDir)
+    expect(invalidClear.code).not.to.equal(0)
+
+    const invalidLimit = await run(['history', '--limit=0'], endpoint, configDir)
+    expect(invalidLimit.code).not.to.equal(0)
+    expect(invalidLimit.stderr).to.include('Flag limit must be a positive integer')
+    expect(requests).to.have.length(0)
   })
 })

@@ -4,7 +4,7 @@ import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {
-  noteContent, noteId, notePermission, noteTags, noteTitle, parentFolderId, permalink, teamPath,
+  clearFields, noteContent, noteDescription, noteId, notePermission, noteTags, noteTitle, parentFolderId, permalink, root, teamPath,
 } from '../../flags'
 import {buildNoteUpdatePayload} from '../../note-update'
 import {safeStdinRead} from '../../utils'
@@ -18,14 +18,19 @@ export default class Update extends HackMDCommand {
     '$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --readPermission=owner --writePermission=owner',
     '$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2',
     '$ cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA',
+    "$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --description='Updated summary' --root",
+    '$ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description',
   ]
   static flags = {
+    clear: clearFields(['description']),
     content: noteContent,
+    description: noteDescription,
     help: Flags.help({char: 'h'}),
     noteId,
     parentFolderId,
     permalink,
     readPermission: notePermission(),
+    root,
     tags: noteTags,
     teamPath,
     title: noteTitle,
@@ -34,7 +39,7 @@ export default class Update extends HackMDCommand {
 
   async run() {
     const {flags} = await this.parse(Update)
-    const {content, noteId, parentFolderId, permalink, readPermission, tags, teamPath, title, writePermission} = flags
+    const {clear, content, description, noteId, parentFolderId, permalink, readPermission, root, tags, teamPath, title, writePermission} = flags
 
     if (!teamPath) {
       this.error('Flag teamPath could not be empty')
@@ -49,7 +54,7 @@ export default class Update extends HackMDCommand {
     try {
       payload = buildNoteUpdatePayload(
         {
-          content, parentFolderId, permalink, readPermission, tags, title, writePermission,
+          clear, content, description, parentFolderId, permalink, readPermission, root, tags, title, writePermission,
         },
         stdinContent,
       )
