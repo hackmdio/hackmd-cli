@@ -12,6 +12,7 @@ import {
   commentPermission,
   editor,
   noteContent,
+  noteDescription,
   notePermission,
   noteTags,
   noteTitle,
@@ -40,10 +41,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli notes create',
+    "hackmd-cli notes create --title='My note' --description='Short summary'",
   ]
   static flags = {
     commentPermission,
     content: noteContent,
+    description: noteDescription,
     editor,
     help: Flags.help({char: 'h'}),
     parentFolderId,
@@ -61,6 +64,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: flags.commentPermission as CommentPermissionType,
       content: pipeString || flags.content,
+      description: flags.description,
       parentFolderId: flags.parentFolderId,
       readPermission: flags.readPermission as NotePermissionRole,
       title: flags.title,
@@ -93,7 +97,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
             header: 'ID',
           },
           tags: {
-            get: row => (row.tags ?? []).join(', '),
+            get: row => ('tags' in row ? row.tags ?? [] : []).join(', '),
           },
           teamPath: {
             header: 'Team path',

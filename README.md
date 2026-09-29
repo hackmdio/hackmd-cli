@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/npm/l/@hackmd/hackmd-cli.svg)](https://github.com/hackmdio/hackmd-cli/blob/master/package.json)
 
 * [Usage](#usage)
+* [Full API access](#full-api-access)
 * [Commands](#commands)
 * [Configuration](#configuration)
 * [License](#license)
@@ -31,13 +32,30 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v26.0.0
+@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.16.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
 ...
 ```
 <!-- usagestop -->
+
+## Full API access
+
+Use the focused `notes`, `folders`, and other commands for common workflows. For other API operations, use `api`:
+
+```bash
+hackmd-cli api operations
+hackmd-cli api describe GetTeamNote
+hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
+hackmd-cli api call ListVersions --path noteId=abc --query limit=10
+hackmd-cli api call CreateNote --body @note.json
+hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
+```
+
+Use repeated `--path key=value`, `--query key=value`, and `--header 'Name: value'` flags. `--body` accepts JSON text, `@file`, or `-` for stdin. For multipart image uploads, use `--file image=@path`; the file extension sets its MIME type, or use `--mime` to override it. `--include` prints HTTP status and headers before the response body. Empty 204/304 responses print no body; NDJSON is printed unchanged. Errors exit nonzero.
+
+`api operations` and `api describe` need no connection or token. They use the API client bundled with this CLI, so older HackMD EE servers may not support every operation. `api call` uses the same access token and endpoint configuration as other commands. Writes are not retried automatically.
 
 ## Configuration
 
@@ -100,6 +118,9 @@ All available configurations are listed in the table below.
 ## Commands
 
 <!-- commands -->
+* [`hackmd-cli api call OPERATIONID`](#hackmd-cli-api-call-operationid)
+* [`hackmd-cli api describe OPERATIONID`](#hackmd-cli-api-describe-operationid)
+* [`hackmd-cli api operations`](#hackmd-cli-api-operations)
 * [`hackmd-cli autocomplete [SHELL]`](#hackmd-cli-autocomplete-shell)
 * [`hackmd-cli export`](#hackmd-cli-export)
 * [`hackmd-cli folders`](#hackmd-cli-folders)
@@ -127,6 +148,66 @@ All available configurations are listed in the table below.
 * [`hackmd-cli teams`](#hackmd-cli-teams)
 * [`hackmd-cli version`](#hackmd-cli-version)
 * [`hackmd-cli whoami`](#hackmd-cli-whoami)
+
+## `hackmd-cli api call OPERATIONID`
+
+Call a HackMD API operation
+
+```
+USAGE
+  $ hackmd-cli api call OPERATIONID [--body <value>] [--file <value>] [--header <value>] [-h] [--include]
+    [--mime <value>] [--path <value>] [--query <value>]
+
+FLAGS
+  -h, --help           Show CLI help.
+  --body=<value>       JSON value, @file, or - for stdin
+  --file=<value>...    Multipart binary field, e.g. image=@photo.png
+  --header=<value>...  Request header Name: value
+  --include            Include HTTP status and response headers
+  --mime=<value>       MIME type override for --file
+  --path=<value>...    Path parameter key=value
+  --query=<value>...   Query parameter key=value
+
+DESCRIPTION
+  Call a HackMD API operation
+
+EXAMPLES
+  $ hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
+
+  $ hackmd-cli api call CreateNote --body @note.json
+
+  $ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
+```
+
+## `hackmd-cli api describe OPERATIONID`
+
+Show details for an API operation
+
+```
+USAGE
+  $ hackmd-cli api describe OPERATIONID [-h]
+
+FLAGS
+  -h, --help  Show CLI help.
+
+DESCRIPTION
+  Show details for an API operation
+```
+
+## `hackmd-cli api operations`
+
+List available API operations
+
+```
+USAGE
+  $ hackmd-cli api operations [-h]
+
+FLAGS
+  -h, --help  Show CLI help.
+
+DESCRIPTION
+  List available API operations
+```
 
 ## `hackmd-cli autocomplete [SHELL]`
 
@@ -298,23 +379,28 @@ Update folder
 
 ```
 USAGE
-  $ hackmd-cli folders update [--color <value>] [--description <value>] [--folderId <value>] [-h] [--icon <value>]
-    [--name <value>] [--parentFolderId <value>]
+  $ hackmd-cli folders update [--clear description|icon|color] [--color <value>] [--description <value>] [--folderId
+    <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root]
 
 FLAGS
   -h, --help                Show CLI help.
+  --clear=<option>...       clear fields: description, icon, color (repeatable)
+                            <options: description|icon|color>
   --color=<value>           folder color
   --description=<value>     folder description
   --folderId=<value>        HackMD folder id
   --icon=<value>            folder icon
   --name=<value>            folder name
   --parentFolderId=<value>  parent folder id
+  --root                    move to the root folder
 
 DESCRIPTION
   Update folder
 
 EXAMPLES
   $ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --name='docs' --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --description='Docs' --icon=1F600 --color=#4F46E5
+
+  $ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
 ## `hackmd-cli help [COMMANDS]`
@@ -343,8 +429,8 @@ List user browse history
 
 ```
 USAGE
-  $ hackmd-cli history [-h] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
-    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli history [-h] [--limit <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -h, --help         Show CLI help.
@@ -352,6 +438,7 @@ FLAGS
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
   --filter=<value>   filter property by partial string matching, ex: name=foo
+  --limit=<value>    maximum number of history items to return
   --no-header        hide table header from output
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
@@ -367,6 +454,8 @@ EXAMPLES
   ────────────────────── ──────────────────────────────── ────────────────────── ────────
   raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
   BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   CLI-test
+
+  $ hackmd-cli history --limit=10
 ```
 
 _See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/history.ts)_
@@ -454,9 +543,10 @@ Create a note
 
 ```
 USAGE
-  $ hackmd-cli notes create [--commentPermission <value>] [--content <value>] [-e] [-h] [--parentFolderId <value>]
-    [--readPermission <value>] [--tags <value>] [--title <value>] [--writePermission <value>] [--columns <value> | -x]
-    [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli notes create [--commentPermission <value>] [--content <value>] [--description <value>] [-e] [-h]
+    [--parentFolderId <value>] [--readPermission <value>] [--tags <value>] [--title <value>] [--writePermission <value>]
+    [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]]
+    [--no-header | ]
 
 FLAGS
   -e, --editor                 create note with $EDITOR
@@ -466,6 +556,7 @@ FLAGS
   --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
   --content=<value>            new note content
   --csv                        output is csv format [alias: --output=csv]
+  --description=<value>        note description
   --filter=<value>             filter property by partial string matching, ex: name=foo
   --no-header                  hide table header from output
   --no-truncate                do not truncate output to fit screen
@@ -495,6 +586,8 @@ EXAMPLES
   Or you can pipe content via Unix pipeline:
 
   cat README.md | hackmd-cli notes create
+
+  $ hackmd-cli notes create --title='My note' --description='Short summary'
 ```
 
 ## `hackmd-cli notes delete`
@@ -522,16 +615,21 @@ Update note
 
 ```
 USAGE
-  $ hackmd-cli notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink
-    <value>] [--readPermission <value>] [--tags <value>] [--title <value>] [--writePermission <value>]
+  $ hackmd-cli notes update [--clear description] [--content <value>] [--description <value>] [-h] [--noteId
+    <value>] [--parentFolderId <value>] [--permalink <value>] [--readPermission <value>] [--root] [--tags <value>]
+    [--title <value>] [--writePermission <value>]
 
 FLAGS
   -h, --help                 Show CLI help.
+  --clear=<option>...        clear fields: description (repeatable)
+                             <options: description>
   --content=<value>          new note content
+  --description=<value>      note description
   --noteId=<value>           HackMD note id
   --parentFolderId=<value>   parent folder id
   --permalink=<value>        note permalink
   --readPermission=<value>   set note permission: owner, signed_in, guest
+  --root                     move to the root folder
   --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
   --title=<value>            new note title
   --writePermission=<value>  set note permission: owner, signed_in, guest
@@ -550,7 +648,11 @@ EXAMPLES
 
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 
-  cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+  $ cat README.md | hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+
+  $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --description='Updated summary' --root
+
+  $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
 ## `hackmd-cli team-folders`
@@ -674,17 +776,20 @@ Update team folder
 
 ```
 USAGE
-  $ hackmd-cli team-folders update [--color <value>] [--description <value>] [--folderId <value>] [-h] [--icon <value>]
-    [--name <value>] [--parentFolderId <value>] [--teamPath <value>]
+  $ hackmd-cli team-folders update [--clear description|icon|color] [--color <value>] [--description <value>] [--folderId
+    <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root] [--teamPath <value>]
 
 FLAGS
   -h, --help                Show CLI help.
+  --clear=<option>...       clear fields: description, icon, color (repeatable)
+                            <options: description|icon|color>
   --color=<value>           folder color
   --description=<value>     folder description
   --folderId=<value>        HackMD folder id
   --icon=<value>            folder icon
   --name=<value>            folder name
   --parentFolderId=<value>  parent folder id
+  --root                    move to the root folder
   --teamPath=<value>        HackMD team path
 
 DESCRIPTION
@@ -692,6 +797,8 @@ DESCRIPTION
 
 EXAMPLES
   $ hackmd-cli team-folders update --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --name='team-docs' --parentFolderId=fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c --description='Docs' --icon=1F600 --color=#4F46E5
+
+  $ hackmd-cli team-folders update --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
 ## `hackmd-cli team-notes`
@@ -700,8 +807,8 @@ HackMD team-notes commands
 
 ```
 USAGE
-  $ hackmd-cli team-notes [-h] [--teamPath <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli team-notes [-h] [--noteId <value>] [--teamPath <value>] [--columns <value> | -x] [--sort <value>]
+    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -h, --help          Show CLI help.
@@ -711,6 +818,7 @@ FLAGS
   --filter=<value>    filter property by partial string matching, ex: name=foo
   --no-header         hide table header from output
   --no-truncate       do not truncate output to fit screen
+  --noteId=<value>    HackMD note id
   --output=<option>   output in a more machine friendly format
                       <options: csv|json|yaml>
   --sort=<value>      property to sort by (prepend '-' for descending)
@@ -725,6 +833,8 @@ EXAMPLES
   ────────────────────── ──────────────────────────────── ──────── ────────
   WNkLM6gkS0Cg2cQ8rv7bYA a team note                      null     CLI-test
   BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test
+
+  $ hackmd-cli team-notes --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
 _See code: [src/commands/team-notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/index.ts)_
@@ -735,10 +845,10 @@ Create a team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes create [--commentPermission <value>] [--content <value>] [-e] [-h] [--parentFolderId <value>]
-    [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--title <value>] [--writePermission <value>]
-    [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]]
-    [--no-header | ]
+  $ hackmd-cli team-notes create [--commentPermission <value>] [--content <value>] [--description <value>] [-e] [-h]
+    [--parentFolderId <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--title <value>]
+    [--writePermission <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |
+    | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -e, --editor                 create note with $EDITOR
@@ -748,6 +858,7 @@ FLAGS
   --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
   --content=<value>            new note content
   --csv                        output is csv format [alias: --output=csv]
+  --description=<value>        note description
   --filter=<value>             filter property by partial string matching, ex: name=foo
   --no-header                  hide table header from output
   --no-truncate                do not truncate output to fit screen
@@ -778,6 +889,8 @@ EXAMPLES
   Or you can pipe content via Unix pipeline:
 
   cat README.md | hackmd-cli team-notes create --teamPath=CLI-test
+
+  $ hackmd-cli team-notes create --teamPath=CLI-test --title='My note' --description='Short summary'
 ```
 
 ## `hackmd-cli team-notes delete`
@@ -806,17 +919,21 @@ Update team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes update [--content <value>] [-h] [--noteId <value>] [--parentFolderId <value>] [--permalink
-    <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--title <value>] [--writePermission
-    <value>]
+  $ hackmd-cli team-notes update [--clear description] [--content <value>] [--description <value>] [-h] [--noteId
+    <value>] [--parentFolderId <value>] [--permalink <value>] [--readPermission <value>] [--root] [--tags <value>]
+    [--teamPath <value>] [--title <value>] [--writePermission <value>]
 
 FLAGS
   -h, --help                 Show CLI help.
+  --clear=<option>...        clear fields: description (repeatable)
+                             <options: description>
   --content=<value>          new note content
+  --description=<value>      note description
   --noteId=<value>           HackMD note id
   --parentFolderId=<value>   parent folder id
   --permalink=<value>        note permalink
   --readPermission=<value>   set note permission: owner, signed_in, guest
+  --root                     move to the root folder
   --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
   --teamPath=<value>         HackMD team path
   --title=<value>            new note title
@@ -836,7 +953,11 @@ EXAMPLES
 
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --tags=tag1,tag2
 
-  cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+  $ cat README.md | hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
+
+  $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --description='Updated summary' --root
+
+  $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
 ## `hackmd-cli teams`

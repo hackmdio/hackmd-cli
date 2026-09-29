@@ -1,7 +1,7 @@
 import {Flags, ux} from '@oclif/core'
 
 import HackMDCommand from '../../command'
-import {teamPath} from '../../flags'
+import {noteId, teamPath} from '../../flags'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD team-notes commands'
@@ -11,9 +11,11 @@ ID                     Title                            User path Team path
 ────────────────────── ──────────────────────────────── ──────── ────────
 WNkLM6gkS0Cg2cQ8rv7bYA a team note                      null     CLI-test
 BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
+    '$ hackmd-cli team-notes --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA',
   ]
   static flags = {
     help: Flags.help({char: 'h'}),
+    noteId,
     teamPath,
     ...ux.table.flags(),
   }
@@ -27,7 +29,9 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null     CLI-test`,
 
     try {
       const APIClient = await this.getAPIClient()
-      const notes = await APIClient.getTeamNotes(flags.teamPath)
+      const notes = flags.noteId
+        ? [await APIClient.getTeamNote(flags.teamPath, flags.noteId)]
+        : await APIClient.getTeamNotes(flags.teamPath)
 
       ux.table(notes, {
         id: {

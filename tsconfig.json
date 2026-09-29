@@ -2,11 +2,12 @@
   "compilerOptions": {
     "declaration": true,
     "importHelpers": true,
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "lib",
     "rootDir": "src",
     "strict": true,
-    "target": "es2017",
+    "target": "ES2022",
     "esModuleInterop": true,
     "skipLibCheck": true
   },
