@@ -76,9 +76,12 @@ describe('CLI commands with local API client', () => {
   it('loads the CJS raw entry and lists/describes operations offline', async () => {
     const raw = createRequire(path.join(process.cwd(), 'package.json'))('@hackmd/api/raw')
     expect(raw.operationRegistry.GetTeamNote.call).to.be.a('function')
+    const help = await run(['api', '--help'], 'http://127.0.0.1:1/v1', configDir)
+    expect(help.code).to.equal(0)
+    expect(help.stdout).to.include('Explore and call HackMD API operations')
     const list = await run(['api', 'operations'], 'http://127.0.0.1:1/v1', configDir)
     expect(list.code).to.equal(0)
-    expect(list.stdout).to.include('installed API client')
+    expect(list.stdout).to.include('Available API operations:')
     expect(list.stdout).to.include('GetTeamNote')
     const describe = await run(['api', 'describe', 'GetTeamNote'], 'http://127.0.0.1:1/v1', configDir)
     expect(describe.code).to.equal(0)

@@ -17,7 +17,7 @@ export type Operation = {
 
 export function getOperation(id: string): Operation {
   if (!Object.hasOwn(operationRegistry, id)) {
-    throw new Error(`Unknown operation "${id}". Run "hackmd-cli api operations" to list the installed API client's operations.`)
+    throw new Error(`Unknown operation "${id}". Run "hackmd-cli api operations" to see available operations.`)
   }
 
   return operationRegistry[id as OperationId]

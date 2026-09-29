@@ -42,7 +42,7 @@ USAGE
 
 ## Full API access
 
-Use the focused `notes`, `folders`, and other commands for common workflows. For operations without a dedicated command, use the installed API client's generated operations:
+Use the focused `notes`, `folders`, and other commands for common workflows. For other API operations, use `api`:
 
 ```bash
 hackmd-cli api operations
@@ -55,7 +55,7 @@ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
 
 Use repeated `--path key=value`, `--query key=value`, and `--header 'Name: value'` flags. `--body` accepts JSON text, `@file`, or `-` for stdin. For multipart image uploads, use `--file image=@path`; the file extension sets its MIME type, or use `--mime` to override it. `--include` prints HTTP status and headers before the response body. Empty 204/304 responses print no body; NDJSON is printed unchanged. Errors exit nonzero.
 
-`api operations` and `api describe` work offline and show what the **installed API client version** supports, not what a connected HackMD EE server necessarily supports. `api call` uses the same access token and endpoint configuration as other commands. Writes are not retried automatically.
+`api operations` and `api describe` need no connection or token. They use the API client bundled with this CLI, so older HackMD EE servers may not support every operation. `api call` uses the same access token and endpoint configuration as other commands. Writes are not retried automatically.
 
 ## Configuration
 
@@ -151,7 +151,7 @@ All available configurations are listed in the table below.
 
 ## `hackmd-cli api call OPERATIONID`
 
-Call an operation through the installed @hackmd/api/raw API client
+Call a HackMD API operation
 
 ```
 USAGE
@@ -169,7 +169,7 @@ FLAGS
   --query=<value>...   Query parameter key=value
 
 DESCRIPTION
-  Call an operation through the installed @hackmd/api/raw API client
+  Call a HackMD API operation
 
 EXAMPLES
   $ hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc
@@ -181,7 +181,7 @@ EXAMPLES
 
 ## `hackmd-cli api describe OPERATIONID`
 
-Describe one installed API client operation (offline)
+Show details for an API operation
 
 ```
 USAGE
@@ -191,12 +191,12 @@ FLAGS
   -h, --help  Show CLI help.
 
 DESCRIPTION
-  Describe one installed API client operation (offline)
+  Show details for an API operation
 ```
 
 ## `hackmd-cli api operations`
 
-List operations supported by the installed @hackmd/api API client (offline)
+List available API operations
 
 ```
 USAGE
@@ -206,7 +206,7 @@ FLAGS
   -h, --help  Show CLI help.
 
 DESCRIPTION
-  List operations supported by the installed @hackmd/api API client (offline)
+  List available API operations
 ```
 
 ## `hackmd-cli autocomplete [SHELL]`

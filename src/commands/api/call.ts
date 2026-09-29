@@ -87,7 +87,7 @@ function formatBody(data: unknown): string {
 
 export default class CallCommand extends HackMDCommand {
   static args = {operationId: Args.string({required: true})}
-  static description = 'Call an operation through the installed @hackmd/api/raw API client'
+  static description = 'Call a HackMD API operation'
   static examples = [
     'hackmd-cli api call GetTeamNote --path teampath=docs --path noteId=abc',
     'hackmd-cli api call CreateNote --body @note.json',

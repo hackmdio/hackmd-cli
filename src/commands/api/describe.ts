@@ -5,7 +5,7 @@ import HackMDCommand from '../../command'
 
 export default class DescribeCommand extends HackMDCommand {
   static args = {operationId: Args.string({required: true})}
-  static description = 'Describe one installed API client operation (offline)'
+  static description = 'Show details for an API operation'
   static flags = {help: Flags.help({char: 'h'})}
 
   async run() {
