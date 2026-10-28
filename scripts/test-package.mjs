@@ -6,6 +6,7 @@ import {
   mkdtemp, readdir, readFile, rm, stat,
 } from 'node:fs/promises'
 import http from 'node:http'
+import {createRequire} from 'node:module'
 import {tmpdir} from 'node:os'
 import path from 'node:path'
 import {performance} from 'node:perf_hooks'
@@ -15,8 +16,12 @@ import {promisify} from 'node:util'
 const exec = promisify(execFile)
 const project = fileURLToPath(new URL('..', import.meta.url))
 const {version} = JSON.parse(await readFile(path.join(project, 'package.json'), 'utf8'))
+// Run npm with Node directly so Windows never needs to launch a .cmd shim.
+const npmPackage = createRequire(import.meta.url).resolve('npm/package.json', {
+  paths: [path.dirname(process.execPath), path.join(path.dirname(process.execPath), '..', 'lib')],
+})
+const npmCli = path.join(path.dirname(npmPackage), 'bin', 'npm-cli.js')
 const temporary = await mkdtemp(path.join(tmpdir(), 'hackmd-cli-package-'))
-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
 const requests = []
 const note = {
   content: '# Test', id: 'note-1', tags: ['test'], teamPath: null, title: '中文😀', userPath: 'tester',
@@ -80,13 +85,14 @@ try {
     XDG_CACHE_HOME: path.join(temporary, 'cache'),
     XDG_CONFIG_HOME: path.join(temporary, '.config'),
   }
-  const packed = await exec(npm, ['pack', '--pack-destination', temporary], {cwd: project, maxBuffer: 10 * 1024 * 1024})
+  const packed = await exec(process.execPath, [npmCli, 'pack', '--pack-destination', temporary], {cwd: project, maxBuffer: 10 * 1024 * 1024})
   const filename = path.join(temporary, packed.stdout.trim().split('\n').at(-1))
   const results = []
   for (const ignoreScripts of [true, false]) {
     const prefix = path.join(temporary, ignoreScripts ? 'ignore-scripts' : 'with-scripts')
     const started = performance.now()
-    const installed = await exec(npm, [
+    const installed = await exec(process.execPath, [
+      npmCli,
       'install',
       '--global',
       filename,
