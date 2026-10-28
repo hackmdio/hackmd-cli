@@ -1,6 +1,6 @@
 import type {CreateTeamFolderBody} from '@hackmd/api'
 
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {
@@ -11,6 +11,7 @@ import {
   parentFolderId,
   teamPath,
 } from '../../flags'
+import {table, tableFlags} from '../../table'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a team folder'
@@ -28,7 +29,7 @@ a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e
     name: folderName,
     parentFolderId,
     teamPath,
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -55,7 +56,7 @@ a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e
       const APIClient = await this.getAPIClient()
       const folder = await APIClient.createTeamFolder(teamPath, payload)
 
-      ux.table(
+      table(
         [folder],
         Object.fromEntries([
           [
