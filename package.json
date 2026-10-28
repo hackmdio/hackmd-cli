@@ -12,9 +12,13 @@
     "@oclif/core": "2.8.2",
     "@oclif/plugin-help": "5.2.9",
     "@oclif/plugin-version": "1.3.3",
+    "cli-table3": "^0.6.5",
     "fs-extra": "^8.1.0",
     "lodash.defaults": "^4.2.0",
-    "tslib": "^2.5.0"
+    "natural-orderby": "^5.0.0",
+    "string-width": "^4.2.3",
+    "tslib": "^2.5.0",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
