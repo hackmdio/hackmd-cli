@@ -19,7 +19,7 @@ export function fishCompletion(bin: string, commands: Command.Loadable[]): strin
     '  if test (count $words) -lt (count $argv)',
     '    return 1',
     '  end',
-    '  for i in (seq (count $argv))',
+    '  for i in (test (count $argv) -gt 0; and seq (count $argv))',
     '    if test "$words[$i]" != "$argv[$i]"',
     '      return 1',
     '    end',
@@ -30,6 +30,8 @@ export function fishCompletion(bin: string, commands: Command.Loadable[]): strin
     '  return 0',
     'end',
     `complete -c ${fishQuote(bin)} -f`,
+    `complete -c ${fishQuote(bin)} -n ${fishQuote(`${predicate} exact`)} -l help -s h -d 'Display help for the CLI'`,
+    `complete -c ${fishQuote(bin)} -n ${fishQuote(`${predicate} exact`)} -l version -s v -d 'Display the CLI version'`,
   ]
   const seen = new Set<string>()
   for (const command of commands.filter(command => !command.hidden)) {
