@@ -1,4 +1,5 @@
 {
+  "node-option": ["no-experimental-strip-types"],
   "require": [
     "test/helpers/init.js",
     "ts-node/register"

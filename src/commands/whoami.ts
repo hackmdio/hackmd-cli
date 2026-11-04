@@ -1,6 +1,7 @@
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../command'
+import {table, tableFlags} from '../table'
 
 export default class Whoami extends HackMDCommand {
   static description = 'Show current user information'
@@ -12,7 +13,7 @@ ID                                   Name           Email User path
   ]
   static flags = {
     help: Flags.help({char: 'h'}),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -22,7 +23,7 @@ ID                                   Name           Email User path
       const APIClient = await this.getAPIClient()
       const user = await APIClient.getMe()
 
-      ux.table([user], {
+      table([user], {
         email: {},
         id: {
           header: 'ID',
