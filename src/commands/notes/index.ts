@@ -1,7 +1,8 @@
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {noteId} from '../../flags'
+import {table, tableFlags} from '../../table'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD notes commands'
@@ -14,7 +15,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
   static flags = {
     help: Flags.help({char: 'h'}),
     noteId,
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -24,7 +25,7 @@ raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q n
       const APIClient = await this.getAPIClient()
       const notes = flags.noteId ? [await APIClient.getNote(flags.noteId)] : await APIClient.getNoteList()
 
-      ux.table(notes, {
+      table(notes, {
         id: {
           header: 'ID',
         },

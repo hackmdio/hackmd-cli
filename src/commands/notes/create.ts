@@ -4,7 +4,7 @@ import type {
   NotePermissionRole,
 } from '@hackmd/api'
 
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 import * as fs from 'node:fs'
 
 import HackMDCommand from '../../command'
@@ -19,6 +19,7 @@ import {
   parentFolderId,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
+import {table, tableFlags} from '../../table'
 import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class CreateCommand extends HackMDCommand {
@@ -54,7 +55,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     tags: noteTags,
     title: noteTitle,
     writePermission: notePermission(),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -90,7 +91,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
       const APIClient = await this.getAPIClient()
       const note = await APIClient.createNote(options as CreateNoteOptions)
 
-      ux.table(
+      table(
         [note],
         {
           id: {

@@ -1,7 +1,7 @@
 
 import type {CreateUserFolderBody} from '@hackmd/api'
 
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {
@@ -11,6 +11,7 @@ import {
   folderName,
   parentFolderId,
 } from '../../flags'
+import {table, tableFlags} from '../../table'
 
 export default class Create extends HackMDCommand {
   static description = 'Create a folder'
@@ -27,7 +28,7 @@ a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #
     icon: folderIcon,
     name: folderName,
     parentFolderId,
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -50,7 +51,7 @@ a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #
       const APIClient = await this.getAPIClient()
       const folder = await APIClient.createFolder(payload)
 
-      ux.table(
+      table(
         [folder],
         Object.fromEntries([
           [

@@ -1,7 +1,8 @@
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../../command'
 import {folderId} from '../../flags'
+import {table, tableFlags} from '../../table'
 
 export default class IndexCommand extends HackMDCommand {
   static description = 'HackMD folders commands'
@@ -14,7 +15,7 @@ ID                                   Color   Description           Icon  Name   
   static flags = {
     folderId,
     help: Flags.help({char: 'h'}),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -24,7 +25,7 @@ ID                                   Color   Description           Icon  Name   
       const APIClient = await this.getAPIClient()
       const folders = flags.folderId ? [await APIClient.getFolder(flags.folderId)] : await APIClient.getFolderList()
 
-      ux.table(
+      table(
         folders,
         Object.fromEntries([
           [

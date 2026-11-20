@@ -1,6 +1,7 @@
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../command'
+import {table, tableFlags} from '../table'
 
 export default class History extends HackMDCommand {
   static description = 'List user browse history'
@@ -15,7 +16,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
   static flags = {
     help: Flags.help({char: 'h'}),
     limit: Flags.integer({description: 'maximum number of history items to return'}),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -29,7 +30,7 @@ BnC6gN0_TfStV2KKmPPXeg Welcome to your team's workspace null                   C
       const APIClient = await this.getAPIClient()
       const history = await APIClient.getHistory(flags.limit === undefined ? undefined : {limit: flags.limit})
 
-      ux.table(history, {
+      table(history, {
         id: {
           header: 'ID',
         },

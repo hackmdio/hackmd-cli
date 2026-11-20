@@ -32,13 +32,19 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.16.0
+@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.22.1
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
 ...
 ```
 <!-- usagestop -->
+
+### Shell completion
+
+Run `hackmd-cli autocomplete bash`, `hackmd-cli autocomplete zsh`, or `hackmd-cli autocomplete fish` and follow the printed setup instructions.
+
+Fish completion is generated in the CLI cache. Its setup instructions copy the generated file into your user completion directory; no system directory or `pkg-config` is required. Run the setup again after upgrading the CLI.
 
 ## Full API access
 
@@ -69,7 +75,7 @@ Set the access token by `login` command. By doing so, the access token will be s
 
 ```sh-session
 $ hackmd-cli login
-Enter your access token: My_ACCESS_TOKEN
+Enter your access token: [hidden]
 ```
 
 Or you don't want to keep the credentials in one file, you can set it through environment variable:
@@ -128,7 +134,7 @@ All available configurations are listed in the table below.
 * [`hackmd-cli folders delete`](#hackmd-cli-folders-delete)
 * [`hackmd-cli folders order`](#hackmd-cli-folders-order)
 * [`hackmd-cli folders update`](#hackmd-cli-folders-update)
-* [`hackmd-cli help [COMMANDS]`](#hackmd-cli-help-commands)
+* [`hackmd-cli help [COMMAND]`](#hackmd-cli-help-command)
 * [`hackmd-cli history`](#hackmd-cli-history)
 * [`hackmd-cli login`](#hackmd-cli-login)
 * [`hackmd-cli logout`](#hackmd-cli-logout)
@@ -155,18 +161,18 @@ Call a HackMD API operation
 
 ```
 USAGE
-  $ hackmd-cli api call OPERATIONID [--body <value>] [--file <value>] [--header <value>] [-h] [--include]
-    [--mime <value>] [--path <value>] [--query <value>]
+  $ hackmd-cli api call OPERATIONID [--body <value>] [--file <value>...] [--header <value>...] [-h]
+    [--include] [--mime <value>] [--path <value>...] [--query <value>...]
 
 FLAGS
-  -h, --help           Show CLI help.
-  --body=<value>       JSON value, @file, or - for stdin
-  --file=<value>...    Multipart binary field, e.g. image=@photo.png
-  --header=<value>...  Request header Name: value
-  --include            Include HTTP status and response headers
-  --mime=<value>       MIME type override for --file
-  --path=<value>...    Path parameter key=value
-  --query=<value>...   Query parameter key=value
+  -h, --help               Show CLI help.
+      --body=<value>       JSON value, @file, or - for stdin
+      --file=<value>...    Multipart binary field, e.g. image=@photo.png
+      --header=<value>...  Request header Name: value
+      --include            Include HTTP status and response headers
+      --mime=<value>       MIME type override for --file
+      --path=<value>...    Path parameter key=value
+      --query=<value>...   Query parameter key=value
 
 DESCRIPTION
   Call a HackMD API operation
@@ -178,6 +184,8 @@ EXAMPLES
 
   $ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
 ```
+
+_See code: [src/commands/api/call.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/call.ts)_
 
 ## `hackmd-cli api describe OPERATIONID`
 
@@ -194,6 +202,8 @@ DESCRIPTION
   Show details for an API operation
 ```
 
+_See code: [src/commands/api/describe.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/describe.ts)_
+
 ## `hackmd-cli api operations`
 
 List available API operations
@@ -209,22 +219,24 @@ DESCRIPTION
   List available API operations
 ```
 
+_See code: [src/commands/api/operations.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/operations.ts)_
+
 ## `hackmd-cli autocomplete [SHELL]`
 
-display autocomplete installation instructions
+Display autocomplete installation instructions
 
 ```
 USAGE
   $ hackmd-cli autocomplete [SHELL] [-r]
 
 ARGUMENTS
-  SHELL  shell type
+  [SHELL]  (bash|fish|zsh|powershell) Shell type
 
 FLAGS
   -r, --refresh-cache  Refresh cache (ignores displaying instructions)
 
 DESCRIPTION
-  display autocomplete installation instructions
+  Display autocomplete installation instructions
 
 EXAMPLES
   $ hackmd-cli autocomplete
@@ -238,7 +250,7 @@ EXAMPLES
   $ hackmd-cli autocomplete --refresh-cache
 ```
 
-_See code: [@hackmd/oclif-plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v2.1.9-fish/src/commands/autocomplete/index.ts)_
+_See code: [src/commands/autocomplete/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/autocomplete/index.ts)_
 
 ## `hackmd-cli export`
 
@@ -249,8 +261,8 @@ USAGE
   $ hackmd-cli export [-h] [--noteId <value>]
 
 FLAGS
-  -h, --help        Show CLI help.
-  --noteId=<value>  HackMD note id
+  -h, --help            Show CLI help.
+      --noteId=<value>  HackMD note id
 
 DESCRIPTION
   Export note content
@@ -268,21 +280,21 @@ HackMD folders commands
 
 ```
 USAGE
-  $ hackmd-cli folders [--folderId <value>] [-h] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli folders [--folderId <value>] [-h] [--columns <value> | -x] [--filter <value>] [--no-header |
+    [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  -x, --extended      show extra columns
-  --columns=<value>   only show provided columns (comma-separated)
-  --csv               output is csv format [alias: --output=csv]
-  --filter=<value>    filter property by partial string matching, ex: name=foo
-  --folderId=<value>  HackMD folder id
-  --no-header         hide table header from output
-  --no-truncate       do not truncate output to fit screen
-  --output=<option>   output in a more machine friendly format
-                      <options: csv|json|yaml>
-  --sort=<value>      property to sort by (prepend '-' for descending)
+  -h, --help              Show CLI help.
+  -x, --extended          show extra columns
+      --columns=<value>   only show provided columns (comma-separated)
+      --csv               output is csv format [alias: --output=csv]
+      --filter=<value>    filter property by partial string matching, ex: name=foo
+      --folderId=<value>  HackMD folder id
+      --no-header         hide table header from output
+      --no-truncate       do not truncate output to fit screen
+      --output=<option>   output in a more machine friendly format
+                          <options: csv|json|yaml>
+      --sort=<value>      property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   HackMD folders commands
@@ -303,25 +315,25 @@ Create a folder
 ```
 USAGE
   $ hackmd-cli folders create [--color <value>] [--description <value>] [-h] [--icon <value>] [--name <value>]
-    [--parentFolderId <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  |
-    [--csv | --no-truncate]] [--no-header | ]
+    [--parentFolderId <value>] [--columns <value> | -x] [--filter <value>] [--no-header | [--csv | --no-truncate]]
+    [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help                Show CLI help.
-  -x, --extended            show extra columns
-  --color=<value>           folder color
-  --columns=<value>         only show provided columns (comma-separated)
-  --csv                     output is csv format [alias: --output=csv]
-  --description=<value>     folder description
-  --filter=<value>          filter property by partial string matching, ex: name=foo
-  --icon=<value>            folder icon
-  --name=<value>            folder name
-  --no-header               hide table header from output
-  --no-truncate             do not truncate output to fit screen
-  --output=<option>         output in a more machine friendly format
-                            <options: csv|json|yaml>
-  --parentFolderId=<value>  parent folder id
-  --sort=<value>            property to sort by (prepend '-' for descending)
+  -h, --help                    Show CLI help.
+  -x, --extended                show extra columns
+      --color=<value>           folder color
+      --columns=<value>         only show provided columns (comma-separated)
+      --csv                     output is csv format [alias: --output=csv]
+      --description=<value>     folder description
+      --filter=<value>          filter property by partial string matching, ex: name=foo
+      --icon=<value>            folder icon
+      --name=<value>            folder name
+      --no-header               hide table header from output
+      --no-truncate             do not truncate output to fit screen
+      --output=<option>         output in a more machine friendly format
+                                <options: csv|json|yaml>
+      --parentFolderId=<value>  parent folder id
+      --sort=<value>            property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Create a folder
@@ -333,6 +345,8 @@ EXAMPLES
   a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600
 ```
 
+_See code: [src/commands/folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/create.ts)_
+
 ## `hackmd-cli folders delete`
 
 Delete a folder
@@ -342,8 +356,8 @@ USAGE
   $ hackmd-cli folders delete [--folderId <value>] [-h]
 
 FLAGS
-  -h, --help          Show CLI help.
-  --folderId=<value>  HackMD folder id
+  -h, --help              Show CLI help.
+      --folderId=<value>  HackMD folder id
 
 DESCRIPTION
   Delete a folder
@@ -351,6 +365,8 @@ DESCRIPTION
 EXAMPLES
   $ hackmd-cli folders delete --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 ```
+
+_See code: [src/commands/folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/delete.ts)_
 
 ## `hackmd-cli folders order`
 
@@ -361,8 +377,8 @@ USAGE
   $ hackmd-cli folders order [-h] [--order <value>]
 
 FLAGS
-  -h, --help       Show CLI help.
-  --order=<value>  folder order JSON, e.g. {"root":["folder-id"]}
+  -h, --help           Show CLI help.
+      --order=<value>  folder order JSON, e.g. {"root":["folder-id"]}
 
 DESCRIPTION
   Get or update folder order
@@ -373,26 +389,28 @@ EXAMPLES
   $ hackmd-cli folders order --order='{"root":["91722050-bf47-4334-9e5d-87125a724c29","fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c"]}'
 ```
 
+_See code: [src/commands/folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/order.ts)_
+
 ## `hackmd-cli folders update`
 
 Update folder
 
 ```
 USAGE
-  $ hackmd-cli folders update [--clear description|icon|color] [--color <value>] [--description <value>] [--folderId
-    <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root]
+  $ hackmd-cli folders update [--clear description|icon|color...] [--color <value>] [--description <value>]
+    [--folderId <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root]
 
 FLAGS
-  -h, --help                Show CLI help.
-  --clear=<option>...       clear fields: description, icon, color (repeatable)
-                            <options: description|icon|color>
-  --color=<value>           folder color
-  --description=<value>     folder description
-  --folderId=<value>        HackMD folder id
-  --icon=<value>            folder icon
-  --name=<value>            folder name
-  --parentFolderId=<value>  parent folder id
-  --root                    move to the root folder
+  -h, --help                    Show CLI help.
+      --clear=<option>...       clear fields: description, icon, color (repeatable)
+                                <options: description|icon|color>
+      --color=<value>           folder color
+      --description=<value>     folder description
+      --folderId=<value>        HackMD folder id
+      --icon=<value>            folder icon
+      --name=<value>            folder name
+      --parentFolderId=<value>  parent folder id
+      --root                    move to the root folder
 
 DESCRIPTION
   Update folder
@@ -403,16 +421,18 @@ EXAMPLES
   $ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
-## `hackmd-cli help [COMMANDS]`
+_See code: [src/commands/folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/update.ts)_
+
+## `hackmd-cli help [COMMAND]`
 
 Display help for hackmd-cli.
 
 ```
 USAGE
-  $ hackmd-cli help [COMMANDS] [-n]
+  $ hackmd-cli help [COMMAND...] [-n]
 
 ARGUMENTS
-  COMMANDS  Command to show help for.
+  [COMMAND...]  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
@@ -421,7 +441,7 @@ DESCRIPTION
   Display help for hackmd-cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.9/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/7.0.5/src/commands/help.ts)_
 
 ## `hackmd-cli history`
 
@@ -429,21 +449,21 @@ List user browse history
 
 ```
 USAGE
-  $ hackmd-cli history [-h] [--limit <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli history [-h] [--limit <value>] [--columns <value> | -x] [--filter <value>] [--no-header |
+    [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help         Show CLI help.
-  -x, --extended     show extra columns
-  --columns=<value>  only show provided columns (comma-separated)
-  --csv              output is csv format [alias: --output=csv]
-  --filter=<value>   filter property by partial string matching, ex: name=foo
-  --limit=<value>    maximum number of history items to return
-  --no-header        hide table header from output
-  --no-truncate      do not truncate output to fit screen
-  --output=<option>  output in a more machine friendly format
-                     <options: csv|json|yaml>
-  --sort=<value>     property to sort by (prepend '-' for descending)
+  -h, --help             Show CLI help.
+  -x, --extended         show extra columns
+      --columns=<value>  only show provided columns (comma-separated)
+      --csv              output is csv format [alias: --output=csv]
+      --filter=<value>   filter property by partial string matching, ex: name=foo
+      --limit=<value>    maximum number of history items to return
+      --no-header        hide table header from output
+      --no-truncate      do not truncate output to fit screen
+      --output=<option>  output in a more machine friendly format
+                         <options: csv|json|yaml>
+      --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   List user browse history
@@ -509,21 +529,21 @@ HackMD notes commands
 
 ```
 USAGE
-  $ hackmd-cli notes [-h] [--noteId <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli notes [-h] [--noteId <value>] [--columns <value> | -x] [--filter <value>] [--no-header |
+    [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help         Show CLI help.
-  -x, --extended     show extra columns
-  --columns=<value>  only show provided columns (comma-separated)
-  --csv              output is csv format [alias: --output=csv]
-  --filter=<value>   filter property by partial string matching, ex: name=foo
-  --no-header        hide table header from output
-  --no-truncate      do not truncate output to fit screen
-  --noteId=<value>   HackMD note id
-  --output=<option>  output in a more machine friendly format
-                     <options: csv|json|yaml>
-  --sort=<value>     property to sort by (prepend '-' for descending)
+  -h, --help             Show CLI help.
+  -x, --extended         show extra columns
+      --columns=<value>  only show provided columns (comma-separated)
+      --csv              output is csv format [alias: --output=csv]
+      --filter=<value>   filter property by partial string matching, ex: name=foo
+      --no-header        hide table header from output
+      --no-truncate      do not truncate output to fit screen
+      --noteId=<value>   HackMD note id
+      --output=<option>  output in a more machine friendly format
+                         <options: csv|json|yaml>
+      --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   HackMD notes commands
@@ -545,29 +565,29 @@ Create a note
 USAGE
   $ hackmd-cli notes create [--commentPermission <value>] [--content <value>] [--description <value>] [-e] [-h]
     [--parentFolderId <value>] [--readPermission <value>] [--tags <value>] [--title <value>] [--writePermission <value>]
-    [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]]
-    [--no-header | ]
+    [--columns <value> | -x] [--filter <value>] [--no-header | [--csv | --no-truncate]] [--output csv|json|yaml |  | ]
+    [--sort <value>]
 
 FLAGS
-  -e, --editor                 create note with $EDITOR
-  -h, --help                   Show CLI help.
-  -x, --extended               show extra columns
-  --columns=<value>            only show provided columns (comma-separated)
-  --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
-  --content=<value>            new note content
-  --csv                        output is csv format [alias: --output=csv]
-  --description=<value>        note description
-  --filter=<value>             filter property by partial string matching, ex: name=foo
-  --no-header                  hide table header from output
-  --no-truncate                do not truncate output to fit screen
-  --output=<option>            output in a more machine friendly format
-                               <options: csv|json|yaml>
-  --parentFolderId=<value>     parent folder id
-  --readPermission=<value>     set note permission: owner, signed_in, guest
-  --sort=<value>               property to sort by (prepend '-' for descending)
-  --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
-  --title=<value>              new note title
-  --writePermission=<value>    set note permission: owner, signed_in, guest
+  -e, --editor                     create note with $EDITOR
+  -h, --help                       Show CLI help.
+  -x, --extended                   show extra columns
+      --columns=<value>            only show provided columns (comma-separated)
+      --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
+      --content=<value>            new note content
+      --csv                        output is csv format [alias: --output=csv]
+      --description=<value>        note description
+      --filter=<value>             filter property by partial string matching, ex: name=foo
+      --no-header                  hide table header from output
+      --no-truncate                do not truncate output to fit screen
+      --output=<option>            output in a more machine friendly format
+                                   <options: csv|json|yaml>
+      --parentFolderId=<value>     parent folder id
+      --readPermission=<value>     set note permission: owner, signed_in, guest
+      --sort=<value>               property to sort by (prepend '-' for descending)
+      --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
+      --title=<value>              new note title
+      --writePermission=<value>    set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Create a note
@@ -590,6 +610,8 @@ EXAMPLES
   $ hackmd-cli notes create --title='My note' --description='Short summary'
 ```
 
+_See code: [src/commands/notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/create.ts)_
+
 ## `hackmd-cli notes delete`
 
 Delete a note
@@ -599,8 +621,8 @@ USAGE
   $ hackmd-cli notes delete [-h] [--noteId <value>]
 
 FLAGS
-  -h, --help        Show CLI help.
-  --noteId=<value>  HackMD note id
+  -h, --help            Show CLI help.
+      --noteId=<value>  HackMD note id
 
 DESCRIPTION
   Delete a note
@@ -609,30 +631,32 @@ EXAMPLES
   $ hackmd-cli notes delete --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
+_See code: [src/commands/notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/delete.ts)_
+
 ## `hackmd-cli notes update`
 
 Update note
 
 ```
 USAGE
-  $ hackmd-cli notes update [--clear description] [--content <value>] [--description <value>] [-h] [--noteId
+  $ hackmd-cli notes update [--clear description...] [--content <value>] [--description <value>] [-h] [--noteId
     <value>] [--parentFolderId <value>] [--permalink <value>] [--readPermission <value>] [--root] [--tags <value>]
     [--title <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                 Show CLI help.
-  --clear=<option>...        clear fields: description (repeatable)
-                             <options: description>
-  --content=<value>          new note content
-  --description=<value>      note description
-  --noteId=<value>           HackMD note id
-  --parentFolderId=<value>   parent folder id
-  --permalink=<value>        note permalink
-  --readPermission=<value>   set note permission: owner, signed_in, guest
-  --root                     move to the root folder
-  --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
-  --title=<value>            new note title
-  --writePermission=<value>  set note permission: owner, signed_in, guest
+  -h, --help                     Show CLI help.
+      --clear=<option>...        clear fields: description (repeatable)
+                                 <options: description>
+      --content=<value>          new note content
+      --description=<value>      note description
+      --noteId=<value>           HackMD note id
+      --parentFolderId=<value>   parent folder id
+      --permalink=<value>        note permalink
+      --readPermission=<value>   set note permission: owner, signed_in, guest
+      --root                     move to the root folder
+      --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
+      --title=<value>            new note title
+      --writePermission=<value>  set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Update note
@@ -655,28 +679,30 @@ EXAMPLES
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
+_See code: [src/commands/notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/update.ts)_
+
 ## `hackmd-cli team-folders`
 
 HackMD team folders commands
 
 ```
 USAGE
-  $ hackmd-cli team-folders [--folderId <value>] [-h] [--teamPath <value>] [--columns <value> | -x] [--sort
-    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli team-folders [--folderId <value>] [-h] [--teamPath <value>] [--columns <value> | -x] [--filter
+    <value>] [--no-header | [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  -x, --extended      show extra columns
-  --columns=<value>   only show provided columns (comma-separated)
-  --csv               output is csv format [alias: --output=csv]
-  --filter=<value>    filter property by partial string matching, ex: name=foo
-  --folderId=<value>  HackMD folder id
-  --no-header         hide table header from output
-  --no-truncate       do not truncate output to fit screen
-  --output=<option>   output in a more machine friendly format
-                      <options: csv|json|yaml>
-  --sort=<value>      property to sort by (prepend '-' for descending)
-  --teamPath=<value>  HackMD team path
+  -h, --help              Show CLI help.
+  -x, --extended          show extra columns
+      --columns=<value>   only show provided columns (comma-separated)
+      --csv               output is csv format [alias: --output=csv]
+      --filter=<value>    filter property by partial string matching, ex: name=foo
+      --folderId=<value>  HackMD folder id
+      --no-header         hide table header from output
+      --no-truncate       do not truncate output to fit screen
+      --output=<option>   output in a more machine friendly format
+                          <options: csv|json|yaml>
+      --sort=<value>      property to sort by (prepend '-' for descending)
+      --teamPath=<value>  HackMD team path
 
 DESCRIPTION
   HackMD team folders commands
@@ -697,26 +723,26 @@ Create a team folder
 ```
 USAGE
   $ hackmd-cli team-folders create [--color <value>] [--description <value>] [-h] [--icon <value>] [--name <value>]
-    [--parentFolderId <value>] [--teamPath <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+    [--parentFolderId <value>] [--teamPath <value>] [--columns <value> | -x] [--filter <value>] [--no-header | [--csv |
+    --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help                Show CLI help.
-  -x, --extended            show extra columns
-  --color=<value>           folder color
-  --columns=<value>         only show provided columns (comma-separated)
-  --csv                     output is csv format [alias: --output=csv]
-  --description=<value>     folder description
-  --filter=<value>          filter property by partial string matching, ex: name=foo
-  --icon=<value>            folder icon
-  --name=<value>            folder name
-  --no-header               hide table header from output
-  --no-truncate             do not truncate output to fit screen
-  --output=<option>         output in a more machine friendly format
-                            <options: csv|json|yaml>
-  --parentFolderId=<value>  parent folder id
-  --sort=<value>            property to sort by (prepend '-' for descending)
-  --teamPath=<value>        HackMD team path
+  -h, --help                    Show CLI help.
+  -x, --extended                show extra columns
+      --color=<value>           folder color
+      --columns=<value>         only show provided columns (comma-separated)
+      --csv                     output is csv format [alias: --output=csv]
+      --description=<value>     folder description
+      --filter=<value>          filter property by partial string matching, ex: name=foo
+      --icon=<value>            folder icon
+      --name=<value>            folder name
+      --no-header               hide table header from output
+      --no-truncate             do not truncate output to fit screen
+      --output=<option>         output in a more machine friendly format
+                                <options: csv|json|yaml>
+      --parentFolderId=<value>  parent folder id
+      --sort=<value>            property to sort by (prepend '-' for descending)
+      --teamPath=<value>        HackMD team path
 
 DESCRIPTION
   Create a team folder
@@ -728,6 +754,8 @@ EXAMPLES
   a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600
 ```
 
+_See code: [src/commands/team-folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/create.ts)_
+
 ## `hackmd-cli team-folders delete`
 
 Delete a team folder
@@ -737,9 +765,9 @@ USAGE
   $ hackmd-cli team-folders delete [--folderId <value>] [-h] [--teamPath <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  --folderId=<value>  HackMD folder id
-  --teamPath=<value>  HackMD team path
+  -h, --help              Show CLI help.
+      --folderId=<value>  HackMD folder id
+      --teamPath=<value>  HackMD team path
 
 DESCRIPTION
   Delete a team folder
@@ -747,6 +775,8 @@ DESCRIPTION
 EXAMPLES
   $ hackmd-cli team-folders delete --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 ```
+
+_See code: [src/commands/team-folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/delete.ts)_
 
 ## `hackmd-cli team-folders order`
 
@@ -757,9 +787,9 @@ USAGE
   $ hackmd-cli team-folders order [-h] [--order <value>] [--teamPath <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  --order=<value>     folder order JSON, e.g. {"root":["folder-id"]}
-  --teamPath=<value>  HackMD team path
+  -h, --help              Show CLI help.
+      --order=<value>     folder order JSON, e.g. {"root":["folder-id"]}
+      --teamPath=<value>  HackMD team path
 
 DESCRIPTION
   Get or update team folder order
@@ -770,27 +800,29 @@ EXAMPLES
   $ hackmd-cli team-folders order --teamPath=CLI-test --order='{"root":["91722050-bf47-4334-9e5d-87125a724c29","fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c"]}'
 ```
 
+_See code: [src/commands/team-folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/order.ts)_
+
 ## `hackmd-cli team-folders update`
 
 Update team folder
 
 ```
 USAGE
-  $ hackmd-cli team-folders update [--clear description|icon|color] [--color <value>] [--description <value>] [--folderId
-    <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root] [--teamPath <value>]
+  $ hackmd-cli team-folders update [--clear description|icon|color...] [--color <value>] [--description <value>]
+    [--folderId <value>] [-h] [--icon <value>] [--name <value>] [--parentFolderId <value>] [--root] [--teamPath <value>]
 
 FLAGS
-  -h, --help                Show CLI help.
-  --clear=<option>...       clear fields: description, icon, color (repeatable)
-                            <options: description|icon|color>
-  --color=<value>           folder color
-  --description=<value>     folder description
-  --folderId=<value>        HackMD folder id
-  --icon=<value>            folder icon
-  --name=<value>            folder name
-  --parentFolderId=<value>  parent folder id
-  --root                    move to the root folder
-  --teamPath=<value>        HackMD team path
+  -h, --help                    Show CLI help.
+      --clear=<option>...       clear fields: description, icon, color (repeatable)
+                                <options: description|icon|color>
+      --color=<value>           folder color
+      --description=<value>     folder description
+      --folderId=<value>        HackMD folder id
+      --icon=<value>            folder icon
+      --name=<value>            folder name
+      --parentFolderId=<value>  parent folder id
+      --root                    move to the root folder
+      --teamPath=<value>        HackMD team path
 
 DESCRIPTION
   Update team folder
@@ -801,28 +833,30 @@ EXAMPLES
   $ hackmd-cli team-folders update --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
+_See code: [src/commands/team-folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/update.ts)_
+
 ## `hackmd-cli team-notes`
 
 HackMD team-notes commands
 
 ```
 USAGE
-  $ hackmd-cli team-notes [-h] [--noteId <value>] [--teamPath <value>] [--columns <value> | -x] [--sort <value>]
-    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli team-notes [-h] [--noteId <value>] [--teamPath <value>] [--columns <value> | -x] [--filter
+    <value>] [--no-header | [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  -x, --extended      show extra columns
-  --columns=<value>   only show provided columns (comma-separated)
-  --csv               output is csv format [alias: --output=csv]
-  --filter=<value>    filter property by partial string matching, ex: name=foo
-  --no-header         hide table header from output
-  --no-truncate       do not truncate output to fit screen
-  --noteId=<value>    HackMD note id
-  --output=<option>   output in a more machine friendly format
-                      <options: csv|json|yaml>
-  --sort=<value>      property to sort by (prepend '-' for descending)
-  --teamPath=<value>  HackMD team path
+  -h, --help              Show CLI help.
+  -x, --extended          show extra columns
+      --columns=<value>   only show provided columns (comma-separated)
+      --csv               output is csv format [alias: --output=csv]
+      --filter=<value>    filter property by partial string matching, ex: name=foo
+      --no-header         hide table header from output
+      --no-truncate       do not truncate output to fit screen
+      --noteId=<value>    HackMD note id
+      --output=<option>   output in a more machine friendly format
+                          <options: csv|json|yaml>
+      --sort=<value>      property to sort by (prepend '-' for descending)
+      --teamPath=<value>  HackMD team path
 
 DESCRIPTION
   HackMD team-notes commands
@@ -847,30 +881,30 @@ Create a team note
 USAGE
   $ hackmd-cli team-notes create [--commentPermission <value>] [--content <value>] [--description <value>] [-e] [-h]
     [--parentFolderId <value>] [--readPermission <value>] [--tags <value>] [--teamPath <value>] [--title <value>]
-    [--writePermission <value>] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |
-    | [--csv | --no-truncate]] [--no-header | ]
+    [--writePermission <value>] [--columns <value> | -x] [--filter <value>] [--no-header | [--csv | --no-truncate]]
+    [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -e, --editor                 create note with $EDITOR
-  -h, --help                   Show CLI help.
-  -x, --extended               show extra columns
-  --columns=<value>            only show provided columns (comma-separated)
-  --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
-  --content=<value>            new note content
-  --csv                        output is csv format [alias: --output=csv]
-  --description=<value>        note description
-  --filter=<value>             filter property by partial string matching, ex: name=foo
-  --no-header                  hide table header from output
-  --no-truncate                do not truncate output to fit screen
-  --output=<option>            output in a more machine friendly format
-                               <options: csv|json|yaml>
-  --parentFolderId=<value>     parent folder id
-  --readPermission=<value>     set note permission: owner, signed_in, guest
-  --sort=<value>               property to sort by (prepend '-' for descending)
-  --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
-  --teamPath=<value>           HackMD team path
-  --title=<value>              new note title
-  --writePermission=<value>    set note permission: owner, signed_in, guest
+  -e, --editor                     create note with $EDITOR
+  -h, --help                       Show CLI help.
+  -x, --extended                   show extra columns
+      --columns=<value>            only show provided columns (comma-separated)
+      --commentPermission=<value>  set comment permission: disabled, forbidden, owners, signed_in_users, everyone
+      --content=<value>            new note content
+      --csv                        output is csv format [alias: --output=csv]
+      --description=<value>        note description
+      --filter=<value>             filter property by partial string matching, ex: name=foo
+      --no-header                  hide table header from output
+      --no-truncate                do not truncate output to fit screen
+      --output=<option>            output in a more machine friendly format
+                                   <options: csv|json|yaml>
+      --parentFolderId=<value>     parent folder id
+      --readPermission=<value>     set note permission: owner, signed_in, guest
+      --sort=<value>               property to sort by (prepend '-' for descending)
+      --tags=<value>               set note tags, comma-separated (e.g. tag1,tag2)
+      --teamPath=<value>           HackMD team path
+      --title=<value>              new note title
+      --writePermission=<value>    set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Create a team note
@@ -893,6 +927,8 @@ EXAMPLES
   $ hackmd-cli team-notes create --teamPath=CLI-test --title='My note' --description='Short summary'
 ```
 
+_See code: [src/commands/team-notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/create.ts)_
+
 ## `hackmd-cli team-notes delete`
 
 Delete a team note
@@ -902,9 +938,9 @@ USAGE
   $ hackmd-cli team-notes delete [-h] [--noteId <value>] [--teamPath <value>]
 
 FLAGS
-  -h, --help          Show CLI help.
-  --noteId=<value>    HackMD note id
-  --teamPath=<value>  HackMD team path
+  -h, --help              Show CLI help.
+      --noteId=<value>    HackMD note id
+      --teamPath=<value>  HackMD team path
 
 DESCRIPTION
   Delete a team note
@@ -913,31 +949,33 @@ EXAMPLES
   $ hackmd-cli team-notes delete --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
+_See code: [src/commands/team-notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/delete.ts)_
+
 ## `hackmd-cli team-notes update`
 
 Update team note
 
 ```
 USAGE
-  $ hackmd-cli team-notes update [--clear description] [--content <value>] [--description <value>] [-h] [--noteId
+  $ hackmd-cli team-notes update [--clear description...] [--content <value>] [--description <value>] [-h] [--noteId
     <value>] [--parentFolderId <value>] [--permalink <value>] [--readPermission <value>] [--root] [--tags <value>]
     [--teamPath <value>] [--title <value>] [--writePermission <value>]
 
 FLAGS
-  -h, --help                 Show CLI help.
-  --clear=<option>...        clear fields: description (repeatable)
-                             <options: description>
-  --content=<value>          new note content
-  --description=<value>      note description
-  --noteId=<value>           HackMD note id
-  --parentFolderId=<value>   parent folder id
-  --permalink=<value>        note permalink
-  --readPermission=<value>   set note permission: owner, signed_in, guest
-  --root                     move to the root folder
-  --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
-  --teamPath=<value>         HackMD team path
-  --title=<value>            new note title
-  --writePermission=<value>  set note permission: owner, signed_in, guest
+  -h, --help                     Show CLI help.
+      --clear=<option>...        clear fields: description (repeatable)
+                                 <options: description>
+      --content=<value>          new note content
+      --description=<value>      note description
+      --noteId=<value>           HackMD note id
+      --parentFolderId=<value>   parent folder id
+      --permalink=<value>        note permalink
+      --readPermission=<value>   set note permission: owner, signed_in, guest
+      --root                     move to the root folder
+      --tags=<value>             set note tags, comma-separated (e.g. tag1,tag2)
+      --teamPath=<value>         HackMD team path
+      --title=<value>            new note title
+      --writePermission=<value>  set note permission: owner, signed_in, guest
 
 DESCRIPTION
   Update team note
@@ -960,26 +998,28 @@ EXAMPLES
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
+_See code: [src/commands/team-notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/update.ts)_
+
 ## `hackmd-cli teams`
 
 List teams
 
 ```
 USAGE
-  $ hackmd-cli teams [-h] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
-    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli teams [-h] [--columns <value> | -x] [--filter <value>] [--no-header | [--csv |
+    --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help         Show CLI help.
-  -x, --extended     show extra columns
-  --columns=<value>  only show provided columns (comma-separated)
-  --csv              output is csv format [alias: --output=csv]
-  --filter=<value>   filter property by partial string matching, ex: name=foo
-  --no-header        hide table header from output
-  --no-truncate      do not truncate output to fit screen
-  --output=<option>  output in a more machine friendly format
-                     <options: csv|json|yaml>
-  --sort=<value>     property to sort by (prepend '-' for descending)
+  -h, --help             Show CLI help.
+  -x, --extended         show extra columns
+      --columns=<value>  only show provided columns (comma-separated)
+      --csv              output is csv format [alias: --output=csv]
+      --filter=<value>   filter property by partial string matching, ex: name=foo
+      --no-header        hide table header from output
+      --no-truncate      do not truncate output to fit screen
+      --output=<option>  output in a more machine friendly format
+                         <options: csv|json|yaml>
+      --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   List teams
@@ -1011,7 +1051,7 @@ FLAG DESCRIPTIONS
     Additionally shows the architecture, node version, operating system, and versions of plugins that the CLI is using.
 ```
 
-_See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/v1.3.3/src/commands/version.ts)_
+_See code: [@oclif/plugin-version](https://github.com/oclif/plugin-version/blob/3.0.6/src/commands/version.ts)_
 
 ## `hackmd-cli whoami`
 
@@ -1019,20 +1059,20 @@ Show current user information
 
 ```
 USAGE
-  $ hackmd-cli whoami [-h] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
-    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ hackmd-cli whoami [-h] [--columns <value> | -x] [--filter <value>] [--no-header | [--csv |
+    --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
-  -h, --help         Show CLI help.
-  -x, --extended     show extra columns
-  --columns=<value>  only show provided columns (comma-separated)
-  --csv              output is csv format [alias: --output=csv]
-  --filter=<value>   filter property by partial string matching, ex: name=foo
-  --no-header        hide table header from output
-  --no-truncate      do not truncate output to fit screen
-  --output=<option>  output in a more machine friendly format
-                     <options: csv|json|yaml>
-  --sort=<value>     property to sort by (prepend '-' for descending)
+  -h, --help             Show CLI help.
+  -x, --extended         show extra columns
+      --columns=<value>  only show provided columns (comma-separated)
+      --csv              output is csv format [alias: --output=csv]
+      --filter=<value>   filter property by partial string matching, ex: name=foo
+      --no-header        hide table header from output
+      --no-truncate      do not truncate output to fit screen
+      --output=<option>  output in a more machine friendly format
+                         <options: csv|json|yaml>
+      --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Show current user information

@@ -59,3 +59,9 @@ jobs:
 
       - name: Run smoke tests
         run: pnpm exec mocha --forbid-only "test/smoke/**/*.test.ts"
+
+      - name: Install completion test shells
+        run: sudo apt-get update && sudo apt-get install -y fish zsh
+
+      - name: Test npm package installation
+        run: pnpm run test:package

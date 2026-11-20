@@ -7,7 +7,7 @@
     "outDir": "lib",
     "rootDir": "src",
     "strict": true,
-    "target": "ES2022",
+    "target": "es2022",
     "esModuleInterop": true,
     "skipLibCheck": true
   },

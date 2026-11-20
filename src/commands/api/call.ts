@@ -1,7 +1,7 @@
 import type {Client} from '@hackmd/api/raw'
 
 import {createClient} from '@hackmd/api/raw'
-import {Args, Flags, ux} from '@oclif/core'
+import {Args, Flags} from '@oclif/core'
 import {readFileSync} from 'node:fs'
 import {basename, extname} from 'node:path'
 
@@ -111,11 +111,11 @@ export default class CallCommand extends HackMDCommand {
     const query = validateParameters(operation, 'query', parsePairs(flags.query ?? [], '=', 'query'))
     const headers = parsePairs(flags.header ?? [], ':', 'header')
     const body = prepareBody(operation, flags.body, flags.file, flags.mime)
-    const token = config.accessToken || await ux.prompt('Enter your access token', {type: 'hide'})
+    const token = await this.getAccessToken()
     if (!token) throw new Error('An access token is required')
     const client = createClient({
       auth: token,
-      baseURL: config.hackmdAPIEndpointURL,
+      baseURL: config.hackmdAPIEndpointURL.replace(/\/+$/, ''),
       validateStatus: status => (status >= 200 && status < 300) || status === 304,
     })
     const ndjson = Object.values(operation.responses).some(contentTypes => contentTypes.includes('application/x-ndjson'))
