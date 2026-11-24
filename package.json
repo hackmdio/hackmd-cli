@@ -7,7 +7,7 @@
   },
   "bugs": "https://github.com/hackmdio/hackmd-cli/issues",
   "dependencies": {
-    "@hackmd/api": "2.8.0-beta.20261120140115.031d6dc",
+    "@hackmd/api": "2.8.0",
     "@inquirer/password": "^5.2.4",
     "@oclif/core": "5.1.9",
     "@oclif/plugin-autocomplete": "4.0.5",

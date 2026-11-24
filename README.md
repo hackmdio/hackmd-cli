@@ -32,7 +32,7 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.22.1
+@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.21.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
