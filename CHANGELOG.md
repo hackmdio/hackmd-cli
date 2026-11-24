@@ -2,6 +2,29 @@
 
 All notable changes to HackMD-CLI will be documented in this file.
 
+## 2.6.0
+
+### Added
+
+- `api operations`, `api describe`, and `api call` commands for calling any HackMD v1 API operation, including JSON bodies, multipart image uploads, and `--include` for status and headers (#119)
+- `config` command that shows the config file path and current settings without printing the access token; `--path` prints only the path (#117)
+- `--description` flag for `notes create`, `notes update`, `team-notes create`, and `team-notes update` (#119)
+- `--root` flag to move notes and folders to the root folder, and `--clear` to clear a note description or a folder description, icon, or color (#119)
+- `--noteId` flag on `team-notes` to show a single team note, and `--limit` flag on `history` (#119)
+- `--title` flag for `notes update` and `team-notes update` (#115)
+- Piped stdin content for `notes update` and `team-notes update` (#112)
+
+### Changed
+
+- Faster global npm installation: build tools moved to development dependencies and oclif upgraded (#121)
+- Commands now fail with a clear error instead of prompting when no access token is configured and stdin is not a terminal (#121)
+- Update commands reject conflicting flags (such as `--root` with `--parentFolderId`, or stdin with `--content`) and empty updates before sending a request (#112, #119)
+- `@hackmd/api` upgraded to 2.8.0 (#119)
+
+### Fixed
+
+- `export` prints note content exactly, without adding a trailing newline (#113)
+
 ## 2.5.1
 
 ### Added

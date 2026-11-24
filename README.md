@@ -32,7 +32,7 @@ $ npm install -g @hackmd/hackmd-cli
 $ hackmd-cli COMMAND
 running command...
 $ hackmd-cli (--version|-v)
-@hackmd/hackmd-cli/2.5.1 darwin-arm64 node-v24.21.0
+@hackmd/hackmd-cli/2.6.0 darwin-arm64 node-v24.21.0
 $ hackmd-cli --help [COMMAND]
 USAGE
   $ hackmd-cli COMMAND
@@ -130,6 +130,7 @@ All available configurations are listed in the table below.
 * [`hackmd-cli api describe OPERATIONID`](#hackmd-cli-api-describe-operationid)
 * [`hackmd-cli api operations`](#hackmd-cli-api-operations)
 * [`hackmd-cli autocomplete [SHELL]`](#hackmd-cli-autocomplete-shell)
+* [`hackmd-cli config`](#hackmd-cli-config)
 * [`hackmd-cli export`](#hackmd-cli-export)
 * [`hackmd-cli folders`](#hackmd-cli-folders)
 * [`hackmd-cli folders create`](#hackmd-cli-folders-create)
@@ -187,7 +188,7 @@ EXAMPLES
   $ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
 ```
 
-_See code: [src/commands/api/call.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/call.ts)_
+_See code: [src/commands/api/call.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/api/call.ts)_
 
 ## `hackmd-cli api describe OPERATIONID`
 
@@ -204,7 +205,7 @@ DESCRIPTION
   Show details for an API operation
 ```
 
-_See code: [src/commands/api/describe.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/describe.ts)_
+_See code: [src/commands/api/describe.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/api/describe.ts)_
 
 ## `hackmd-cli api operations`
 
@@ -221,7 +222,7 @@ DESCRIPTION
   List available API operations
 ```
 
-_See code: [src/commands/api/operations.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/api/operations.ts)_
+_See code: [src/commands/api/operations.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/api/operations.ts)_
 
 ## `hackmd-cli autocomplete [SHELL]`
 
@@ -252,7 +253,34 @@ EXAMPLES
   $ hackmd-cli autocomplete --refresh-cache
 ```
 
-_See code: [src/commands/autocomplete/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/autocomplete/index.ts)_
+_See code: [src/commands/autocomplete/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/autocomplete/index.ts)_
+
+## `hackmd-cli config`
+
+Show config file path and current configuration (credentials are never printed)
+
+```
+USAGE
+  $ hackmd-cli config [-h] [--path]
+
+FLAGS
+  -h, --help  Show CLI help.
+      --path  print only the config file path
+
+DESCRIPTION
+  Show config file path and current configuration (credentials are never printed)
+
+EXAMPLES
+  $ hackmd-cli config
+  Config file: /Users/you/.hackmd/config.json
+  hackmdAPIEndpointURL: https://api.hackmd.io/v1
+  accessToken: (set)
+
+  $ hackmd-cli config --path
+  /Users/you/.hackmd/config.json
+```
+
+_See code: [src/commands/config.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/config.ts)_
 
 ## `hackmd-cli export`
 
@@ -274,7 +302,7 @@ EXAMPLES
   # A note to be exported
 ```
 
-_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/export.ts)_
+_See code: [src/commands/export.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/export.ts)_
 
 ## `hackmd-cli folders`
 
@@ -308,7 +336,7 @@ EXAMPLES
   91722050-bf47-4334-9e5d-87125a724c29 #4F46E5 Project documentation 1F600 engineering fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c
 ```
 
-_See code: [src/commands/folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/index.ts)_
+_See code: [src/commands/folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/folders/index.ts)_
 
 ## `hackmd-cli folders create`
 
@@ -347,7 +375,7 @@ EXAMPLES
   a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600
 ```
 
-_See code: [src/commands/folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/create.ts)_
+_See code: [src/commands/folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/folders/create.ts)_
 
 ## `hackmd-cli folders delete`
 
@@ -368,7 +396,7 @@ EXAMPLES
   $ hackmd-cli folders delete --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 ```
 
-_See code: [src/commands/folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/delete.ts)_
+_See code: [src/commands/folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/folders/delete.ts)_
 
 ## `hackmd-cli folders order`
 
@@ -391,7 +419,7 @@ EXAMPLES
   $ hackmd-cli folders order --order='{"root":["91722050-bf47-4334-9e5d-87125a724c29","fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c"]}'
 ```
 
-_See code: [src/commands/folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/order.ts)_
+_See code: [src/commands/folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/folders/order.ts)_
 
 ## `hackmd-cli folders update`
 
@@ -423,7 +451,7 @@ EXAMPLES
   $ hackmd-cli folders update --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
-_See code: [src/commands/folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/folders/update.ts)_
+_See code: [src/commands/folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/folders/update.ts)_
 
 ## `hackmd-cli help [COMMAND]`
 
@@ -480,7 +508,7 @@ EXAMPLES
   $ hackmd-cli history --limit=10
 ```
 
-_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/history.ts)_
+_See code: [src/commands/history.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/history.ts)_
 
 ## `hackmd-cli login`
 
@@ -502,7 +530,7 @@ EXAMPLES
   Login successfully
 ```
 
-_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/login.ts)_
 
 ## `hackmd-cli logout`
 
@@ -523,7 +551,7 @@ EXAMPLES
   You've logged out successfully
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/logout.ts)_
 
 ## `hackmd-cli notes`
 
@@ -557,7 +585,7 @@ EXAMPLES
   raUuSTetT5uQbqQfLnz9lA CLI test note                    gvfz2UB5THiKABQJQnLs6Q null
 ```
 
-_See code: [src/commands/notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/index.ts)_
+_See code: [src/commands/notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/notes/index.ts)_
 
 ## `hackmd-cli notes create`
 
@@ -612,7 +640,7 @@ EXAMPLES
   $ hackmd-cli notes create --title='My note' --description='Short summary'
 ```
 
-_See code: [src/commands/notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/create.ts)_
+_See code: [src/commands/notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/notes/create.ts)_
 
 ## `hackmd-cli notes delete`
 
@@ -633,7 +661,7 @@ EXAMPLES
   $ hackmd-cli notes delete --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
-_See code: [src/commands/notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/delete.ts)_
+_See code: [src/commands/notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/notes/delete.ts)_
 
 ## `hackmd-cli notes update`
 
@@ -681,7 +709,7 @@ EXAMPLES
   $ hackmd-cli notes update --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
-_See code: [src/commands/notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/notes/update.ts)_
+_See code: [src/commands/notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/notes/update.ts)_
 
 ## `hackmd-cli team-folders`
 
@@ -716,7 +744,7 @@ EXAMPLES
   91722050-bf47-4334-9e5d-87125a724c29 #4F46E5 Team handbook    1F600 team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c
 ```
 
-_See code: [src/commands/team-folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/index.ts)_
+_See code: [src/commands/team-folders/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-folders/index.ts)_
 
 ## `hackmd-cli team-folders create`
 
@@ -756,7 +784,7 @@ EXAMPLES
   a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d team-docs fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c #4F46E5 Docs        1F600
 ```
 
-_See code: [src/commands/team-folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/create.ts)_
+_See code: [src/commands/team-folders/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-folders/create.ts)_
 
 ## `hackmd-cli team-folders delete`
 
@@ -778,7 +806,7 @@ EXAMPLES
   $ hackmd-cli team-folders delete --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
 ```
 
-_See code: [src/commands/team-folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/delete.ts)_
+_See code: [src/commands/team-folders/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-folders/delete.ts)_
 
 ## `hackmd-cli team-folders order`
 
@@ -802,7 +830,7 @@ EXAMPLES
   $ hackmd-cli team-folders order --teamPath=CLI-test --order='{"root":["91722050-bf47-4334-9e5d-87125a724c29","fc7a3d48-4a07-4cbf-bf4f-e65dd896e01c"]}'
 ```
 
-_See code: [src/commands/team-folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/order.ts)_
+_See code: [src/commands/team-folders/order.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-folders/order.ts)_
 
 ## `hackmd-cli team-folders update`
 
@@ -835,7 +863,7 @@ EXAMPLES
   $ hackmd-cli team-folders update --teamPath=CLI-test --folderId=a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d --root --clear=description
 ```
 
-_See code: [src/commands/team-folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-folders/update.ts)_
+_See code: [src/commands/team-folders/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-folders/update.ts)_
 
 ## `hackmd-cli team-notes`
 
@@ -873,7 +901,7 @@ EXAMPLES
   $ hackmd-cli team-notes --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
-_See code: [src/commands/team-notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/index.ts)_
+_See code: [src/commands/team-notes/index.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-notes/index.ts)_
 
 ## `hackmd-cli team-notes create`
 
@@ -929,7 +957,7 @@ EXAMPLES
   $ hackmd-cli team-notes create --teamPath=CLI-test --title='My note' --description='Short summary'
 ```
 
-_See code: [src/commands/team-notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/create.ts)_
+_See code: [src/commands/team-notes/create.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-notes/create.ts)_
 
 ## `hackmd-cli team-notes delete`
 
@@ -951,7 +979,7 @@ EXAMPLES
   $ hackmd-cli team-notes delete --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA
 ```
 
-_See code: [src/commands/team-notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/delete.ts)_
+_See code: [src/commands/team-notes/delete.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-notes/delete.ts)_
 
 ## `hackmd-cli team-notes update`
 
@@ -1000,7 +1028,7 @@ EXAMPLES
   $ hackmd-cli team-notes update --teamPath=CLI-test --noteId=WNkLM6gkS0Cg2cQ8rv7bYA --clear=description
 ```
 
-_See code: [src/commands/team-notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/team-notes/update.ts)_
+_See code: [src/commands/team-notes/update.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/team-notes/update.ts)_
 
 ## `hackmd-cli teams`
 
@@ -1033,7 +1061,7 @@ EXAMPLES
   f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8a00-14094272ece9
 ```
 
-_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/teams.ts)_
+_See code: [src/commands/teams.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/teams.ts)_
 
 ## `hackmd-cli version`
 
@@ -1086,7 +1114,7 @@ EXAMPLES
   82f7f3d9-4079-4c78-8a00-14094272ece9 Ming-Hsiu Tsai null  gvfz2UB5THiKABQJQnLs6Q
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.5.1/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/hackmdio/hackmd-cli/blob/v2.6.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ## License
