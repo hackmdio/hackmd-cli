@@ -133,6 +133,8 @@ try {
       error => error.code === 2 && /No access token configured/.test(error.stderr),
     )
     assert.match(await run(['help', 'notes', 'create']), /--readPermission/)
+    assert.match(await run(['api', 'operations']), /\bGetMe\b/)
+    assert.deepEqual(JSON.parse(await run(['api', 'call', 'GetMe'])), user)
     for (const argv of [
       ['whoami'],
       ['teams'],

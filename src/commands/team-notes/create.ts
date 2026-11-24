@@ -5,7 +5,7 @@ import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
 import {
-  commentPermission, editor, noteContent, notePermission, noteTags, noteTitle, parentFolderId, teamPath,
+  commentPermission, editor, noteContent, noteDescription, notePermission, noteTags, noteTitle, parentFolderId, teamPath,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
 import {table, tableFlags} from '../../table'
@@ -31,10 +31,12 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
 
     'Or you can pipe content via Unix pipeline:',
     'cat README.md | hackmd-cli team-notes create --teamPath=CLI-test',
+    "hackmd-cli team-notes create --teamPath=CLI-test --title='My note' --description='Short summary'",
   ]
   static flags = {
     commentPermission,
     content: noteContent,
+    description: noteDescription,
     editor,
     help: Flags.help({char: 'h'}),
     parentFolderId,
@@ -50,10 +52,11 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     const {flags} = await this.parse(Create)
     const pipeString = safeStdinRead()
 
-    const {commentPermission, content, parentFolderId, readPermission, tags, teamPath, title, writePermission} = flags
+    const {commentPermission, content, description, parentFolderId, readPermission, tags, teamPath, title, writePermission} = flags
     const options: CreateNoteOptions & {tags?: string[]} = {
       commentPermission: commentPermission as CommentPermissionType,
       content: pipeString || content,
+      description,
       parentFolderId,
       readPermission: readPermission as NotePermissionRole,
       title,
@@ -88,7 +91,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
           header: 'ID',
         },
         tags: {
-          get: row => (row.tags ?? []).join(', '),
+          get: row => ('tags' in row ? row.tags ?? [] : []).join(', '),
         },
         teamPath: {
           header: 'Team path',

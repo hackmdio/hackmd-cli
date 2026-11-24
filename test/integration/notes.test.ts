@@ -1,5 +1,6 @@
+import type {CreateNoteOptions} from '@hackmd/api'
+
 import {API} from '@hackmd/api'
-import {CommentPermissionType, NotePermissionRole} from '@hackmd/api/dist/type'
 import {expect} from 'chai'
 
 import {
@@ -10,6 +11,17 @@ describe('Integration: API Client - Notes', () => {
   let testConfigDir: string
   let apiClient: API
   let createdNoteIds: string[] = []
+
+  async function createTestNote(options: CreateNoteOptions) {
+    const result = await apiClient.createNote(options)
+    if (result.status === 207) {
+      createdNoteIds.push(result.note.id)
+      throw new Error(`Unexpected partial note creation: ${result.error}`)
+    }
+
+    createdNoteIds.push(result.id)
+    return result
+  }
 
   before(function () {
     // Ensure .env is loaded (it should be loaded by init.js, but double-check)
@@ -62,12 +74,12 @@ describe('Integration: API Client - Notes', () => {
   })
 
   it('should create a new note', async () => {
-    const note = await apiClient.createNote({
-      commentPermission: 'disabled' as CommentPermissionType,
+    const note = await createTestNote({
+      commentPermission: 'disabled',
       content: '# Test Content\n\nThis is a test note created by integration tests.',
-      readPermission: 'owner' as NotePermissionRole,
+      readPermission: 'owner',
       title: 'Test Note',
-      writePermission: 'owner' as NotePermissionRole,
+      writePermission: 'owner',
     })
 
     expect(note).to.have.property('id')
@@ -75,7 +87,6 @@ describe('Integration: API Client - Notes', () => {
     // Note: Some HackMD instances use content as title, so we check for either
     expect(note.title === 'Test Note' || note.title === 'Test Content').to.be.true
     expect(note).to.have.property('content')
-    createdNoteIds.push(note.id)
   })
 
   it('should list user notes', async () => {
@@ -89,14 +100,13 @@ describe('Integration: API Client - Notes', () => {
 
   it('should get a specific note', async () => {
     // Create a note first
-    const createdNote = await apiClient.createNote({
-      commentPermission: 'disabled' as CommentPermissionType,
+    const createdNote = await createTestNote({
+      commentPermission: 'disabled',
       content: '# Test Content',
-      readPermission: 'owner' as NotePermissionRole,
+      readPermission: 'owner',
       title: 'Note to Get',
-      writePermission: 'owner' as NotePermissionRole,
+      writePermission: 'owner',
     })
-    createdNoteIds.push(createdNote.id)
 
     // Get the note
     const note = await apiClient.getNote(createdNote.id)
@@ -109,39 +119,32 @@ describe('Integration: API Client - Notes', () => {
 
   it('should update a note', async () => {
     // Create a note first
-    const createdNote = await apiClient.createNote({
-      commentPermission: 'disabled' as CommentPermissionType,
+    const createdNote = await createTestNote({
+      commentPermission: 'disabled',
       content: '# Original Content',
-      readPermission: 'owner' as NotePermissionRole,
+      readPermission: 'owner',
       title: 'Note to Update',
-      writePermission: 'owner' as NotePermissionRole,
+      writePermission: 'owner',
     })
-    createdNoteIds.push(createdNote.id)
 
     // Update the note
-    const updatedNote = await apiClient.updateNote(createdNote.id, {
+    const update = await apiClient.updateNote(createdNote.id, {
       content: '# Updated Content',
     })
 
-    // Some API versions return status object, others return note object
-    if (updatedNote.id) {
-      expect(updatedNote).to.have.property('id', createdNote.id)
-      expect(updatedNote.content).to.contain('Updated Content')
-    } else {
-      // If it returns status object, verify the update by fetching the note
-      const fetchedNote = await apiClient.getNote(createdNote.id)
-      expect(fetchedNote.content).to.contain('Updated Content')
-    }
+    expect(update.status).to.equal(202)
+    const fetchedNote = await apiClient.getNote(createdNote.id)
+    expect(fetchedNote.content).to.contain('Updated Content')
   })
 
   it('should delete a note', async () => {
     // Create a note first
-    const createdNote = await apiClient.createNote({
-      commentPermission: 'disabled' as CommentPermissionType,
+    const createdNote = await createTestNote({
+      commentPermission: 'disabled',
       content: '# Test',
-      readPermission: 'owner' as NotePermissionRole,
+      readPermission: 'owner',
       title: 'Note to Delete',
-      writePermission: 'owner' as NotePermissionRole,
+      writePermission: 'owner',
     })
 
     // Delete the note

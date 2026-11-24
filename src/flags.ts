@@ -19,12 +19,22 @@ export const noteTitle = Flags.string({
   description: 'new note title',
 })
 
+export const noteDescription = Flags.string({
+  description: 'note description',
+})
+
 export const folderName = Flags.string({
   description: 'folder name',
 })
 
 export const folderDescription = Flags.string({
   description: 'folder description',
+})
+
+export const clearFields = (options: string[]) => Flags.string({
+  description: `clear fields: ${options.join(', ')} (repeatable)`,
+  multiple: true,
+  options,
 })
 
 export const folderIcon = Flags.string({
@@ -37,6 +47,10 @@ export const folderColor = Flags.string({
 
 export const parentFolderId = Flags.string({
   description: 'parent folder id',
+})
+
+export const root = Flags.boolean({
+  description: 'move to the root folder',
 })
 
 export const folderOrder = Flags.string({

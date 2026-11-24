@@ -58,6 +58,7 @@ describe('Smoke Tests: Built CLI Binary', () => {
   async function runCLI(args: string[] = [], options: {env?: NodeJS.ProcessEnv} = {}): Promise<{code: null | number; stderr: string; stdout: string;}> {
     const env = {
       ...process.env,
+      NODE_ENV: 'production',
       ...options.env,
     }
 
@@ -157,6 +158,15 @@ describe('Smoke Tests: Built CLI Binary', () => {
   })
 
   describe('Command structure verification', () => {
+    for (const topic of ['notes', 'team-notes', 'folders', 'team-folders']) {
+      it(`shows the new update flags in ${topic} help`, async () => {
+        const result = await runCLI([topic, 'update', '--help'])
+        expect(result.code, result.stderr).to.equal(0)
+        for (const flag of ['--description', '--clear', '--root']) expect(result.stdout).to.include(flag)
+        if (topic.includes('folders')) expect(result.stdout).to.include('description|icon|color')
+      })
+    }
+
     it('should recognize notes command', async () => {
       const result = await runCLI(['notes', '--help'])
       // Command should execute (even if it requires auth) and produce output
