@@ -96,6 +96,8 @@ Or in JSON file (`~/.hackmd/config.json`):
 
 ### Configuration Reference
 
+Run `hackmd-cli config` to see which config file is in use and the current settings (the access token value is never printed), or `hackmd-cli config --path` to print only the config file path.
+
 All available configurations are listed in the table below.
 
 |       Config key       |  Environment Variable  | Data Type  |              Example Value              |         Description         |
