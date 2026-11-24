@@ -1,6 +1,6 @@
 import type {CommentPermissionType, CreateNoteOptions, NotePermissionRole} from '@hackmd/api'
 
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 import fs from 'node:fs'
 
 import HackMDCommand from '../../command'
@@ -8,6 +8,7 @@ import {
   commentPermission, editor, noteContent, notePermission, noteTags, noteTitle, parentFolderId, teamPath,
 } from '../../flags'
 import {openEditor} from '../../open-editor'
+import {table, tableFlags} from '../../table'
 import {safeStdinRead, temporaryMD} from '../../utils'
 
 export default class Create extends HackMDCommand {
@@ -42,7 +43,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
     teamPath,
     title: noteTitle,
     writePermission: notePermission(),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -82,7 +83,7 @@ raUuSTetT5uQbqQfLnz9lA A new note                       gvfz2UB5THiKABQJQnLs6Q n
       const APIClient = await this.getAPIClient()
       const note = await APIClient.createTeamNote(teamPath, options as CreateNoteOptions)
 
-      ux.table([note], {
+      table([note], {
         id: {
           header: 'ID',
         },

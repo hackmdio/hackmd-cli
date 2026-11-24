@@ -40,16 +40,3 @@ if (fs.existsSync(envPath)) {
 
 process.env.TS_NODE_PROJECT = path.resolve('test/tsconfig.json')
 process.env.NODE_ENV = 'development'
-
-// Initialize oclif config for @oclif/test
-try {
-  const {Config} = require('@oclif/config')
-  const config = Config.load()
-  globalThis.oclif = globalThis.oclif || {}
-  globalThis.oclif.config = config
-  globalThis.oclif.columns = 80
-} catch {
-  // If oclif config can't be loaded, set minimal globals
-  globalThis.oclif = globalThis.oclif || {}
-  globalThis.oclif.columns = 80
-}

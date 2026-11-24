@@ -1,6 +1,7 @@
-import {Flags, ux} from '@oclif/core'
+import {Flags} from '@oclif/core'
 
 import HackMDCommand from '../command'
+import {table, tableFlags} from '../table'
 
 export default class Teams extends HackMDCommand {
   static description = 'List teams'
@@ -12,7 +13,7 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
   ]
   static flags = {
     help: Flags.help({char: 'h'}),
-    ...ux.table.flags(),
+    ...tableFlags(),
   }
 
   async run() {
@@ -22,7 +23,7 @@ f76308a6-d77a-41f6-86d0-8ada426a6fb4 CLI test team CLI-test 82f7f3d9-4079-4c78-8
       const APIClient = await this.getAPIClient()
       const notes = await APIClient.getTeams()
 
-      ux.table(notes, {
+      table(notes, {
         id: {
           header: 'ID',
         },
