@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Keep the bundled API client current so `hackmd-cli api` exposes new v1 operations.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+    target-branch: develop
+    allow:
+      - dependency-name: "@hackmd/api"
+    labels:
+      - dependencies
+      - api-sync
+    commit-message:
+      prefix: chore
