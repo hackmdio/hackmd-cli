@@ -3,10 +3,13 @@
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@hackmd/hackmd-cli.svg)](https://npmjs.org/package/@hackmd/hackmd-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/@hackmd/hackmd-cli.svg)](https://npmjs.org/package/@hackmd/hackmd-cli)
-[![License](https://img.shields.io/npm/l/@hackmd/hackmd-cli.svg)](https://github.com/hackmdio/hackmd-cli/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/@hackmd/hackmd-cli.svg)](https://github.com/hackmdio/hackmd-cli/blob/develop/LICENSE)
+
+New to `hackmd-cli`? Read the [user guide](https://hackmd.io/@docs/hackmd-cli) for setup and common tasks. This README is the full command reference.
 
 * [Usage](#usage)
 * [Full API access](#full-api-access)
+* [Agent skill](#agent-skill)
 * [Commands](#commands)
 * [Configuration](#configuration)
 * [License](#license)
@@ -62,6 +65,16 @@ hackmd-cli api call UploadNoteImage --path noteId=abc --file image=@photo.png
 Use repeated `--path key=value`, `--query key=value`, and `--header 'Name: value'` flags. `--body` accepts JSON text, `@file`, or `-` for stdin. For multipart image uploads, use `--file image=@path`; the file extension sets its MIME type, or use `--mime` to override it. `--include` prints HTTP status and headers before the response body. Empty 204/304 responses print no body; NDJSON is printed unchanged. Errors exit nonzero.
 
 `api operations` and `api describe` need no connection or token. They use the API client bundled with this CLI, so older HackMD EE servers may not support every operation. `api call` uses the same access token and endpoint configuration as other commands. Writes are not retried automatically.
+
+## Agent skill
+
+This repository includes an agent skill, [`hackmd-cli/SKILL.md`](hackmd-cli/SKILL.md), that teaches AI agents such as Claude Code, Cursor, and Codex to use `hackmd-cli`. Install the CLI and sign in first, then add the skill:
+
+```bash
+npx skills add hackmdio/hackmd-cli
+```
+
+The command asks which agents to add it to. To update later, run `npx skills update`. For more HackMD skills, see [hackmd-skills](https://github.com/hackmdio/hackmd-skills).
 
 ## Configuration
 
